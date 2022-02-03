@@ -1,14 +1,16 @@
 import { faBrush, faPlus, faSearch } from '@fortawesome/free-solid-svg-icons';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Accordion, Col, Form, Row } from 'react-bootstrap';
 import ButtonWithIcon, { ButtonTypes } from 'components/ButtonWithIcon';
 import FormInput, { InputType } from 'components/FormInput';
 import { Variants } from 'constants/bootstrapVariants';
 import { ProductActions } from 'interfaces/product';
 import ProductContext from 'context/products/ProductContext';
+import AddEditProduct from './AddEditProduct';
 
 function ControlPanel() {
   const { state, dispatch } = useContext(ProductContext);
+  const [showModal, setShowModal] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,8 +33,18 @@ function ControlPanel() {
     });
   };
 
+  const handleModalClose = () => {
+    setShowModal((prevState) => !prevState);
+  };
+
   return (
-    <div>
+    <>
+      <AddEditProduct
+        product={state.product}
+        showModal={showModal}
+        handleModalClose={handleModalClose}
+      />
+
       <Accordion defaultActiveKey="0">
         <Accordion.Item eventKey="0">
           <Accordion.Header>Panel de control</Accordion.Header>
@@ -68,6 +80,7 @@ function ControlPanel() {
                     label="Agregar producto"
                     icon={faPlus}
                     variant={Variants.Success}
+                    onClick={handleModalClose}
                   />
                 </Col>
               </Row>
@@ -75,7 +88,7 @@ function ControlPanel() {
           </Accordion.Body>
         </Accordion.Item>
       </Accordion>
-    </div>
+    </>
   );
 }
 

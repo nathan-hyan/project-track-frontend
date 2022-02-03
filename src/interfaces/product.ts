@@ -1,5 +1,5 @@
 export interface Product {
-  _id: string;
+  _id?: string;
   name: string;
   internalId: number;
   price: number;
@@ -13,11 +13,9 @@ export interface Product {
 }
 
 export enum ProductActions {
-  'CREATE',
-  'EDIT',
-  'DELETE',
+  'SET_LOADING',
+  'CLEAR_LOADING',
   'GET_ALL',
-  'GET_SINGLE',
   'FILTER',
   'CLEAR_FILTER',
   'FILTER_WRITE',

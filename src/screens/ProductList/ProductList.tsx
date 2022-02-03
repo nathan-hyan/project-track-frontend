@@ -24,10 +24,11 @@ function ProductList() {
         <ListGroup.Item active>
           <Row>
             <Col>Items</Col>
-            <Col md={2}>Categoría</Col>
+            {/* <Col md={2}>Categoría</Col> */}
             <Col md={1}>Id</Col>
             <Col md={1}>Stock</Col>
-            <Col md={1}>Costo</Col>
+            {/* <Col md={1}>Costo</Col> */}
+            <Col md={2}>Codigo de barras</Col>
             <Col md={1}>Precio</Col>
           </Row>
         </ListGroup.Item>
@@ -35,10 +36,11 @@ function ProductList() {
           <ListGroup.Item key={product._id}>
             <Row>
               <Col>{product.name}</Col>
-              <Col md={2}>{product.category}</Col>
+              {/* <Col md={2}>{product.category}</Col> */}
               <Col md={1}>{product.internalId}</Col>
               <Col md={1}>{product.stock}</Col>
-              <Col md={1}>&#0036;{product.cost}</Col>
+              {/* <Col md={1}>&#0036;{product.cost}</Col> */}
+              <Col md={2}>{product.barcode}</Col>
               <Col md={1}>&#0036;{product.price}</Col>
             </Row>
           </ListGroup.Item>

@@ -4,6 +4,7 @@ import { ProductProvider } from 'context/products/ProductContext';
 import ProductList from 'screens/ProductList/ProductList';
 import { login } from 'services/authorization';
 import { useEffect } from 'react';
+import Notifications from 'react-notify-toast';
 
 function App() {
   useEffect(() => {
@@ -11,14 +12,17 @@ function App() {
   }, []);
 
   return (
-    <ProductProvider>
-      <Container fluid>
-        <NavigationBar />
-        <main>
-          <ProductList />
-        </main>
-      </Container>
-    </ProductProvider>
+    <>
+      <Notifications />
+      <ProductProvider>
+        <Container fluid>
+          <NavigationBar />
+          <main>
+            <ProductList />
+          </main>
+        </Container>
+      </ProductProvider>
+    </>
   );
 }
 

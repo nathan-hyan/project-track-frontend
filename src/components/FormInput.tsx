@@ -9,7 +9,7 @@ export enum InputType {
 interface Props {
   label: string;
   name: string;
-  value: string | number;
+  value?: string | number;
   subtext?: string;
   placeholder?: string;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
@@ -24,6 +24,7 @@ function FormInput({
   type,
   placeholder,
   onChange,
+  ...props
 }: Props) {
   return (
     <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -34,6 +35,7 @@ function FormInput({
         name={name}
         value={value}
         onChange={onChange}
+        {...props}
       />
       {subtext && <Form.Text className="text-muted">{subtext}</Form.Text>}
     </Form.Group>
