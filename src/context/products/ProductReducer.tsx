@@ -1,6 +1,5 @@
 import { ProductInitialStateType } from 'constants/products';
 import { Reducer } from 'react';
-import { createProduct, getProducts } from 'services/products';
 import { Product, ProductActions } from '../../interfaces/product';
 import { filterProducts } from './ProductActions';
 
