@@ -17,7 +17,6 @@ export const productInitialState: ProductInitialStateType = {
 };
 
 export const emptyProduct: Product = {
-  _id: '',
   name: '',
   internalId: 0,
   price: 0,
