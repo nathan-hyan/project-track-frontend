@@ -30,3 +30,14 @@ export const createProduct = (product: Product) =>
     storeId: '6053adb8a6b58a6e35dd4655',
     storeBranch: 'Av Belgrano 2848',
   });
+
+export const editProduct = (product: Product) =>
+  api.put<Product, ProductCreateResponse>(`${BASE_URL}/edit/${product._id}`, {
+    ...product,
+    image: '',
+    storeId: '6053adb8a6b58a6e35dd4655',
+    storeBranch: 'Av Belgrano 2848',
+  });
+
+export const deleteProduct = (id: string) =>
+  api.delete(`${BASE_URL}/delete/${id}`);

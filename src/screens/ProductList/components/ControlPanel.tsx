@@ -8,9 +8,12 @@ import { ProductActions } from 'interfaces/product';
 import ProductContext from 'context/products/ProductContext';
 import AddEditProduct from './AddEditProduct';
 
-function ControlPanel() {
+interface Props {
+  handleModalClose: () => void;
+}
+
+function ControlPanel({ handleModalClose }: Props) {
   const { state, dispatch } = useContext(ProductContext);
-  const [showModal, setShowModal] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,18 +36,8 @@ function ControlPanel() {
     });
   };
 
-  const handleModalClose = () => {
-    setShowModal((prevState) => !prevState);
-  };
-
   return (
     <>
-      <AddEditProduct
-        product={state.product}
-        showModal={showModal}
-        handleModalClose={handleModalClose}
-      />
-
       <Accordion defaultActiveKey="0">
         <Accordion.Item eventKey="0">
           <Accordion.Header>Panel de control</Accordion.Header>

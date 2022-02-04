@@ -19,6 +19,8 @@ export enum ProductActions {
   'FILTER',
   'CLEAR_FILTER',
   'FILTER_WRITE',
+  'OPEN_EDIT',
+  'CLOSE_EDIT',
 }
 
 export type Action = { type: ProductActions; payload?: any };

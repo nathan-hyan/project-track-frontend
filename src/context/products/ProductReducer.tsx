@@ -5,6 +5,7 @@ import { filterProducts } from './ProductActions';
 
 interface Payload {
   productData?: Product[];
+  productToEdit?: Product;
   searchQuery?: string;
 }
 type ActionType = { type: ProductActions; payload?: Payload };
@@ -48,6 +49,17 @@ const productReducer: Reducer<ProductInitialStateType, ActionType> = (
         ...state,
         products: state.fullProductList,
         searchQuery: '',
+      };
+    case ProductActions.OPEN_EDIT:
+      return {
+        ...state,
+        product: action.payload?.productToEdit!,
+      };
+
+    case ProductActions.CLOSE_EDIT:
+      return {
+        ...state,
+        product: null,
       };
 
     default:

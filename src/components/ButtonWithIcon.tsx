@@ -18,6 +18,7 @@ interface Props {
   type?: ButtonTypes;
   disabled?: boolean;
   disabledWithSpinner?: boolean;
+  small?: boolean;
 }
 
 function ButtonWithIcon({
@@ -28,6 +29,7 @@ function ButtonWithIcon({
   onClick,
   variant,
   className,
+  small,
   type = ButtonTypes.Button,
 }: Props) {
   return (
@@ -37,6 +39,7 @@ function ButtonWithIcon({
       onClick={onClick}
       className={className}
       type={type}
+      size={small ? 'sm' : undefined}
     >
       {disabledWithSpinner ? (
         <Spinner animation="border" size="sm" />

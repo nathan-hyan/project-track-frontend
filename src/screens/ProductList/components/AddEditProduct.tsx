@@ -6,53 +6,86 @@ import { MESSAGES, NotificationType } from 'constants/notify';
 import { emptyProduct } from 'constants/products';
 import ProductContext from 'context/products/ProductContext';
 import { Product, ProductActions } from 'interfaces/product';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { Form, Modal } from 'react-bootstrap';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { notify } from 'react-notify-toast';
-import { createProduct, getProducts } from 'services/products';
+import { createProduct, editProduct, getProducts } from 'services/products';
 import { PRODUCT_FORM } from './constants';
 
 interface Props {
   showModal: boolean;
-  handleModalClose: () => void;
+  closeModal: () => void;
   product: Product | null;
 }
 
-function AddEditProduct({ showModal, handleModalClose, product }: Props) {
+function AddEditProduct({ showModal, closeModal, product }: Props) {
   const {
     dispatch,
     state: { loading },
   } = useContext(ProductContext);
-  const { handleSubmit, control, reset } = useForm<Product>();
 
-  const onSubmit: SubmitHandler<Product> = (data) => {
+  const { handleSubmit, control, reset, setValue } = useForm<Product>();
+
+  useEffect(() => {
+    PRODUCT_FORM.map((input) =>
+      setValue(
+        input.name,
+        product ? product[input.name] : emptyProduct[input.name]
+      )
+    );
+
+    setValue('category', product ? product.category : emptyProduct.category);
+  }, [product]);
+
+  const handleModalClose = () => {
+    reset(emptyProduct);
+    dispatch({
+      type: ProductActions.CLOSE_EDIT,
+    });
+    closeModal();
+  };
+
+  const onSubmit: SubmitHandler<Product> = async (data) => {
+    handleModalClose();
     dispatch({ type: ProductActions.SET_LOADING });
-    createProduct(data)
-      .then(() => {
-        reset(emptyProduct);
-        handleModalClose();
-        notify.show(MESSAGES.success.productCreated, NotificationType.success);
-        getProducts()
-          .then(({ data: { response: productData } }) => {
-            dispatch({ type: ProductActions.CLEAR_LOADING });
-            dispatch({
-              type: ProductActions.GET_ALL,
-              payload: { productData },
-            });
-          })
-          .catch(() => {
-            notify.show(
-              MESSAGES.error.productsCantBeFetched,
-              NotificationType.error
-            );
-            dispatch({ type: ProductActions.CLEAR_LOADING });
+
+    try {
+      !!product
+        ? await editProduct({ ...data, _id: product._id })
+        : await createProduct(data);
+
+      notify.show(
+        !!product
+          ? MESSAGES.success.productModified
+          : MESSAGES.success.productCreated,
+        NotificationType.success
+      );
+
+      getProducts()
+        .then(({ data: { response: productData } }) => {
+          dispatch({ type: ProductActions.CLEAR_LOADING });
+          dispatch({
+            type: ProductActions.GET_ALL,
+            payload: { productData },
           });
-      })
-      .catch(() => {
-        notify.show(MESSAGES.error.productNotCreated, NotificationType.error);
-        dispatch({ type: ProductActions.CLEAR_LOADING });
-      });
+        })
+        .catch(() => {
+          notify.show(
+            MESSAGES.error.productsCantBeFetched,
+            NotificationType.error
+          );
+          dispatch({ type: ProductActions.CLEAR_LOADING });
+        });
+    } catch (err) {
+      notify.show(
+        !!product
+          ? MESSAGES.error.productNotCreated
+          : MESSAGES.error.productNotModified,
+        NotificationType.error
+      );
+      dispatch({ type: ProductActions.CLEAR_LOADING });
+    }
   };
 
   return (
