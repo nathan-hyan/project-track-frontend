@@ -34,9 +34,12 @@ function AddEditProduct({ showModal, handleModalClose, product }: Props) {
         handleModalClose();
         notify.show(MESSAGES.success.productCreated, NotificationType.success);
         getProducts()
-          .then(({ data: { response: payload } }) => {
+          .then(({ data: { response: productData } }) => {
             dispatch({ type: ProductActions.CLEAR_LOADING });
-            dispatch({ type: ProductActions.GET_ALL, payload });
+            dispatch({
+              type: ProductActions.GET_ALL,
+              payload: { productData },
+            });
           })
           .catch(() => {
             notify.show(
