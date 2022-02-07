@@ -11,10 +11,12 @@ import AddEditProduct from './components/AddEditProduct';
 import { Variants } from 'constants/bootstrapVariants';
 import { MESSAGES, NotificationType } from 'constants/notify';
 import { notify } from 'react-notify-toast';
+import CustomPagination from 'components/CustomPagination';
 
 function ProductList() {
   const { state, dispatch } = useContext(ProductContext);
   const [showModal, setShowModal] = useState(false);
+  const [page, setPage] = useState<Product[]>([]);
 
   useEffect(() => {
     getProducts().then(({ data: { response: productData } }) => {
@@ -58,6 +60,10 @@ function ProductList() {
     }
   };
 
+  const onChangePage = (newPage: Product[]) => {
+    setPage(newPage);
+  };
+
   return (
     <>
       <AddEditProduct
@@ -81,7 +87,7 @@ function ProductList() {
             </Col>
           </Row>
         </ListGroup.Item>
-        {state.products?.map((product: Product) => (
+        {page.map((product: Product) => (
           <ListGroup.Item key={product._id}>
             <Row>
               <Col>{product.name}</Col>
@@ -110,6 +116,10 @@ function ProductList() {
           </ListGroup.Item>
         ))}
       </ListGroup>
+      <CustomPagination
+        items={state.products || []}
+        onChangePage={onChangePage}
+      />
     </>
   );
 }
