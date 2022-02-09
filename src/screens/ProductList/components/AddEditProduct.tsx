@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { faSave, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import ButtonWithIcon, { ButtonTypes } from 'components/ButtonWithIcon';
 import FormInput from 'components/FormInput';

@@ -1,12 +1,11 @@
 import { faBrush, faPlus, faSearch } from '@fortawesome/free-solid-svg-icons';
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { Accordion, Col, Form, Row } from 'react-bootstrap';
 import ButtonWithIcon, { ButtonTypes } from 'components/ButtonWithIcon';
 import FormInput, { InputType } from 'components/FormInput';
 import { Variants } from 'constants/bootstrapVariants';
 import { ProductActions } from 'interfaces/product';
 import ProductContext from 'context/products/ProductContext';
-import AddEditProduct from './AddEditProduct';
 
 interface Props {
   handleModalClose: () => void;
