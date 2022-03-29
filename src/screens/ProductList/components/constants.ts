@@ -51,4 +51,10 @@ export const PRODUCT_FORM: ProductForm[] = [
     name: 'barcode',
     type: InputType.Text,
   },
+  {
+    id: 5,
+    label: 'ID interno',
+    name: 'internalId',
+    type: InputType.Text,
+  },
 ];

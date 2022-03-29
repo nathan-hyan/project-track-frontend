@@ -8,7 +8,7 @@ interface Payload {
   productToEdit?: Product;
   searchQuery?: string;
 }
-type ActionType = { type: ProductActions; payload?: Payload };
+export type ActionType = { type: ProductActions; payload?: Payload };
 
 const productReducer: Reducer<ProductInitialStateType, ActionType> = (
   state,

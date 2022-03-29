@@ -3,7 +3,7 @@ import {
   productInitialState,
   ProductInitialStateType,
 } from 'constants/products';
-import ProductReducer from './ProductReducer';
+import ProductReducer, { ActionType } from './ProductReducer';
 
 interface Props {
   children: React.ReactNode;
@@ -11,7 +11,7 @@ interface Props {
 
 interface Store {
   state: ProductInitialStateType;
-  dispatch: Dispatch<any>;
+  dispatch: Dispatch<ActionType>;
 }
 
 const contextStore: Store = {
