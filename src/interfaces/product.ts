@@ -19,6 +19,7 @@ export enum ProductActions {
   'FILTER',
   'CLEAR_FILTER',
   'FILTER_WRITE',
+  'FILTER_CHANGE_TYPE',
   'OPEN_EDIT',
   'CLOSE_EDIT',
 }
