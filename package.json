@@ -1,5 +1,6 @@
 {
   "name": "sistema-de-cobranza",
+  "proxy": "http://localhost:2048",
   "version": "0.0.1",
   "private": true,
   "dependencies": {
@@ -32,7 +33,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "dev": "concurrently -p '[{name}]' -n 'FRONTEND,BACKEND' -c 'bgBlue.bold,bgGreen.bold' 'npm:start' 'cd .. && cd backend && npm run dev' 'cd .. && code .'"
   },
   "eslintConfig": {
     "extends": [
