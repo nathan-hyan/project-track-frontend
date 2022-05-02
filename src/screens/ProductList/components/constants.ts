@@ -58,3 +58,8 @@ export const PRODUCT_FORM: ProductForm[] = [
     type: InputType.Text,
   },
 ];
+
+export enum SearchType {
+  'BAR_CODE',
+  'PRODUCT_ID' 
+}
