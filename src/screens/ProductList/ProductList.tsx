@@ -92,7 +92,7 @@ function ProductList() {
             <Row>
               <Col>{product.name}</Col>
               {/* <Col md={2}>{product.category}</Col> */}
-              <Col md={1}>{product.internalId}</Col>
+              <Col md={1}>{String(product.internalId).padStart(4, '0')}</Col>
               <Col md={1}>{product.stock}</Col>
               {/* <Col md={1}>&#0036;{product.cost}</Col> */}
               <Col md={2}>{product.barcode}</Col>
