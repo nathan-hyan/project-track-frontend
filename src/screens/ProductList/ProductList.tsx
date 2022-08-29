@@ -1,20 +1,23 @@
 /* eslint-disable no-restricted-globals */
-import { useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { Col, ListGroup, Row } from 'react-bootstrap';
+import { notify } from 'react-notify-toast';
+import { MESSAGES, NotificationType } from 'constants/notify';
+import { faCartPlus, faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { Variants } from 'constants/bootstrapVariants';
+import CustomPagination from 'components/CustomPagination';
 import { Product, ProductActions } from 'interfaces/product';
 import { deleteProduct, getProducts } from 'services/products';
 import ProductContext from 'context/products/ProductContext';
-import ControlPanel from './components/ControlPanel';
 import ButtonWithIcon from 'components/ButtonWithIcon';
-import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
+import ControlPanel from './components/ControlPanel';
 import AddEditProduct from './components/AddEditProduct';
-import { Variants } from 'constants/bootstrapVariants';
-import { MESSAGES, NotificationType } from 'constants/notify';
-import { notify } from 'react-notify-toast';
-import CustomPagination from 'components/CustomPagination';
+import { CartActions } from 'interfaces/cart';
+import CartContext from 'context/cart/CartContext';
 
 function ProductList() {
   const { state, dispatch } = useContext(ProductContext);
+  const { state: cartState, dispatch: cartDispatch } = useContext(CartContext);
   const [showModal, setShowModal] = useState(false);
   const [page, setPage] = useState<Product[]>([]);
 
@@ -30,6 +33,14 @@ function ProductList() {
   const handleModalClose = () => {
     setShowModal((prevState) => !prevState);
   };
+
+  const handleAddProductToCart = (product: Product) => {
+    console.count('clicked on handleAddProductToCart');
+    return cartDispatch({
+      type: CartActions.ADD_PRODUCT,
+      payload: { productToAdd: product },
+    });
+  }
 
   const handleEdit = (productToEdit: Product) => {
     dispatch({
@@ -98,6 +109,13 @@ function ProductList() {
               <Col md={2}>{product.barcode}</Col>
               <Col md={1}>&#0036;{product.price}</Col>
               <Col md={1} className="d-flex justify-content-center gap-2">
+                <ButtonWithIcon
+                  onClick={() => handleAddProductToCart(product)}
+                  icon={faCartPlus}
+                  label={''}
+                  variant={Variants.Success}
+                  small
+                />
                 <ButtonWithIcon
                   onClick={() => handleEdit(product)}
                   icon={faPen}
