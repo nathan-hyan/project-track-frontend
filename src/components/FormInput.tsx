@@ -13,27 +13,44 @@ interface Props {
   value?: string | number;
   subtext?: string;
   placeholder?: string;
+  validation?: boolean;
+  invalidText?: string;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
   type: InputType;
 }
 
 const FormInput = forwardRef<HTMLInputElement, Props>(
   (
-    { label, name, value, subtext, type, placeholder, onChange, ...props },
+    {
+      label,
+      name,
+      value,
+      subtext,
+      type,
+      placeholder,
+      onChange,
+      invalidText,
+      validation,
+      ...props
+    },
     ref
   ) => {
     return (
-      <Form.Group className="mb-3" controlId="formBasicEmail">
+      <Form.Group className="mb-3" controlId={`${name}-field`}>
         <Form.Label>{label}</Form.Label>
         <Form.Control
           type={type}
           placeholder={placeholder}
+          onChange={onChange}
           name={name}
           value={value}
-          onChange={onChange}
           ref={ref}
+          required
           {...props}
         />
+        <Form.Control.Feedback type="invalid">
+          {invalidText ?? 'Verifique el campo antes de continuar'}
+        </Form.Control.Feedback>
         {subtext && <Form.Text className="text-muted">{subtext}</Form.Text>}
       </Form.Group>
     );
