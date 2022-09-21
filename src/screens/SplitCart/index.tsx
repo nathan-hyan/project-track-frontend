@@ -109,10 +109,12 @@ function SplitCart() {
       <footer className="bg-dark text-white fixed-bottom p-3">
         <Row>
           <Col>
-            <p className="lead">Precio total: ${getTotalPrice()}</p>
+            <p className="lead d-inline">Precio total: ${getTotalPrice()}</p>
           </Col>
-          <Col>
-            <Button variant="Primary">Finalizar compra</Button>
+          <Col className="d-flex justify-content-end">
+            <Button disabled={cartState.cart.length <= 0} variant="primary">
+              Finalizar compra
+            </Button>
           </Col>
         </Row>
       </footer>
