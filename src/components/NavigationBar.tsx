@@ -1,7 +1,8 @@
-import { Navbar, Container } from 'react-bootstrap';
+import { routes } from 'config/routes';
+import { Navbar, Container, Nav } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 export default function NavigationBar() {
-  
   /*
   Auth
   
@@ -16,17 +17,18 @@ export default function NavigationBar() {
 
   TODO: Add cart link
   */
-  
+
   return (
-    <nav>
-      <Navbar bg="primary" variant="dark" className="mb-3 rounded">
-        <Container>
-          <Navbar.Brand href="#home">Sistema de cobranza</Navbar.Brand>
-          <Navbar.Toggle />
-          <Navbar.Collapse className="justify-content-end">
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
-    </nav>
+    <Navbar className="navbar navbar-dark bg-dark mb-3" expand="lg">
+      <Container>
+        <Navbar.Brand>StockOS</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto">
+            {routes.map(route => <Link className='nav-link' to={route.path}>{route.name}</Link>)}
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 }

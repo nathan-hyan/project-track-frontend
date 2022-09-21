@@ -1,6 +1,6 @@
 /* eslint-disable no-restricted-globals */
 import { useContext, useEffect, useState } from 'react';
-import { Col, ListGroup, Row } from 'react-bootstrap';
+import { Col, Container, ListGroup, Row } from 'react-bootstrap';
 import { Product, ProductActions } from 'interfaces/product';
 import { deleteProduct, getProducts } from 'services/products';
 import ProductContext from 'context/products/ProductContext';
@@ -65,7 +65,7 @@ function ProductList() {
   };
 
   return (
-    <>
+    <Container fluid>
       <AddEditProduct
         product={state.product}
         showModal={showModal}
@@ -120,7 +120,7 @@ function ProductList() {
         items={state.products || []}
         onChangePage={onChangePage}
       />
-    </>
+    </Container>
   );
 }
 
