@@ -50,9 +50,11 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
 [x] Add react-router-dom to the project
 [x] Add cart as a separate page
-[] Add styling to the cart list
+[x] Add styling to the cart list
 [x] Add link to cart in the navigation bar
 [x] Add link to home page in the navigation bar
-[] Add footer in cart to manage the total price and checkout button
+[x] Add footer in cart to manage the total price and checkout button
+[] Make product list pretty
+[] Rebuild data fetching using the data, error and loading object
 [] Add checkout screen (Ask juanchi about this)
 [] Build ticket for client

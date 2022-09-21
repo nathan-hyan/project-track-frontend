@@ -11,14 +11,6 @@ import { CartActions } from 'interfaces/cart';
 import ProductList from './components/ProductList';
 import CartList from './components/CartList';
 
-/**
- * TODO: Display spinner on loading
- * TODO: Display products on the list
- * TODO: Make product list pretty
- * Done: Connect products API
- * Done: Handle error catch for data fetching
- */
-
 function SplitCart() {
   const { state, dispatch } = useContext(ProductContext);
   const { state: cartState, dispatch: cartDispatch } = useCart();
