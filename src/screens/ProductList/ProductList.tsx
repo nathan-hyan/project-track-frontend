@@ -1,4 +1,3 @@
-/* eslint-disable no-restricted-globals */
 import { useContext, useEffect, useState } from 'react';
 import { Col, Container, ListGroup, Row } from 'react-bootstrap';
 import { Product, ProductActions } from 'interfaces/product';
@@ -40,7 +39,7 @@ function ProductList() {
   };
 
   const handleDelete = (id?: string) => {
-    if (confirm(MESSAGES.question.delete) && id) {
+    if (window.confirm(MESSAGES.question.delete) && id) {
       deleteProduct(id)
         .then(() => {
           notify.show(
