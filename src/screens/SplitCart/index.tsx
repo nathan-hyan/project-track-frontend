@@ -84,6 +84,8 @@ function SplitCart() {
     return totalPrice;
   };
 
+  const hasProducts = cartState.cart.length > 0;
+
   return (
     <Container fluid>
       <ControlPanel noAddButton />
@@ -109,11 +111,18 @@ function SplitCart() {
       <footer className="bg-dark text-white fixed-bottom p-3">
         <Row>
           <Col>
-            <p className="lead d-inline">Precio total: ${getTotalPrice()}</p>
+            <p className={`lead d-inline ${!hasProducts && 'text-muted'}`}>
+              Precio total: ${getTotalPrice()}
+            </p>
           </Col>
           <Col className="d-flex justify-content-end">
-            <Button disabled={cartState.cart.length <= 0} variant="primary">
-              Finalizar compra
+            <Button
+              disabled={!hasProducts}
+              variant={`${!hasProducts ? 'outline-' : ''}primary`}
+            >
+              {hasProducts
+                ? 'Finalizar compra'
+                : 'Agregue productos al carrito'}
             </Button>
           </Col>
         </Row>
