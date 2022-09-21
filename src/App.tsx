@@ -1,8 +1,4 @@
-import {
-  Route,
-  BrowserRouter,
-  Routes,
-} from 'react-router-dom';
+import { Route, BrowserRouter, Routes } from 'react-router-dom';
 import NavigationBar from 'components/NavigationBar';
 import { ProductProvider } from 'context/products/ProductContext';
 import { login } from 'services/authorization';
@@ -33,7 +29,7 @@ function App() {
       <ProductProvider>
         <CartProvider>
           <BrowserRouter>
-              <NavigationBar />
+            <NavigationBar />
             <Routes>
               {routes.map((route) => (
                 <Route

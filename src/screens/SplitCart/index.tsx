@@ -1,8 +1,8 @@
 import { useContext, useEffect, useMemo } from 'react';
-import { Col, Container, Row } from 'react-bootstrap';
+import { Button, Col, Container, Row } from 'react-bootstrap';
 import { notify } from 'react-notify-toast';
 import ProductContext from 'context/products/ProductContext';
-import CartContext, { useCart } from 'context/cart/CartContext';
+import { useCart } from 'context/cart/CartContext';
 import { getProducts } from 'services/products';
 import ControlPanel from 'screens/ProductList/components/ControlPanel';
 import LoadingSpinner from 'components/LoadingSpinner';
@@ -59,22 +59,41 @@ function SplitCart() {
     return cartDispatch({
       type: CartActions.REMOVE_FROM_CART,
       payload: {
-        item: product
-      }
-    })
-  }
+        item: product,
+      },
+    });
+  };
 
-  console.log(cartState);
+  const handleSubtractFromProduct = (product: Product) => {
+    return cartDispatch({
+      type: CartActions.SUBTRACT_ONE_FROM_ITEM,
+      payload: {
+        item: product,
+      },
+    });
+  };
+
+  const getTotalPrice = () => {
+    let totalPrice = 0;
+
+    cartState.cart.forEach(
+      (itemOnCart) =>
+        (totalPrice += itemOnCart.product.price * itemOnCart.quantity)
+    );
+
+    return totalPrice;
+  };
 
   return (
-    <Container fluid className="h-100">
+    <Container fluid>
       <ControlPanel noAddButton />
-      <Row className='mt-3'>
+      <Row className="mt-3">
         <Col md={6} className="border-primary border-end">
-        <CartList
-              products={cartState.cart}
-              handleDeleteProduct={handleDeleteProduct}
-            />
+          <CartList
+            products={cartState.cart}
+            handleDeleteProduct={handleDeleteProduct}
+            handleSubtractFromProduct={handleSubtractFromProduct}
+          />
         </Col>
         <Col md={6} className="border-primary border-start">
           {!state.loading ? (
@@ -87,6 +106,16 @@ function SplitCart() {
           )}
         </Col>
       </Row>
+      <footer className="bg-dark text-white fixed-bottom p-3">
+        <Row>
+          <Col>
+            <p className="lead">Precio total: ${getTotalPrice()}</p>
+          </Col>
+          <Col>
+            <Button variant="Primary">Finalizar compra</Button>
+          </Col>
+        </Row>
+      </footer>
     </Container>
   );
 }

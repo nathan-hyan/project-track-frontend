@@ -2,10 +2,14 @@ import { CartInitialStateType } from 'constants/cart';
 import { CartActions } from 'interfaces/cart';
 import { Reducer } from 'react';
 import { Product } from '../../interfaces/product';
-import { addProductToCart, removeProductFromCart } from './cartActions';
+import {
+  addProductToCart,
+  removeProductFromCart,
+  subtractFromItemInCart,
+} from './cartActions';
 
 interface Payload {
-    item: Product;
+  item: Product;
 }
 export type ActionType = { type: CartActions; payload: Payload };
 
@@ -15,13 +19,22 @@ const productReducer: Reducer<CartInitialStateType, ActionType> = (
 ) => {
   switch (action.type) {
     case CartActions.ADD_TO_CART:
-      return {...state, cart: addProductToCart(state.cart, action.payload.item)}
+      return {
+        ...state,
+        cart: addProductToCart(state.cart, action.payload.item),
+      };
 
     case CartActions.REMOVE_FROM_CART:
       return {
         ...state,
-        cart: removeProductFromCart(state.cart, action.payload.item)
-      }
+        cart: removeProductFromCart(state.cart, action.payload.item),
+      };
+
+    case CartActions.SUBTRACT_ONE_FROM_ITEM:
+      return {
+        ...state,
+        cart: subtractFromItemInCart(state.cart, action.payload.item),
+      };
 
     default:
       return state;

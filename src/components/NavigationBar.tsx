@@ -19,13 +19,17 @@ export default function NavigationBar() {
   */
 
   return (
-    <Navbar className="navbar navbar-dark bg-dark mb-3" expand="lg">
+    <Navbar className="navbar navbar-dark bg-dark fixed-top" expand="lg">
       <Container>
         <Navbar.Brand>StockOS</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            {routes.map(route => <Link className='nav-link' to={route.path}>{route.name}</Link>)}
+            {routes.map((route) => (
+              <Link className="nav-link" to={route.path}>
+                {route.name}
+              </Link>
+            ))}
           </Nav>
         </Navbar.Collapse>
       </Container>
