@@ -10,12 +10,10 @@ import AddEditProduct from './components/AddEditProduct';
 import { Variants } from 'constants/bootstrapVariants';
 import { MESSAGES, NotificationType } from 'constants/notify';
 import { notify } from 'react-notify-toast';
-import CustomPagination from 'components/CustomPagination';
 
 function ProductList() {
   const { state, dispatch } = useContext(ProductContext);
   const [showModal, setShowModal] = useState(false);
-  const [page, setPage] = useState<Product[]>([]);
 
   useEffect(() => {
     getProducts().then(({ data: { response: productData } }) => {
@@ -59,43 +57,47 @@ function ProductList() {
     }
   };
 
-  const onChangePage = (newPage: Product[]) => {
-    setPage(newPage);
-  };
-
   return (
-    <Container fluid>
+    <Container>
       <AddEditProduct
         product={state.product}
         showModal={showModal}
         closeModal={handleModalClose}
       />
       <ControlPanel handleModalClose={handleModalClose} />
-      <ListGroup className="mt-3 ">
-        <ListGroup.Item active>
-          <Row>
-            <Col>Items</Col>
-            {/* <Col md={2}>Categoría</Col> */}
-            <Col md={1}>Id</Col>
-            <Col md={1}>Stock</Col>
-            {/* <Col md={1}>Costo</Col> */}
-            <Col md={2}>Codigo de barras</Col>
-            <Col md={1}>Precio</Col>
-            <Col md={1} className="d-flex justify-content-center">
-              Acciones
-            </Col>
-          </Row>
-        </ListGroup.Item>
-        {page.map((product: Product) => (
+      <ListGroup className="mt-3">
+        {state.products?.map((product: Product) => (
           <ListGroup.Item key={product._id}>
-            <Row>
+            <Row className="lead">
               <Col>{product.name}</Col>
+            </Row>
+            <Row>
               {/* <Col md={2}>{product.category}</Col> */}
-              <Col md={1}>{String(product.internalId).padStart(4, '0')}</Col>
-              <Col md={1}>{product.stock}</Col>
-              {/* <Col md={1}>&#0036;{product.cost}</Col> */}
-              <Col md={2}>{product.barcode}</Col>
-              <Col md={1}>&#0036;{product.price}</Col>
+              <Col>
+                <p className="m-0">
+                  <i>Id: </i>
+                  <strong>{String(product.internalId).padStart(4, '0')}</strong>
+                </p>
+              </Col>
+              <Col>
+                <p className="m-0">
+                  <i>Stock: </i>
+                  <strong>{product.stock}</strong>
+                </p>
+              </Col>
+              {/* <Col >&#0036;{product.cost}</Col> */}
+              <Col>
+                <p className="m-0">
+                  <i>Cod. barra: </i>
+                  <strong>{product.barcode}</strong>
+                </p>
+              </Col>
+              <Col>
+                <p className="m-0">
+                  <i>Precio unit.: </i>
+                  <strong>&#0036;{product.price}</strong>
+                </p>
+              </Col>
               <Col md={1} className="d-flex justify-content-center gap-2">
                 <ButtonWithIcon
                   onClick={() => handleEdit(product)}
@@ -115,10 +117,6 @@ function ProductList() {
           </ListGroup.Item>
         ))}
       </ListGroup>
-      <CustomPagination
-        items={state.products || []}
-        onChangePage={onChangePage}
-      />
     </Container>
   );
 }

@@ -8,7 +8,6 @@ interface Props {
 }
 
 function ProductList({ products, handleAddToCart }: Props) {
-  
   const HAS_PRODUCTS = products && products?.length >= 1;
 
   return (
@@ -22,7 +21,7 @@ function ProductList({ products, handleAddToCart }: Props) {
                 key={product._id}
                 onClick={() => handleAddToCart(product)}
               >
-                {product.name}
+                <p className="small m-0">{product.name}</p>
               </ListGroup.Item>
             ))}
           </ListGroup>
