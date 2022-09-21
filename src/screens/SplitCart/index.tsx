@@ -1,4 +1,4 @@
-import { useContext, useEffect, useMemo } from 'react';
+import { useContext, useEffect } from 'react';
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import { notify } from 'react-notify-toast';
 import ProductContext from 'context/products/ProductContext';
