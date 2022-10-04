@@ -4,12 +4,13 @@ import { Reducer } from 'react';
 import { Product } from '../../interfaces/product';
 import {
   addProductToCart,
+  modifyQuantityOnProduct,
   removeProductFromCart,
-  subtractFromItemInCart,
 } from './cartActions';
 
 interface Payload {
   item: Product;
+  quantity?: number;
 }
 export type ActionType = { type: CartActions; payload: Payload };
 
@@ -30,11 +31,11 @@ const productReducer: Reducer<CartInitialStateType, ActionType> = (
         cart: removeProductFromCart(state.cart, action.payload.item),
       };
 
-    case CartActions.SUBTRACT_ONE_FROM_ITEM:
+    case CartActions.MODIFY_QUANTITY:
       return {
         ...state,
-        cart: subtractFromItemInCart(state.cart, action.payload.item),
-      };
+        cart: modifyQuantityOnProduct(state.cart, action.payload.item, action.payload.quantity)
+      }
 
     default:
       return state;

@@ -10,10 +10,13 @@ import { Product, ProductActions } from 'interfaces/product';
 import { CartActions } from 'interfaces/cart';
 import ProductList from './components/ProductList';
 import CartList from './components/CartList';
+import { useNavigate } from 'react-router-dom';
+import { routes } from 'config/routes';
 
 function SplitCart() {
   const { state, dispatch } = useContext(ProductContext);
   const { state: cartState, dispatch: cartDispatch } = useCart();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (state.products?.length !== 0 || !!state.searchQuery) {
@@ -65,6 +68,16 @@ function SplitCart() {
     });
   };
 
+  const handleModifyQuantity = (product: Product, quantity: number) => {
+    return cartDispatch({
+      type: CartActions.MODIFY_QUANTITY, 
+      payload: {
+        item: product,
+        quantity
+      }
+    })
+  }
+
   const getTotalPrice = () => {
     let totalPrice = 0;
 
@@ -76,6 +89,10 @@ function SplitCart() {
     return totalPrice;
   };
 
+  const goToCheckout = () => {
+    navigate(routes[2].path)
+  }
+
   const hasProducts = cartState.cart.length > 0;
 
   return (
@@ -84,6 +101,7 @@ function SplitCart() {
       <Row className="mt-3">
         <Col md={6} className="border-primary border-end">
           <CartList
+          handleModifyQuantity={handleModifyQuantity}
             products={cartState.cart}
             handleDeleteProduct={handleDeleteProduct}
             handleSubtractFromProduct={handleSubtractFromProduct}
@@ -111,6 +129,7 @@ function SplitCart() {
             <Button
               disabled={!hasProducts}
               variant={`${!hasProducts ? 'outline-' : ''}primary`}
+              onClick={goToCheckout}
             >
               {hasProducts
                 ? 'Finalizar compra'

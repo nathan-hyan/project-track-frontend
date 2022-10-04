@@ -25,11 +25,15 @@ export default function NavigationBar() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            {routes.map((route) => (
-              <Link className="nav-link" to={route.path}>
-                {route.name}
-              </Link>
-            ))}
+            {routes.map((route) =>
+              route.hideFromNavbar ? (
+                <></>
+              ) : (
+                <Link className="nav-link" to={route.path}>
+                  {route.name}
+                </Link>
+              )
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>

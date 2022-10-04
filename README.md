@@ -54,7 +54,9 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 [x] Add link to cart in the navigation bar
 [x] Add link to home page in the navigation bar
 [x] Add footer in cart to manage the total price and checkout button
-[] Make product list pretty
+[x] Make product list pretty
+[] Make product name font smaller
+[] Make the quantity number an input for manual control
 [] Rebuild data fetching using the data, error and loading object
 [] Add checkout screen (Ask juanchi about this)
 [] Build ticket for client

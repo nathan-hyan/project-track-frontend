@@ -1,5 +1,6 @@
 import { CartProduct } from 'constants/cart';
 import { Product } from 'interfaces/product';
+import React from 'react';
 import { Button, Col, Container, ListGroup, Row } from 'react-bootstrap';
 import styles from './styles.module.scss';
 
@@ -7,14 +8,22 @@ interface Props {
   products?: CartProduct[];
   handleDeleteProduct: (product: Product) => void;
   handleSubtractFromProduct: (product: Product) => void;
+  handleModifyQuantity: (product: Product, quantity: number) => void;
 }
 
 function CartList({
   products,
   handleDeleteProduct,
   handleSubtractFromProduct,
+  handleModifyQuantity,
 }: Props) {
   const HAS_PRODUCTS = products && products?.length >= 1;
+
+  const handleOnChange = (e: any, product: Product) => {
+    const { value } = e.target;
+
+    handleModifyQuantity(product, Number(value));
+  };
 
   return (
     <Container fluid className={styles.container}>
@@ -24,8 +33,12 @@ function CartList({
             {products?.map((product) => (
               <ListGroup.Item key={product.product._id} as={Row}>
                 <Col>
-                  <p className="d-inline lead">{product.product.name}</p>{' '}
-                  <i className="text-muted">({product.quantity})</i>
+                  <p className="d-inline">{product.product.name}</p>{' '}
+                  {"("}<input
+                    className={`text-muted ${styles.input}`}
+                    value={product.quantity}
+                    onChange={(e) => handleOnChange(e, product.product)}
+                  /> / {product.product.stock}{")"}
                 </Col>
                 <Col className={styles.separation}>
                   <p>

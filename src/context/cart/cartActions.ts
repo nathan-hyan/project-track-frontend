@@ -17,33 +17,29 @@ export function addProductToCart(cart: CartProduct[], productToAdd: Product) {
   );
 
   if (currentProductExist) {
-    const INDEX = cart.indexOf(currentProductExist);
-    ++currentProductExist.quantity;
-    cart[INDEX] = {
-      product: currentProductExist.product,
-      quantity: currentProductExist.quantity,
-    };
     return cart;
   } else {
     return [...cart, { product: productToAdd, quantity: 1 }];
   }
 }
 
-export function subtractFromItemInCart(
+export function modifyQuantityOnProduct(
   cart: CartProduct[],
-  productToSubtract: Product
+  productToModify: Product,
+  quantity?: number
 ) {
+  if (!quantity) {
+    return cart;
+  }
+
   const product = cart.find(
-    (product) => product.product._id === productToSubtract._id
+    (product) => product.product._id === productToModify._id
   );
 
   if (product) {
     const INDEX = cart.indexOf(product);
-    cart[INDEX] = {
-      product: cart[INDEX].product,
-      quantity: cart[INDEX].quantity - 1,
-    };
-
+    product.quantity = quantity
+    cart[INDEX] = product;
     return cart;
   } else {
     return cart;

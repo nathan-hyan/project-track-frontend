@@ -1,5 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { Col, Container, ListGroup, Row } from 'react-bootstrap';
+import { notify } from 'react-notify-toast';
+import classNames from 'classnames';
 import { Product, ProductActions } from 'interfaces/product';
 import { deleteProduct, getProducts } from 'services/products';
 import ProductContext from 'context/products/ProductContext';
@@ -9,7 +11,7 @@ import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
 import AddEditProduct from './components/AddEditProduct';
 import { Variants } from 'constants/bootstrapVariants';
 import { MESSAGES, NotificationType } from 'constants/notify';
-import { notify } from 'react-notify-toast';
+import styles from './styles.module.scss';
 
 function ProductList() {
   const { state, dispatch } = useContext(ProductContext);
@@ -68,7 +70,7 @@ function ProductList() {
       <ListGroup className="mt-3">
         {state.products?.map((product: Product) => (
           <ListGroup.Item key={product._id}>
-            <Row className="lead">
+            <Row className={classNames('lead', styles.leadFont)}>
               <Col>{product.name}</Col>
             </Row>
             <Row>
