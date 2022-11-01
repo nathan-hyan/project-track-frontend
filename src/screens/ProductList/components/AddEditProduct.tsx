@@ -1,4 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { useContext, useEffect } from 'react';
+import { Form, Modal } from 'react-bootstrap';
+import { notify } from 'react-notify-toast';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { faSave, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import ButtonWithIcon, { ButtonTypes } from 'components/ButtonWithIcon';
 import FormInput from 'components/FormInput';
@@ -7,12 +11,8 @@ import { MESSAGES, NotificationType } from 'constants/notify';
 import { emptyProduct } from 'constants/products';
 import ProductContext from 'context/products/ProductContext';
 import { Product, ProductActions } from 'interfaces/product';
-import { useContext, useEffect } from 'react';
-import { Form, Modal } from 'react-bootstrap';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { notify } from 'react-notify-toast';
 import { createProduct, editProduct, getProducts } from 'services/products';
-import { PRODUCT_FORM } from './constants';
+import { PriceInputName, PRICE_FORM, PRODUCT_FORM } from './constants';
 
 interface Props {
   showModal: boolean;
@@ -33,6 +33,13 @@ function AddEditProduct({ showModal, closeModal, product }: Props) {
       setValue(
         input.name,
         product ? product[input.name] : emptyProduct[input.name]
+      )
+    );
+
+    PRICE_FORM.map((input) =>
+      setValue(
+        `price.${input.name as PriceInputName}`,
+        product ? product.price[input.name] : emptyProduct.price[input.name]
       )
     );
 
@@ -129,6 +136,20 @@ function AddEditProduct({ showModal, closeModal, product }: Props) {
               </Form.Group>
             )}
           />
+          <hr />
+          <h3>Precios</h3>
+          <hr />
+          {PRICE_FORM.map((item) => (
+            <Controller
+              key={item.id}
+              name={`price.${item.name}`}
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <FormInput {...field} label={item.label} type={item.type} />
+              )}
+            />
+          ))}
         </Modal.Body>
         <Modal.Footer>
           <ButtonWithIcon

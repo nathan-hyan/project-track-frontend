@@ -4,8 +4,6 @@ export type ProductInputName =
   | '_id'
   | 'name'
   | 'internalId'
-  | 'price'
-  | 'cost'
   | 'stock'
   | 'category'
   | 'image'
@@ -13,14 +11,16 @@ export type ProductInputName =
   | 'storeBranch'
   | 'storeId';
 
-interface ProductForm {
+export type PriceInputName = 'cost' | 'list' | 'onlineStore' | 'cash';
+
+interface Form<T> {
   id: number;
   label: string;
-  name: ProductInputName;
+  name: T;
   type: InputType;
 }
 
-export const PRODUCT_FORM: ProductForm[] = [
+export const PRODUCT_FORM: Form<ProductInputName>[] = [
   {
     id: 0,
     label: 'Nombre del producto',
@@ -29,27 +29,42 @@ export const PRODUCT_FORM: ProductForm[] = [
   },
   {
     id: 1,
-    label: 'Precio',
-    name: 'price',
-    type: InputType.Number,
-  },
-  {
-    id: 2,
-    label: 'Costo',
-    name: 'cost',
-    type: InputType.Number,
-  },
-  {
-    id: 3,
     label: 'Stock',
     name: 'stock',
     type: InputType.Number,
   },
   {
-    id: 4,
+    id: 2,
     label: 'Código de barras',
     name: 'barcode',
     type: InputType.Text,
+  },
+];
+
+export const PRICE_FORM: Form<PriceInputName>[] = [
+  {
+    id: 1,
+    label: 'Precio de costo',
+    name: 'cost',
+    type: InputType.Number,
+  },
+  {
+    id: 2,
+    label: 'Precio de lista',
+    name: 'list',
+    type: InputType.Number,
+  },
+  {
+    id: 3,
+    label: 'Precio online',
+    name: 'onlineStore',
+    type: InputType.Number,
+  },
+  {
+    id: 4,
+    label: 'Precio de contado',
+    name: 'cash',
+    type: InputType.Number,
   },
 ];
 

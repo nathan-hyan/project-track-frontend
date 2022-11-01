@@ -33,19 +33,21 @@ function CartList({
             {products?.map((product) => (
               <ListGroup.Item key={product.product._id} as={Row}>
                 <Col>
-                  <p className="d-inline">{product.product.name}</p>{' '}
-                  {"("}<input
+                  <p className="d-inline">{product.product.name}</p> {'('}
+                  <input
                     className={`text-muted ${styles.input}`}
                     value={product.quantity}
                     onChange={(e) => handleOnChange(e, product.product)}
-                  /> / {product.product.stock}{")"}
+                  />{' '}
+                  / {product.product.stock}
+                  {')'}
                 </Col>
                 <Col className={styles.separation}>
                   <p>
                     <small className="text-muted">Precio unit.: </small>$
-                    {product.product.price} /{' '}
+                    {product.product.price.list} /{' '}
                     <small className="text-muted">Precio total: </small>$
-                    {product.product.price * product.quantity}
+                    {product.product.price.list * product.quantity}
                   </p>
                   <div className="d-flex gap-2">
                     <Button

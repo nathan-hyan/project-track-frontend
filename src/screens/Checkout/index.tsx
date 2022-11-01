@@ -3,13 +3,15 @@ import { Button, Col, Container, Row } from 'react-bootstrap';
 import styles from './styles.module.scss';
 
 function Checkout() {
-    const { state: cartState, dispatch: cartDispatch } = useCart();
+  const { state: cartState, dispatch: cartDispatch } = useCart();
 
   return (
     <Container className={styles.container}>
       <Row>
         <Col>
-    {cartState.cart.map(item => <p>{item.product.name}</p>)}
+          {cartState.cart.map((item) => (
+            <p>{item.product.name}</p>
+          ))}
         </Col>
         <Col>
           <Row>
@@ -88,18 +90,9 @@ function Checkout() {
       <footer className="bg-dark text-white fixed-bottom p-3">
         <Row>
           <Col className="d-flex justify-content-end gap-3">
-            <Button
-              variant={`outline-danger`}
-            >Guardar
-            </Button>
-            <Button
-              variant={`outline-primary`}
-            >Presupuesto
-            </Button>
-            <Button
-              variant={`primary`}
-            >Cobrar
-            </Button>
+            <Button variant={`outline-danger`}>Guardar</Button>
+            <Button variant={`outline-primary`}>Presupuesto</Button>
+            <Button variant={`primary`}>Cobrar</Button>
           </Col>
         </Row>
       </footer>

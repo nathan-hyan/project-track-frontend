@@ -3,7 +3,7 @@ import { SearchType } from 'screens/ProductList/components/constants';
 
 export interface ProductInitialStateType {
   searchQuery?: string;
-  searchType?: SearchType,
+  searchType?: SearchType;
   fullProductList?: Product[];
   products?: Product[];
   product: Product | null;
@@ -22,8 +22,12 @@ export const productInitialState: ProductInitialStateType = {
 export const emptyProduct: Product = {
   name: '',
   internalId: 0,
-  price: 0,
-  cost: 0,
+  price: {
+    cash: 0,
+    cost: 0,
+    list: 0,
+    onlineStore: 0,
+  },
   stock: 0,
   category: '',
   image: '',
