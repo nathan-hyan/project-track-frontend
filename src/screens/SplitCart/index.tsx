@@ -70,28 +70,28 @@ function SplitCart() {
 
   const handleModifyQuantity = (product: Product, quantity: number) => {
     return cartDispatch({
-      type: CartActions.MODIFY_QUANTITY, 
+      type: CartActions.MODIFY_QUANTITY,
       payload: {
         item: product,
-        quantity
-      }
-    })
-  }
+        quantity,
+      },
+    });
+  };
 
   const getTotalPrice = () => {
     let totalPrice = 0;
 
     cartState.cart.forEach(
       (itemOnCart) =>
-        (totalPrice += itemOnCart.product.price * itemOnCart.quantity)
+        (totalPrice += itemOnCart.product.price.list * itemOnCart.quantity)
     );
 
     return totalPrice;
   };
 
   const goToCheckout = () => {
-    navigate(routes[2].path)
-  }
+    navigate(routes[2].path);
+  };
 
   const hasProducts = cartState.cart.length > 0;
 
@@ -101,7 +101,7 @@ function SplitCart() {
       <Row className="mt-3">
         <Col md={6} className="border-primary border-end">
           <CartList
-          handleModifyQuantity={handleModifyQuantity}
+            handleModifyQuantity={handleModifyQuantity}
             products={cartState.cart}
             handleDeleteProduct={handleDeleteProduct}
             handleSubtractFromProduct={handleSubtractFromProduct}

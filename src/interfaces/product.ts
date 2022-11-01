@@ -2,8 +2,12 @@ export interface Product {
   _id?: string;
   name: string;
   internalId: number;
-  price: number;
-  cost: number;
+  price: {
+    list: number;
+    onlineStore: number;
+    cash: number;
+    cost: number;
+  };
   stock: number;
   category: string;
   image: string;

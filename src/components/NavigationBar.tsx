@@ -26,10 +26,8 @@ export default function NavigationBar() {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             {routes.map((route) =>
-              route.hideFromNavbar ? (
-                <></>
-              ) : (
-                <Link className="nav-link" to={route.path}>
+              route.hideFromNavbar ? null : (
+                <Link key={route.path} className="nav-link" to={route.path}>
                   {route.name}
                 </Link>
               )

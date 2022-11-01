@@ -97,7 +97,7 @@ function ProductList() {
               <Col>
                 <p className="m-0">
                   <i>Precio unit.: </i>
-                  <strong>&#0036;{product.price}</strong>
+                  <strong>&#0036;{product.price.list}</strong>
                 </p>
               </Col>
               <Col md={1} className="d-flex justify-content-center gap-2">
