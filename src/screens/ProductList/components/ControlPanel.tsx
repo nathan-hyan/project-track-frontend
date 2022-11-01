@@ -10,21 +10,41 @@ import { SearchType } from './constants';
 import CustomCheck from 'components/CustomCheck';
 
 interface Props {
-  handleModalClose: () => void;
+  handleModalClose?: () => void;
+  noAddButton?: boolean;
 }
 
-function ControlPanel({ handleModalClose }: Props) {
+/*
+Done: Add a message when the text is empty
+Done: Add 'No add button' as prop
+Done: Hide "Add product" button when 'NoAddButton' is true
+Done: Throw error when NoAddButton is false and handleModalClose is undefined
+*/
+
+function ControlPanel({ handleModalClose, noAddButton }: Props) {
+  const [formIsValid, setFormIsValid] = useState(false);
   const { state, dispatch } = useContext(ProductContext);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  if (!noAddButton && !handleModalClose) {
+    throw new Error("Can't have an Add button without modal closing handling");
+  }
 
-    dispatch({
-      type: ProductActions.FILTER,
-    });
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const FORM = e.currentTarget;
+    e.preventDefault();
+    setFormIsValid(true);
+
+    if (FORM.checkValidity()) {
+      dispatch({
+        type: ProductActions.FILTER,
+      });
+    } else {
+      return;
+    }
   };
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+    setFormIsValid(false);
     dispatch({
       type: ProductActions.FILTER_WRITE,
       payload: { searchQuery: e.target.value },
@@ -34,11 +54,12 @@ function ControlPanel({ handleModalClose }: Props) {
   const handleSearchTypeChange = (type: SearchType) => {
     dispatch({
       type: ProductActions.FILTER_CHANGE_TYPE,
-      payload: { searchType: type }
-    })
-  }
+      payload: { searchType: type },
+    });
+  };
 
   const handleClearFilter = () => {
+    setFormIsValid(false);
     dispatch({
       type: ProductActions.CLEAR_FILTER,
     });
@@ -50,13 +71,14 @@ function ControlPanel({ handleModalClose }: Props) {
         <Accordion.Item eventKey="0">
           <Accordion.Header>Panel de control</Accordion.Header>
           <Accordion.Body>
-            <Form onSubmit={handleSubmit}>
+            <Form noValidate validated={formIsValid} onSubmit={handleSubmit}>
               <Row>
                 <Col>
                   <FormInput
                     label="Buscar producto"
                     name="searchProduct"
                     onChange={handleChange}
+                    validation={formIsValid}
                     type={InputType.Text}
                     value={state.searchQuery || ''}
                   />
@@ -76,33 +98,35 @@ function ControlPanel({ handleModalClose }: Props) {
                     onClick={handleClearFilter}
                   />
                 </Col>
-                <Col className='d-flex align-items-center justify-content-center'>
-                  <CustomCheck 
+                <Col className="d-flex align-items-center justify-content-center">
+                  <CustomCheck
                     inline
-                    label='Código de barras' 
-                    id='searchType' 
-                    name={String(SearchType.BAR_CODE)} 
+                    label="Código de barras"
+                    id="searchType"
+                    name={String(SearchType.BAR_CODE)}
                     onChange={handleSearchTypeChange}
                     value={SearchType.BAR_CODE}
-                    checked={state.searchType === SearchType.BAR_CODE}  
-                    />
-                  <CustomCheck 
+                    checked={state.searchType === SearchType.BAR_CODE}
+                  />
+                  <CustomCheck
                     inline
-                    label='Nombre de producto' 
-                    id='searchType'
-                    name={String(SearchType.PRODUCT_ID)} 
+                    label="Nombre de producto"
+                    id="searchType"
+                    name={String(SearchType.PRODUCT_ID)}
                     value={SearchType.PRODUCT_ID}
                     onChange={handleSearchTypeChange}
-                    checked={state.searchType === SearchType.PRODUCT_ID}  
+                    checked={state.searchType === SearchType.PRODUCT_ID}
                   />
                 </Col>
                 <Col className="d-flex justify-content-end">
-                  <ButtonWithIcon
-                    label="Agregar producto"
-                    icon={faPlus}
-                    variant={Variants.Success}
-                    onClick={handleModalClose}
-                  />
+                  {!noAddButton && (
+                    <ButtonWithIcon
+                      label="Agregar producto"
+                      icon={faPlus}
+                      variant={Variants.Success}
+                      onClick={handleModalClose}
+                    />
+                  )}
                 </Col>
               </Row>
             </Form>

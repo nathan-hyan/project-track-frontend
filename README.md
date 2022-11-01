@@ -44,3 +44,19 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+
+## TO-DO
+
+[x] Add react-router-dom to the project
+[x] Add cart as a separate page
+[x] Add styling to the cart list
+[x] Add link to cart in the navigation bar
+[x] Add link to home page in the navigation bar
+[x] Add footer in cart to manage the total price and checkout button
+[x] Make product list pretty
+[] Make product name font smaller
+[] Make the quantity number an input for manual control
+[] Rebuild data fetching using the data, error and loading object
+[] Add checkout screen (Ask juanchi about this)
+[] Build ticket for client

@@ -1,19 +1,42 @@
-import { Navbar, Container } from 'react-bootstrap';
+import { routes } from 'config/routes';
+import { Navbar, Container, Nav } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 export default function NavigationBar() {
+  /*
+  Auth
+  
+  TODO: Create Login button
+  TODO: Make login button change on user logged in
+  TODO: Create logout button
+  TODO: Add admin toggle for certain navigation buttons
+
+  ----
+
+  Navigation
+
+  TODO: Add cart link
+  */
+
   return (
-    <nav>
-      <Navbar bg="primary" variant="dark" className="mb-3 rounded">
-        <Container>
-          <Navbar.Brand href="#home">Sistema de cobranza</Navbar.Brand>
-          <Navbar.Toggle />
-          <Navbar.Collapse className="justify-content-end">
-            <Navbar.Text>
-              Usuario: <a href="#login">Jessica Ahmad</a>
-            </Navbar.Text>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
-    </nav>
+    <Navbar className="navbar navbar-dark bg-dark fixed-top" expand="lg">
+      <Container>
+        <Navbar.Brand>StockOS</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto">
+            {routes.map((route) =>
+              route.hideFromNavbar ? (
+                <></>
+              ) : (
+                <Link className="nav-link" to={route.path}>
+                  {route.name}
+                </Link>
+              )
+            )}
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 }
