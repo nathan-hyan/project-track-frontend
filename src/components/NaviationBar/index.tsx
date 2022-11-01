@@ -1,6 +1,7 @@
-import { routes } from 'config/routes';
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { routes } from 'config/routes';
+import styles from './styles.module.scss';
 
 export default function NavigationBar() {
   /*
@@ -21,7 +22,11 @@ export default function NavigationBar() {
   return (
     <Navbar className="navbar navbar-dark bg-dark fixed-top" expand="lg">
       <Container>
-        <Navbar.Brand>StockOS</Navbar.Brand>
+        <Navbar.Brand>
+          <Link to="/" className={styles.header}>
+            StockOS
+          </Link>
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">

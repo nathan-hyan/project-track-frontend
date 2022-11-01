@@ -1,7 +1,6 @@
+import { Button, Col, Container, ListGroup, Row } from 'react-bootstrap';
 import { CartProduct } from 'constants/cart';
 import { Product } from 'interfaces/product';
-import React from 'react';
-import { Button, Col, Container, ListGroup, Row } from 'react-bootstrap';
 import styles from './styles.module.scss';
 
 interface Props {

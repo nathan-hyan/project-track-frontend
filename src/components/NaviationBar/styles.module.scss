@@ -1,0 +1,9 @@
+.header {
+    color: white !important;
+    text-decoration: none !important;
+    transition: 0.2s;
+
+    &:hover {
+        color: darken(white, 20%) !important;
+    }
+}
