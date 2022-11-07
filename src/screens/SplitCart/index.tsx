@@ -1,5 +1,5 @@
-import { useContext, useEffect } from 'react';
-import { Button, Col, Container, Row } from 'react-bootstrap';
+import { ChangeEventHandler, useContext, useEffect, useState } from 'react';
+import { Button, Form, Col, Container, Row } from 'react-bootstrap';
 import { notify } from 'react-notify-toast';
 import ProductContext from 'context/products/ProductContext';
 import { useCart } from 'context/cart/CartContext';
@@ -9,9 +9,12 @@ import LoadingSpinner from 'components/LoadingSpinner';
 import { Product, ProductActions } from 'interfaces/product';
 import { CartActions } from 'interfaces/cart';
 import ProductList from './components/ProductList';
-import CartList from './components/CartList';
+import CartList from '../../components/CartList';
 import { useNavigate } from 'react-router-dom';
 import { routes } from 'config/routes';
+import { getTotalPrice } from 'utils/priceUtils';
+import { OPTIONS } from './constants';
+import { PaymentType } from 'constants/cart';
 
 function SplitCart() {
   const { state, dispatch } = useContext(ProductContext);
@@ -78,22 +81,22 @@ function SplitCart() {
     });
   };
 
-  const getTotalPrice = () => {
-    let totalPrice = 0;
-
-    cartState.cart.forEach(
-      (itemOnCart) =>
-        (totalPrice += itemOnCart.product.price.list * itemOnCart.quantity)
-    );
-
-    return totalPrice;
+  const handleChangePaymentType = (paymentType: PaymentType) => {
+    return cartDispatch({
+      type: CartActions.CHANGE_PAYMENT_TYPE,
+      payload: {
+        paymentType,
+      },
+    });
   };
 
   const goToCheckout = () => {
     navigate(routes[2].path);
   };
 
-  const hasProducts = cartState.cart.length > 0;
+  const hasProducts = cartState.products.length > 0;
+
+  console.log(cartState);
 
   return (
     <Container fluid>
@@ -102,7 +105,8 @@ function SplitCart() {
         <Col md={6} className="border-primary border-end">
           <CartList
             handleModifyQuantity={handleModifyQuantity}
-            products={cartState.cart}
+            products={cartState.products}
+            paymentType={cartState.paymentType}
             handleDeleteProduct={handleDeleteProduct}
             handleSubtractFromProduct={handleSubtractFromProduct}
           />
@@ -121,8 +125,25 @@ function SplitCart() {
       <footer className="bg-dark text-white fixed-bottom p-3">
         <Row>
           <Col>
+            <Form.Select
+              required
+              value={cartState.paymentType}
+              onChange={(e) =>
+                handleChangePaymentType(e.target.value as PaymentType)
+              }
+            >
+              <option>Open this select menu</option>
+              {OPTIONS.map((currentOption) => (
+                <option value={currentOption.value} key={currentOption.id}>
+                  {currentOption.label}
+                </option>
+              ))}
+            </Form.Select>
+          </Col>
+          <Col>
             <p className={`lead d-inline ${!hasProducts && 'text-muted'}`}>
-              Precio total: ${getTotalPrice()}
+              Precio total: $
+              {getTotalPrice(cartState.products, cartState.paymentType)}
             </p>
           </Col>
           <Col className="d-flex justify-content-end">

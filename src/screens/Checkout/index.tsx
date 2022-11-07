@@ -1,90 +1,73 @@
+import CartList from 'components/CartList';
+import { PaymentType } from 'constants/cart';
 import { useCart } from 'context/cart/CartContext';
+import { CartActions } from 'interfaces/cart';
+import { Product } from 'interfaces/product';
 import { Button, Col, Container, Row } from 'react-bootstrap';
+import { getTotalPrice } from 'utils/priceUtils';
+import ClientInfo from './components/ClientInfo';
+import PaymentBlock from './components/PaymentBlock';
+import PriceBreakdown from './components/PriceBreakdown';
+import { DEFAULT_CLIENT_INFO } from './constants';
 import styles from './styles.module.scss';
 
 function Checkout() {
   const { state: cartState, dispatch: cartDispatch } = useCart();
 
+  const handleDeleteProduct = (product: Product) => {
+    return cartDispatch({
+      type: CartActions.REMOVE_FROM_CART,
+      payload: {
+        item: product,
+      },
+    });
+  };
+
+  const handleSubtractFromProduct = (product: Product) => {
+    return cartDispatch({
+      type: CartActions.SUBTRACT_ONE_FROM_ITEM,
+      payload: {
+        item: product,
+      },
+    });
+  };
+
+  const handleModifyQuantity = (product: Product, quantity: number) => {
+    return cartDispatch({
+      type: CartActions.MODIFY_QUANTITY,
+      payload: {
+        item: product,
+        quantity,
+      },
+    });
+  };
+
   return (
-    <Container className={styles.container}>
+    <Container className={`${styles.container}`}>
       <Row>
         <Col>
-          {cartState.cart.map((item) => (
-            <p>{item.product.name}</p>
-          ))}
+          <CartList
+            handleModifyQuantity={handleModifyQuantity}
+            products={cartState.products}
+            paymentType={cartState.paymentType}
+            handleDeleteProduct={handleDeleteProduct}
+            handleSubtractFromProduct={handleSubtractFromProduct}
+          />
         </Col>
         <Col>
-          <Row>
-            <Col>Subtotal</Col>
-            <Col>
-              <input />
-            </Col>
-          </Row>
-          <Row>
-            <Col>Saldo a favor</Col>
-            <Col>
-              <input />
-            </Col>
-          </Row>
-          <Row>
-            <Col>Saldo deudor</Col>
-            <Col>
-              <input />
-            </Col>
-          </Row>
-          <Row>
-            <Col>Envio</Col>
-            <Col>
-              <input />
-            </Col>
-          </Row>
-          <Row>
-            <Col>Descuento</Col>
-            <Col>
-              <input />
-            </Col>
-          </Row>
-          <Row>
-            <Col>Monto a pagar</Col>
-            <Col>
-              <input />
-            </Col>
-          </Row>
+          <PriceBreakdown
+            subtotal={getTotalPrice(cartState.products, cartState.paymentType)}
+            paymentType={cartState.paymentType}
+          />
         </Col>
       </Row>
+      <hr className="my-5" />
       <Row>
         <Col>
-          <fieldset>
-            <legend>Método de pago</legend>
-            <Row>
-              <Col>
-                <input type="checkbox" name="payment_method" value="cash" />
-                Efectivo
-                <br />
-                <input type="checkbox" name="payment_method" value="debit" />
-                Débito
-                <br />
-                <input type="checkbox" name="payment_method" value="credit" />
-                Crédito
-                <br />
-              </Col>
-              <Col>
-                <input type="checkbox" name="payment_method" value="transfer" />
-                Transferencia
-                <br />
-                <input
-                  type="checkbox"
-                  name="payment_method"
-                  value="mercadopago"
-                />
-                QR MercadoPago
-                <br />
-                <input type="checkbox" name="payment_method" value="mrcredit" />
-                MR Crédito
-                <br />
-              </Col>
-            </Row>
-          </fieldset>
+          <ClientInfo client={DEFAULT_CLIENT_INFO[0]} />
+        </Col>
+        <Col>
+          <PaymentBlock />
         </Col>
       </Row>
       <footer className="bg-dark text-white fixed-bottom p-3">
