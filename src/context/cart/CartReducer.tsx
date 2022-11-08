@@ -42,6 +42,12 @@ const productReducer: Reducer<CartInitialStateType, ActionType> = (
         ),
       };
 
+    case CartActions.CLEAR_CART:
+      return {
+        ...state,
+        products: [],
+      };
+
     case CartActions.CHANGE_PAYMENT_TYPE:
       return {
         ...state,

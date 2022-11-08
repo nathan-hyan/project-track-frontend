@@ -4,4 +4,5 @@ export enum CartActions {
   'SUBTRACT_ONE_FROM_ITEM',
   'MODIFY_QUANTITY',
   'CHANGE_PAYMENT_TYPE',
+  'CLEAR_CART',
 }

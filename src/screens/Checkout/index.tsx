@@ -96,7 +96,13 @@ function Checkout() {
         console.error(err);
         return;
       })
-      .finally(() => setIsLoading(false));
+      .finally(() => {
+        cartDispatch({
+          type: CartActions.CLEAR_CART,
+          payload: {},
+        });
+        setIsLoading(false);
+      });
   };
 
   return (

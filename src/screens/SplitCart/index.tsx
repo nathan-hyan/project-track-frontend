@@ -90,6 +90,13 @@ function SplitCart() {
     });
   };
 
+  const handleClearCart = () => {
+    cartDispatch({
+      type: CartActions.CLEAR_CART,
+      payload: {},
+    });
+  };
+
   const goToCheckout = () => {
     navigate(routes[2].path);
   };
@@ -146,7 +153,14 @@ function SplitCart() {
               {getTotalPrice(cartState.products, cartState.paymentType)}
             </p>
           </Col>
-          <Col className="d-flex justify-content-end">
+          <Col className="d-flex justify-content-end gap-3">
+            <Button
+              disabled={!hasProducts}
+              variant={`${!hasProducts ? 'outline-' : ''}danger`}
+              onClick={handleClearCart}
+            >
+              Limpiar carrito
+            </Button>
             <Button
               disabled={!hasProducts}
               variant={`${!hasProducts ? 'outline-' : ''}primary`}
