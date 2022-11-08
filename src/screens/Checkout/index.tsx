@@ -4,8 +4,8 @@ import {
   CartProductForBackend,
   DEFAULT_STORE_BRANCH,
   DEFAULT_USER_ID,
-  PaymentType,
 } from 'constants/cart';
+import { MESSAGES, NotificationType } from 'constants/notify';
 import { useCart } from 'context/cart/CartContext';
 import { CartActions } from 'interfaces/cart';
 import { Product } from 'interfaces/product';
@@ -60,7 +60,7 @@ function Checkout() {
 
     if (cartState.products.length <= 0) {
       setIsLoading(false);
-      notify.show('El carrito no puede estar vacío', 'error');
+      notify.show(MESSAGES.error.cartCantBeEmpty, NotificationType.error);
       navigate(routes[1].path);
       return;
     }
@@ -85,14 +85,15 @@ function Checkout() {
       userId: DEFAULT_USER_ID,
     })
       .then(() => {
-        notify.show('La compra se realizó correctamente', 'success');
+        notify.show(
+          MESSAGES.success.purchaseComplete,
+          NotificationType.success
+        );
         navigate(routes[0].path);
       })
       .catch((err) => {
-        notify.show(
-          'La compra no se realizó correctamente. Contactar administrador.',
-          'error'
-        );
+        notify.show(MESSAGES.error.purchaseFailed, NotificationType.error);
+
         console.error(err);
         return;
       })
