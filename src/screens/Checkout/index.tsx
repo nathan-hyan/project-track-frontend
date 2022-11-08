@@ -35,15 +35,6 @@ function Checkout() {
     });
   };
 
-  const handleSubtractFromProduct = (product: Product) => {
-    return cartDispatch({
-      type: CartActions.SUBTRACT_ONE_FROM_ITEM,
-      payload: {
-        item: product,
-      },
-    });
-  };
-
   const handleModifyQuantity = (product: Product, quantity: number) => {
     return cartDispatch({
       type: CartActions.MODIFY_QUANTITY,
@@ -115,7 +106,7 @@ function Checkout() {
             products={cartState.products}
             paymentType={cartState.paymentType}
             handleDeleteProduct={handleDeleteProduct}
-            handleSubtractFromProduct={handleSubtractFromProduct}
+            oneLiner
           />
         </Col>
         <Col>

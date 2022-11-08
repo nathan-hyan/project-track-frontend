@@ -62,15 +62,6 @@ function SplitCart() {
     });
   };
 
-  const handleSubtractFromProduct = (product: Product) => {
-    return cartDispatch({
-      type: CartActions.SUBTRACT_ONE_FROM_ITEM,
-      payload: {
-        item: product,
-      },
-    });
-  };
-
   const handleModifyQuantity = (product: Product, quantity: number) => {
     return cartDispatch({
       type: CartActions.MODIFY_QUANTITY,
@@ -115,7 +106,6 @@ function SplitCart() {
             products={cartState.products}
             paymentType={cartState.paymentType}
             handleDeleteProduct={handleDeleteProduct}
-            handleSubtractFromProduct={handleSubtractFromProduct}
           />
         </Col>
         <Col md={6} className="border-primary border-start">
