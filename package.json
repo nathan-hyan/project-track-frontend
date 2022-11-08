@@ -1,5 +1,5 @@
 {
-  "name": "sistema-de-cobranza",
+  "name": "stock-os",
   "proxy": "http://localhost:2048",
   "version": "0.0.1",
   "private": true,
