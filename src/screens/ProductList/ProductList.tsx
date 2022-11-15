@@ -1,17 +1,13 @@
 import { useContext, useEffect, useState } from 'react';
-import { Col, Container, ListGroup, Row } from 'react-bootstrap';
+import { Container, ListGroup } from 'react-bootstrap';
 import { notify } from 'react-notify-toast';
-import classNames from 'classnames';
 import { Product, ProductActions } from 'interfaces/product';
 import { deleteProduct, getProducts } from 'services/products';
 import ProductContext from 'context/products/ProductContext';
 import ControlPanel from './components/ControlPanel';
-import ButtonWithIcon from 'components/ButtonWithIcon';
-import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
+import ProductItem from './components/ProductItem';
 import AddEditProduct from './components/AddEditProduct';
-import { Variants } from 'constants/bootstrapVariants';
 import { MESSAGES, NotificationType } from 'constants/notify';
-import styles from './styles.module.scss';
 
 function ProductList() {
   const { state, dispatch } = useContext(ProductContext);
@@ -69,70 +65,11 @@ function ProductList() {
       <ControlPanel handleModalClose={handleModalClose} />
       <ListGroup className="mt-3">
         {state.products?.map((product: Product) => (
-          <ListGroup.Item key={product._id}>
-            <Row className={classNames('lead', styles.leadFont)}>
-              <Col>{product.name}</Col>
-            </Row>
-            <Row>
-              <Col md={1}>
-                <p className="m-0">
-                  <i>Id: </i>
-                  <strong>{String(product.internalId).padStart(4, '0')}</strong>
-                </p>
-              </Col>
-              <Col md={1}>
-                <p className="m-0">
-                  <i>Stock: </i>
-                  <strong>{product.stock}</strong>
-                </p>
-              </Col>
-              <Col md={3}>
-                <p className="m-0">
-                  <i>Cod. barra: </i>
-                  <strong>{product.barcode}</strong>
-                </p>
-              </Col>
-              <Col>
-                <p className="m-0">
-                  <i>Costo: </i>
-                  <strong>&#0036;{product.price.cost}</strong>
-                </p>
-              </Col>
-              <Col>
-                <p className="m-0">
-                  <i>Cont.: </i>
-                  <strong>&#0036;{product.price.cash}</strong>
-                </p>
-              </Col>
-              <Col>
-                <p className="m-0">
-                  <i>Lista: </i>
-                  <strong>&#0036;{product.price.list}</strong>
-                </p>
-              </Col>
-              <Col>
-                <p className="m-0">
-                  <i>Web: </i>
-                  <strong>&#0036;{product.price.onlineStore}</strong>
-                </p>
-              </Col>
-              <Col md={1} className="d-flex justify-content-center gap-2">
-                <ButtonWithIcon
-                  onClick={() => handleEdit(product)}
-                  icon={faPen}
-                  label={''}
-                  small
-                />
-                <ButtonWithIcon
-                  onClick={() => handleDelete(product._id)}
-                  icon={faTrash}
-                  label={''}
-                  variant={Variants.Danger}
-                  small
-                />
-              </Col>
-            </Row>
-          </ListGroup.Item>
+          <ProductItem
+            product={product}
+            handleEdit={handleEdit}
+            handleDelete={handleDelete}
+          />
         ))}
       </ListGroup>
     </Container>

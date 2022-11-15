@@ -10,7 +10,7 @@ export enum ButtonTypes {
 }
 
 interface Props {
-  label: string;
+  label?: string;
   icon: IconProp;
   onClick?: () => void;
   variant?: Variants;
@@ -46,7 +46,7 @@ function ButtonWithIcon({
       ) : (
         <FontAwesomeIcon icon={icon} />
       )}{' '}
-      {label}
+      {label ?? ''}
     </Button>
   );
 }
