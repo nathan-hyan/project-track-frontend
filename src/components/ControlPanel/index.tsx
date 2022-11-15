@@ -6,20 +6,13 @@ import FormInput, { InputType } from 'components/FormInput';
 import { Variants } from 'constants/bootstrapVariants';
 import { ProductActions } from 'interfaces/product';
 import ProductContext from 'context/products/ProductContext';
-import { SearchType } from './constants';
+import { SearchType } from '../../screens/ProductList/components/constants';
 import CustomCheck from 'components/CustomCheck';
 
 interface Props {
   handleModalClose?: () => void;
   noAddButton?: boolean;
 }
-
-/*
-Done: Add a message when the text is empty
-Done: Add 'No add button' as prop
-Done: Hide "Add product" button when 'NoAddButton' is true
-Done: Throw error when NoAddButton is false and handleModalClose is undefined
-*/
 
 function ControlPanel({ handleModalClose, noAddButton }: Props) {
   const [formIsValid, setFormIsValid] = useState(false);

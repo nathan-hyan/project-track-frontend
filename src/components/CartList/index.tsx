@@ -1,10 +1,11 @@
 import { Button, Col, Container, ListGroup, Row } from 'react-bootstrap';
-import { CartProduct, PaymentType } from 'constants/cart';
-import { Product } from 'interfaces/product';
-import styles from './styles.module.scss';
+import classNames from 'classnames';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { CartProduct, PaymentType } from 'constants/cart';
 import { Variants } from 'constants/bootstrapVariants';
+import { Product } from 'interfaces/product';
+import styles from './styles.module.scss';
 
 interface Props {
   products?: CartProduct[];
@@ -21,7 +22,7 @@ function CartList({
   handleModifyQuantity,
   oneLiner,
 }: Props) {
-  const HAS_PRODUCTS = products && products?.length >= 1;
+  const hasProducts = products && products?.length >= 1;
 
   const handleOnChange = (e: any, product: Product) => {
     const { value } = e.target;
@@ -31,14 +32,25 @@ function CartList({
 
   return (
     <Container fluid className={styles.container}>
-      {HAS_PRODUCTS ? (
+      {hasProducts ? (
         <>
           <ListGroup className="w-100">
             {products?.map((product) => (
               <ListGroup.Item key={product.item._id} as={Row} className="w-100">
                 <Col>
                   <span className="d-flex justify-content-between">
-                    <p className="text-truncate w-50 m-0 p-0">
+                    <p
+                      className={classNames(
+                        'text-truncate',
+                        'w-50',
+                        'm-0',
+                        'p-0',
+                        {
+                          'text-decoration-line-through text-muted':
+                            product.item.stock < 1,
+                        }
+                      )}
+                    >
                       {product.item.name}
                     </p>
                     {!oneLiner ? (
@@ -49,6 +61,9 @@ function CartList({
                             className={`text-muted ${styles.input}`}
                             value={product.quantity}
                             onChange={(e) => handleOnChange(e, product.item)}
+                            type="number"
+                            max={product.item.stock}
+                            min={1}
                           />{' '}
                           / {product.item.stock}
                           {')'}
@@ -67,7 +82,14 @@ function CartList({
                         {(product.item.price[paymentType] || 0) *
                           product.quantity}{' '}
                         / <small className="text-muted">Cant.: </small>
-                        {product.quantity}
+                        <span
+                          className={classNames({
+                            'text-danger':
+                              product.quantity > product.item.stock,
+                          })}
+                        >
+                          {product.quantity}
+                        </span>
                       </p>
                     )}
                   </span>
@@ -79,7 +101,12 @@ function CartList({
                       {product.item.price[paymentType] || 0} /{' '}
                       <small className="text-muted">Precio total: </small>$
                       {(product.item.price[paymentType] || 0) *
-                        product.quantity}
+                        product.quantity}{' '}
+                      {product.item.stock < 1 && (
+                        <small className="text-danger fst-italic">
+                          SIN STOCK
+                        </small>
+                      )}
                     </p>
                   </Col>
                 )}

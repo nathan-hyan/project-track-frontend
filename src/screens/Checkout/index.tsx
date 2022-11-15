@@ -1,3 +1,7 @@
+import { useState } from 'react';
+import { Col, Container, Row } from 'react-bootstrap';
+import { notify } from 'react-notify-toast';
+import { useNavigate } from 'react-router-dom';
 import CartList from 'components/CartList';
 import { routes } from 'config/routes';
 import {
@@ -9,15 +13,13 @@ import { MESSAGES, NotificationType } from 'constants/notify';
 import { useCart } from 'context/cart/CartContext';
 import { CartActions } from 'interfaces/cart';
 import { Product } from 'interfaces/product';
-import { useState } from 'react';
-import { Button, Col, Container, Row } from 'react-bootstrap';
-import { notify } from 'react-notify-toast';
-import { useNavigate } from 'react-router-dom';
 import { createPurchase } from 'services/purchase';
 import { getTotalPrice } from 'utils/priceUtils';
+import { checkForStock } from 'utils/productUtils';
 import ClientInfo from './components/ClientInfo';
 import PaymentBlock from './components/PaymentBlock';
 import PriceBreakdown from './components/PriceBreakdown';
+import Footer from './components/Footer';
 import { DEFAULT_CLIENT_INFO } from './constants';
 import styles from './styles.module.scss';
 
@@ -51,7 +53,7 @@ function Checkout() {
 
     if (cartState.products.length <= 0) {
       setIsLoading(false);
-      notify.show(MESSAGES.error.cartCantBeEmpty, NotificationType.error);
+      notify.show(MESSAGES.error.cartCantBeEmpty, NotificationType.Error);
       navigate(routes[1].path);
       return;
     }
@@ -78,12 +80,12 @@ function Checkout() {
       .then(() => {
         notify.show(
           MESSAGES.success.purchaseComplete,
-          NotificationType.success
+          NotificationType.Success
         );
         navigate(routes[0].path);
       })
       .catch((err) => {
-        notify.show(MESSAGES.error.purchaseFailed, NotificationType.error);
+        notify.show(MESSAGES.error.purchaseFailed, NotificationType.Error);
 
         console.error(err);
         return;
@@ -97,8 +99,16 @@ function Checkout() {
       });
   };
 
+  const onSave = () => {
+    console.log('To be implemented'); // TODO: Implement
+  };
+
+  const onBudget = () => {
+    console.log('To be implemented'); // TODO: Implement
+  };
+
   return (
-    <Container className={`${styles.container}`}>
+    <Container className={styles.container}>
       <Row>
         <Col>
           <CartList
@@ -125,21 +135,13 @@ function Checkout() {
           <PaymentBlock />
         </Col>
       </Row>
-      <footer className="bg-dark text-white fixed-bottom p-3">
-        <Row>
-          <Col className="d-flex justify-content-end gap-3">
-            <Button disabled variant={`outline-danger`}>
-              Guardar
-            </Button>
-            <Button disabled variant={`outline-primary`}>
-              Presupuesto
-            </Button>
-            <Button disabled={isLoading} variant={`primary`} onClick={onSubmit}>
-              Cobrar
-            </Button>
-          </Col>
-        </Row>
-      </footer>
+      <Footer
+        isLoading={isLoading}
+        hasStock={checkForStock(cartState.products)}
+        onSave={onSave}
+        onBudget={onBudget}
+        onSubmit={onSubmit}
+      />
     </Container>
   );
 }
