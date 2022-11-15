@@ -1,4 +1,5 @@
 import { Button, Col, Container, ListGroup, Row } from 'react-bootstrap';
+import classNames from 'classnames';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { CartProduct, PaymentType } from 'constants/cart';
@@ -38,7 +39,18 @@ function CartList({
               <ListGroup.Item key={product.item._id} as={Row} className="w-100">
                 <Col>
                   <span className="d-flex justify-content-between">
-                    <p className="text-truncate w-50 m-0 p-0">
+                    <p
+                      className={classNames(
+                        'text-truncate',
+                        'w-50',
+                        'm-0',
+                        'p-0',
+                        {
+                          'text-decoration-line-through text-muted':
+                            product.item.stock < 1,
+                        }
+                      )}
+                    >
                       {product.item.name}
                     </p>
                     {!oneLiner ? (
@@ -70,7 +82,14 @@ function CartList({
                         {(product.item.price[paymentType] || 0) *
                           product.quantity}{' '}
                         / <small className="text-muted">Cant.: </small>
-                        {product.quantity}
+                        <span
+                          className={classNames({
+                            'text-danger':
+                              product.quantity > product.item.stock,
+                          })}
+                        >
+                          {product.quantity}
+                        </span>
                       </p>
                     )}
                   </span>

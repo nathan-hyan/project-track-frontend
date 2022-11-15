@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Col, Container, Row } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 import { notify } from 'react-notify-toast';
 import { useNavigate } from 'react-router-dom';
 import CartList from 'components/CartList';
@@ -15,9 +15,11 @@ import { CartActions } from 'interfaces/cart';
 import { Product } from 'interfaces/product';
 import { createPurchase } from 'services/purchase';
 import { getTotalPrice } from 'utils/priceUtils';
+import { checkForStock } from 'utils/productUtils';
 import ClientInfo from './components/ClientInfo';
 import PaymentBlock from './components/PaymentBlock';
 import PriceBreakdown from './components/PriceBreakdown';
+import Footer from './components/Footer';
 import { DEFAULT_CLIENT_INFO } from './constants';
 import styles from './styles.module.scss';
 
@@ -97,8 +99,16 @@ function Checkout() {
       });
   };
 
+  const onSave = () => {
+    console.log('To be implemented'); // TODO: Implement
+  };
+
+  const onBudget = () => {
+    console.log('To be implemented'); // TODO: Implement
+  };
+
   return (
-    <Container className={`${styles.container}`}>
+    <Container className={styles.container}>
       <Row>
         <Col>
           <CartList
@@ -125,21 +135,13 @@ function Checkout() {
           <PaymentBlock />
         </Col>
       </Row>
-      <footer className="bg-dark text-white fixed-bottom p-3">
-        <Row>
-          <Col className="d-flex justify-content-end gap-3">
-            <Button disabled variant={`outline-danger`}>
-              Guardar
-            </Button>
-            <Button disabled variant={`outline-primary`}>
-              Presupuesto
-            </Button>
-            <Button disabled={isLoading} variant={`primary`} onClick={onSubmit}>
-              Cobrar
-            </Button>
-          </Col>
-        </Row>
-      </footer>
+      <Footer
+        isLoading={isLoading}
+        hasStock={checkForStock(cartState.products)}
+        onSave={onSave}
+        onBudget={onBudget}
+        onSubmit={onSubmit}
+      />
     </Container>
   );
 }
