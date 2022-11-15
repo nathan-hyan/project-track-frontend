@@ -82,6 +82,10 @@ function Checkout() {
           MESSAGES.success.purchaseComplete,
           NotificationType.Success
         );
+        cartDispatch({
+          type: CartActions.CLEAR_CART,
+          payload: {},
+        });
         navigate(routes[0].path);
       })
       .catch((err) => {
@@ -91,10 +95,6 @@ function Checkout() {
         return;
       })
       .finally(() => {
-        cartDispatch({
-          type: CartActions.CLEAR_CART,
-          payload: {},
-        });
         setIsLoading(false);
       });
   };
