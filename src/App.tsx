@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import Notifications from 'react-notify-toast';
 import { Route, BrowserRouter, Routes } from 'react-router-dom';
 import NavigationBar from 'components/NaviationBar';
 import { ProductProvider } from 'context/products/ProductContext';
@@ -25,7 +24,6 @@ function App() {
 
   return (
     <>
-      <Notifications />
       <ProductProvider>
         <CartProvider>
           <BrowserRouter>

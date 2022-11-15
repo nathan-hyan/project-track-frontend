@@ -1,4 +1,4 @@
-import { CartInitialStateType } from 'constants/cart';
+import { CartInitialStateType, PaymentType } from 'constants/cart';
 import { CartActions } from 'interfaces/cart';
 import { Reducer } from 'react';
 import { Product } from '../../interfaces/product';
@@ -9,8 +9,9 @@ import {
 } from './cartActions';
 
 interface Payload {
-  item: Product;
+  item?: Product;
   quantity?: number;
+  paymentType?: PaymentType;
 }
 export type ActionType = { type: CartActions; payload: Payload };
 
@@ -22,20 +23,36 @@ const productReducer: Reducer<CartInitialStateType, ActionType> = (
     case CartActions.ADD_TO_CART:
       return {
         ...state,
-        cart: addProductToCart(state.cart, action.payload.item),
+        products: addProductToCart(state.products, action.payload.item!),
       };
 
     case CartActions.REMOVE_FROM_CART:
       return {
         ...state,
-        cart: removeProductFromCart(state.cart, action.payload.item),
+        products: removeProductFromCart(state.products, action.payload.item!),
       };
 
     case CartActions.MODIFY_QUANTITY:
       return {
         ...state,
-        cart: modifyQuantityOnProduct(state.cart, action.payload.item, action.payload.quantity)
-      }
+        products: modifyQuantityOnProduct(
+          state.products,
+          action.payload.item!,
+          action.payload.quantity
+        ),
+      };
+
+    case CartActions.CLEAR_CART:
+      return {
+        ...state,
+        products: [],
+      };
+
+    case CartActions.CHANGE_PAYMENT_TYPE:
+      return {
+        ...state,
+        paymentType: action.payload.paymentType!,
+      };
 
     default:
       return state;

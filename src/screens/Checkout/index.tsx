@@ -1,98 +1,142 @@
+import CartList from 'components/CartList';
+import { routes } from 'config/routes';
+import {
+  CartProductForBackend,
+  DEFAULT_STORE_BRANCH,
+  DEFAULT_USER_ID,
+} from 'constants/cart';
+import { MESSAGES, NotificationType } from 'constants/notify';
 import { useCart } from 'context/cart/CartContext';
+import { CartActions } from 'interfaces/cart';
+import { Product } from 'interfaces/product';
+import { useState } from 'react';
 import { Button, Col, Container, Row } from 'react-bootstrap';
+import { notify } from 'react-notify-toast';
+import { useNavigate } from 'react-router-dom';
+import { createPurchase } from 'services/purchase';
+import { getTotalPrice } from 'utils/priceUtils';
+import ClientInfo from './components/ClientInfo';
+import PaymentBlock from './components/PaymentBlock';
+import PriceBreakdown from './components/PriceBreakdown';
+import { DEFAULT_CLIENT_INFO } from './constants';
 import styles from './styles.module.scss';
 
 function Checkout() {
   const { state: cartState, dispatch: cartDispatch } = useCart();
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const handleDeleteProduct = (product: Product) => {
+    return cartDispatch({
+      type: CartActions.REMOVE_FROM_CART,
+      payload: {
+        item: product,
+      },
+    });
+  };
+
+  const handleModifyQuantity = (product: Product, quantity: number) => {
+    return cartDispatch({
+      type: CartActions.MODIFY_QUANTITY,
+      payload: {
+        item: product,
+        quantity,
+      },
+    });
+  };
+
+  const onSubmit = () => {
+    setIsLoading(true);
+    let processedProducts: CartProductForBackend[] = [];
+
+    if (cartState.products.length <= 0) {
+      setIsLoading(false);
+      notify.show(MESSAGES.error.cartCantBeEmpty, NotificationType.error);
+      navigate(routes[1].path);
+      return;
+    }
+    cartState.products.forEach((product) =>
+      processedProducts.push({
+        item: product.item._id!,
+        quantity: product.quantity,
+      })
+    );
+
+    createPurchase({
+      products: processedProducts,
+      amount: {
+        subtotal: getTotalPrice(cartState.products, cartState.paymentType),
+        positiveBalance: 0,
+        negativeBalance: 0,
+        delivery: 0,
+        discount: 0,
+      },
+      paymentType: cartState.paymentType,
+      storeId: DEFAULT_STORE_BRANCH,
+      userId: DEFAULT_USER_ID,
+    })
+      .then(() => {
+        notify.show(
+          MESSAGES.success.purchaseComplete,
+          NotificationType.success
+        );
+        navigate(routes[0].path);
+      })
+      .catch((err) => {
+        notify.show(MESSAGES.error.purchaseFailed, NotificationType.error);
+
+        console.error(err);
+        return;
+      })
+      .finally(() => {
+        cartDispatch({
+          type: CartActions.CLEAR_CART,
+          payload: {},
+        });
+        setIsLoading(false);
+      });
+  };
 
   return (
-    <Container className={styles.container}>
+    <Container className={`${styles.container}`}>
       <Row>
         <Col>
-          {cartState.cart.map((item) => (
-            <p>{item.product.name}</p>
-          ))}
+          <CartList
+            handleModifyQuantity={handleModifyQuantity}
+            products={cartState.products}
+            paymentType={cartState.paymentType}
+            handleDeleteProduct={handleDeleteProduct}
+            oneLiner
+          />
         </Col>
         <Col>
-          <Row>
-            <Col>Subtotal</Col>
-            <Col>
-              <input />
-            </Col>
-          </Row>
-          <Row>
-            <Col>Saldo a favor</Col>
-            <Col>
-              <input />
-            </Col>
-          </Row>
-          <Row>
-            <Col>Saldo deudor</Col>
-            <Col>
-              <input />
-            </Col>
-          </Row>
-          <Row>
-            <Col>Envio</Col>
-            <Col>
-              <input />
-            </Col>
-          </Row>
-          <Row>
-            <Col>Descuento</Col>
-            <Col>
-              <input />
-            </Col>
-          </Row>
-          <Row>
-            <Col>Monto a pagar</Col>
-            <Col>
-              <input />
-            </Col>
-          </Row>
+          <PriceBreakdown
+            subtotal={getTotalPrice(cartState.products, cartState.paymentType)}
+            paymentType={cartState.paymentType}
+          />
         </Col>
       </Row>
+      <hr className="my-5" />
       <Row>
         <Col>
-          <fieldset>
-            <legend>Método de pago</legend>
-            <Row>
-              <Col>
-                <input type="checkbox" name="payment_method" value="cash" />
-                Efectivo
-                <br />
-                <input type="checkbox" name="payment_method" value="debit" />
-                Débito
-                <br />
-                <input type="checkbox" name="payment_method" value="credit" />
-                Crédito
-                <br />
-              </Col>
-              <Col>
-                <input type="checkbox" name="payment_method" value="transfer" />
-                Transferencia
-                <br />
-                <input
-                  type="checkbox"
-                  name="payment_method"
-                  value="mercadopago"
-                />
-                QR MercadoPago
-                <br />
-                <input type="checkbox" name="payment_method" value="mrcredit" />
-                MR Crédito
-                <br />
-              </Col>
-            </Row>
-          </fieldset>
+          <ClientInfo client={DEFAULT_CLIENT_INFO[0]} />
+        </Col>
+        <Col>
+          <PaymentBlock />
         </Col>
       </Row>
       <footer className="bg-dark text-white fixed-bottom p-3">
         <Row>
           <Col className="d-flex justify-content-end gap-3">
-            <Button variant={`outline-danger`}>Guardar</Button>
-            <Button variant={`outline-primary`}>Presupuesto</Button>
-            <Button variant={`primary`}>Cobrar</Button>
+            <Button disabled variant={`outline-danger`}>
+              Guardar
+            </Button>
+            <Button disabled variant={`outline-primary`}>
+              Presupuesto
+            </Button>
+            <Button disabled={isLoading} variant={`primary`} onClick={onSubmit}>
+              Cobrar
+            </Button>
           </Col>
         </Row>
       </footer>

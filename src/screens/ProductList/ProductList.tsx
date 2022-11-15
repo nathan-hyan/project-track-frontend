@@ -74,21 +74,19 @@ function ProductList() {
               <Col>{product.name}</Col>
             </Row>
             <Row>
-              {/* <Col md={2}>{product.category}</Col> */}
-              <Col>
+              <Col md={1}>
                 <p className="m-0">
                   <i>Id: </i>
                   <strong>{String(product.internalId).padStart(4, '0')}</strong>
                 </p>
               </Col>
-              <Col>
+              <Col md={1}>
                 <p className="m-0">
                   <i>Stock: </i>
                   <strong>{product.stock}</strong>
                 </p>
               </Col>
-              {/* <Col >&#0036;{product.cost}</Col> */}
-              <Col>
+              <Col md={3}>
                 <p className="m-0">
                   <i>Cod. barra: </i>
                   <strong>{product.barcode}</strong>
@@ -96,8 +94,26 @@ function ProductList() {
               </Col>
               <Col>
                 <p className="m-0">
-                  <i>Precio unit.: </i>
+                  <i>Costo: </i>
+                  <strong>&#0036;{product.price.cost}</strong>
+                </p>
+              </Col>
+              <Col>
+                <p className="m-0">
+                  <i>Cont.: </i>
+                  <strong>&#0036;{product.price.cash}</strong>
+                </p>
+              </Col>
+              <Col>
+                <p className="m-0">
+                  <i>Lista: </i>
                   <strong>&#0036;{product.price.list}</strong>
+                </p>
+              </Col>
+              <Col>
+                <p className="m-0">
+                  <i>Web: </i>
+                  <strong>&#0036;{product.price.onlineStore}</strong>
                 </p>
               </Col>
               <Col md={1} className="d-flex justify-content-center gap-2">
