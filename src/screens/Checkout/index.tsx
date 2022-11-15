@@ -1,3 +1,7 @@
+import { useState } from 'react';
+import { Button, Col, Container, Row } from 'react-bootstrap';
+import { notify } from 'react-notify-toast';
+import { useNavigate } from 'react-router-dom';
 import CartList from 'components/CartList';
 import { routes } from 'config/routes';
 import {
@@ -9,10 +13,6 @@ import { MESSAGES, NotificationType } from 'constants/notify';
 import { useCart } from 'context/cart/CartContext';
 import { CartActions } from 'interfaces/cart';
 import { Product } from 'interfaces/product';
-import { useState } from 'react';
-import { Button, Col, Container, Row } from 'react-bootstrap';
-import { notify } from 'react-notify-toast';
-import { useNavigate } from 'react-router-dom';
 import { createPurchase } from 'services/purchase';
 import { getTotalPrice } from 'utils/priceUtils';
 import ClientInfo from './components/ClientInfo';
@@ -51,7 +51,7 @@ function Checkout() {
 
     if (cartState.products.length <= 0) {
       setIsLoading(false);
-      notify.show(MESSAGES.error.cartCantBeEmpty, NotificationType.error);
+      notify.show(MESSAGES.error.cartCantBeEmpty, NotificationType.Error);
       navigate(routes[1].path);
       return;
     }
@@ -78,12 +78,12 @@ function Checkout() {
       .then(() => {
         notify.show(
           MESSAGES.success.purchaseComplete,
-          NotificationType.success
+          NotificationType.Success
         );
         navigate(routes[0].path);
       })
       .catch((err) => {
-        notify.show(MESSAGES.error.purchaseFailed, NotificationType.error);
+        notify.show(MESSAGES.error.purchaseFailed, NotificationType.Error);
 
         console.error(err);
         return;

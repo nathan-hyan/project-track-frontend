@@ -1,20 +1,23 @@
-import { ChangeEventHandler, useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import { Button, Form, Col, Container, Row } from 'react-bootstrap';
 import { notify } from 'react-notify-toast';
+import { useNavigate } from 'react-router-dom';
+import classNames from 'classnames';
 import ProductContext from 'context/products/ProductContext';
 import { useCart } from 'context/cart/CartContext';
-import { getProducts } from 'services/products';
-import ControlPanel from 'screens/ProductList/components/ControlPanel';
+import { routes } from 'config/routes';
 import LoadingSpinner from 'components/LoadingSpinner';
+import ControlPanel from 'components/ControlPanel';
+import { PaymentType } from 'constants/cart';
+import { MESSAGES, NotificationType } from 'constants/notify';
+import { Variants } from 'constants/bootstrapVariants';
+import { getProducts } from 'services/products';
 import { Product, ProductActions } from 'interfaces/product';
 import { CartActions } from 'interfaces/cart';
+import { getTotalPrice } from 'utils/priceUtils';
 import ProductList from './components/ProductList';
 import CartList from '../../components/CartList';
-import { useNavigate } from 'react-router-dom';
-import { routes } from 'config/routes';
-import { getTotalPrice } from 'utils/priceUtils';
 import { OPTIONS } from './constants';
-import { PaymentType } from 'constants/cart';
 
 function SplitCart() {
   const { state, dispatch } = useContext(ProductContext);
@@ -35,8 +38,8 @@ function SplitCart() {
       })
       .catch(() => {
         notify.show(
-          'Ocurrió un error trayendo los productos. Por favor, reintente.',
-          'error'
+          MESSAGES.error.productsCantBeFetched,
+          NotificationType.Error
         );
         dispatch({
           type: ProductActions.CLEAR_LOADING,
@@ -94,8 +97,6 @@ function SplitCart() {
 
   const hasProducts = cartState.products.length > 0;
 
-  console.log(cartState);
-
   return (
     <Container fluid>
       <ControlPanel noAddButton />
@@ -138,7 +139,11 @@ function SplitCart() {
             </Form.Select>
           </Col>
           <Col>
-            <p className={`lead d-inline ${!hasProducts && 'text-muted'}`}>
+            <p
+              className={classNames('lead', 'd-inline', {
+                'text-muted': !hasProducts,
+              })}
+            >
               Precio total: $
               {getTotalPrice(cartState.products, cartState.paymentType)}
             </p>
@@ -146,14 +151,16 @@ function SplitCart() {
           <Col className="d-flex justify-content-end gap-3">
             <Button
               disabled={!hasProducts}
-              variant={`${!hasProducts ? 'outline-' : ''}danger`}
+              variant={hasProducts ? Variants.Danger : Variants.OutlinedDanger}
               onClick={handleClearCart}
             >
               Limpiar carrito
             </Button>
             <Button
               disabled={!hasProducts}
-              variant={`${!hasProducts ? 'outline-' : ''}primary`}
+              variant={
+                hasProducts ? Variants.Primary : Variants.OutlinedPrimary
+              }
               onClick={goToCheckout}
             >
               {hasProducts
@@ -166,4 +173,5 @@ function SplitCart() {
     </Container>
   );
 }
+
 export default SplitCart;

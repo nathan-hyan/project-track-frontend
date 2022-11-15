@@ -1,8 +1,8 @@
 export enum NotificationType {
-  success = 'success',
-  error = 'error',
-  warning = 'warning',
-  custom = 'custom',
+  Success = 'success',
+  Error = 'error',
+  Warning = 'warning',
+  Custom = 'custom',
 }
 
 const PLEASE_RETRY = 'Por favor, reintente o contacte un administrador.';

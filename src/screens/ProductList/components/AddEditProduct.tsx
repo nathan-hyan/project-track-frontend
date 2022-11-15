@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useContext, useEffect } from 'react';
 import { Form, Modal } from 'react-bootstrap';
 import { notify } from 'react-notify-toast';
@@ -44,7 +43,7 @@ function AddEditProduct({ showModal, closeModal, product }: Props) {
     );
 
     setValue('category', product ? product.category : emptyProduct.category);
-  }, [product]);
+  }, [product, setValue]);
 
   const handleModalClose = () => {
     reset(emptyProduct);
@@ -67,7 +66,7 @@ function AddEditProduct({ showModal, closeModal, product }: Props) {
         !!product
           ? MESSAGES.success.productModified
           : MESSAGES.success.productCreated,
-        NotificationType.success
+        NotificationType.Success
       );
 
       getProducts()
@@ -81,7 +80,7 @@ function AddEditProduct({ showModal, closeModal, product }: Props) {
         .catch(() => {
           notify.show(
             MESSAGES.error.productsCantBeFetched,
-            NotificationType.error
+            NotificationType.Error
           );
           dispatch({ type: ProductActions.CLEAR_LOADING });
         });
@@ -90,7 +89,7 @@ function AddEditProduct({ showModal, closeModal, product }: Props) {
         !!product
           ? MESSAGES.error.productNotCreated
           : MESSAGES.error.productNotModified,
-        NotificationType.error
+        NotificationType.Error
       );
       dispatch({ type: ProductActions.CLEAR_LOADING });
     }

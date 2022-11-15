@@ -4,10 +4,10 @@ import { notify } from 'react-notify-toast';
 import { Product, ProductActions } from 'interfaces/product';
 import { deleteProduct, getProducts } from 'services/products';
 import ProductContext from 'context/products/ProductContext';
-import ControlPanel from './components/ControlPanel';
+import { MESSAGES, NotificationType } from 'constants/notify';
+import ControlPanel from 'components/ControlPanel';
 import ProductItem from './components/ProductItem';
 import AddEditProduct from './components/AddEditProduct';
-import { MESSAGES, NotificationType } from 'constants/notify';
 
 function ProductList() {
   const { state, dispatch } = useContext(ProductContext);
@@ -40,7 +40,7 @@ function ProductList() {
         .then(() => {
           notify.show(
             MESSAGES.success.productDeleted,
-            NotificationType.success
+            NotificationType.Success
           );
           getProducts().then(({ data: { response: productData } }) => {
             return dispatch({
@@ -50,7 +50,7 @@ function ProductList() {
           });
         })
         .catch(() =>
-          notify.show(MESSAGES.error.productNotDeleted, NotificationType.error)
+          notify.show(MESSAGES.error.productNotDeleted, NotificationType.Error)
         );
     }
   };
@@ -66,6 +66,7 @@ function ProductList() {
       <ListGroup className="mt-3">
         {state.products?.map((product: Product) => (
           <ProductItem
+            key={product._id}
             product={product}
             handleEdit={handleEdit}
             handleDelete={handleDelete}

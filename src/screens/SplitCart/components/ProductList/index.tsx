@@ -1,5 +1,6 @@
-import { Product } from 'interfaces/product';
+import classNames from 'classnames';
 import { Container, ListGroup } from 'react-bootstrap';
+import { Product } from 'interfaces/product';
 import styles from './styles.module.scss';
 
 interface Props {
@@ -8,11 +9,11 @@ interface Props {
 }
 
 function ProductList({ products, handleAddToCart }: Props) {
-  const HAS_PRODUCTS = products && products?.length >= 1;
+  const hasProduct = products && products?.length >= 1;
 
   return (
     <Container fluid className={styles.container}>
-      {HAS_PRODUCTS ? (
+      {hasProduct ? (
         <>
           <ListGroup>
             {products?.map((product) => (
@@ -21,7 +22,14 @@ function ProductList({ products, handleAddToCart }: Props) {
                 key={product._id}
                 onClick={() => handleAddToCart(product)}
               >
-                <p className="small m-0">{product.name}</p>
+                <p
+                  className={classNames('small', 'm-0', {
+                    'text-muted': product.stock < 1,
+                    'text-decoration-line-through': product.stock < 1,
+                  })}
+                >
+                  {product.name}
+                </p>
               </ListGroup.Item>
             ))}
           </ListGroup>
