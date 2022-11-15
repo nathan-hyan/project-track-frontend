@@ -11,7 +11,8 @@ function ClientInfo({ client }: Props) {
       <Row className="border">
         <Col className="py-2">
           <p className="p-0 m-0">
-            {client.name}{' '}
+            {client.name}
+            {' '}
             <small className="text-muted">{client.enterprise}</small>
           </p>
         </Col>

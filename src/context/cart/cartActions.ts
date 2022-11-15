@@ -3,49 +3,49 @@ import { Product } from 'interfaces/product';
 
 export function removeProductFromCart(
   cart: CartProduct[],
-  productToDelete: Product
+  productToDelete: Product,
 ): CartProduct[] {
   const filteredCart = cart.filter(
-    (product) => product.item._id !== productToDelete._id
+    (product) => product.item._id !== productToDelete._id,
   );
   return filteredCart;
 }
 
 export function addProductToCart(
   cart: CartProduct[],
-  productToAdd: Product
+  productToAdd: Product,
 ): CartProduct[] {
   const currentProductExist = cart.find(
-    (product) => product.item._id === productToAdd._id
+    (product) => product.item._id === productToAdd._id,
   );
 
   if (currentProductExist) {
     return cart;
-  } else {
-    const cartProduct: CartProduct = { item: productToAdd, quantity: 1 };
-    return [...cart, cartProduct];
   }
+  const cartProduct: CartProduct = { item: productToAdd, quantity: 1 };
+  return [...cart, cartProduct];
 }
 
 export function modifyQuantityOnProduct(
   cart: CartProduct[],
   productToModify: Product,
-  quantity?: number
+  quantity?: number,
 ): CartProduct[] {
+  const newCart = cart;
+
   if (!quantity) {
-    return cart;
+    return newCart;
   }
 
-  const product = cart.find(
-    (product) => product.item._id === productToModify._id
+  const product = newCart.find(
+    (currentProduct) => currentProduct.item._id === productToModify._id,
   );
 
   if (product) {
-    const INDEX = cart.indexOf(product);
+    const INDEX = newCart.indexOf(product);
     product.quantity = quantity;
-    cart[INDEX] = product;
-    return cart;
-  } else {
-    return cart;
+    newCart[INDEX] = product;
+    return newCart;
   }
+  return newCart;
 }

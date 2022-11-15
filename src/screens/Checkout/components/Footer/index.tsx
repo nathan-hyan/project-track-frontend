@@ -1,4 +1,4 @@
-import { Row, Col, Button } from 'react-bootstrap';
+import { Button, Col, Row } from 'react-bootstrap';
 import { Variants } from 'constants/bootstrapVariants';
 
 interface Props {
@@ -9,7 +9,9 @@ interface Props {
   onSave: () => void;
 }
 
-function Footer({ isLoading, onSubmit, onBudget, onSave, hasStock }: Props) {
+function Footer({
+  isLoading, onSubmit, onBudget, onSave, hasStock,
+}: Props) {
   return (
     <footer className="bg-dark text-white fixed-bottom p-3">
       <Row>

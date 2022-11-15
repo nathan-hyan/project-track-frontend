@@ -1,12 +1,15 @@
-import { createContext, Dispatch, useContext, useReducer } from 'react';
+import {
+  createContext, Dispatch, ReactNode, useContext, useMemo, useReducer,
+} from 'react';
 import {
   cartInitialState,
   CartInitialStateType,
 } from 'constants/cart';
+
 import CartReducer, { ActionType } from './CartReducer';
 
 interface Props {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 interface Store {
@@ -24,8 +27,10 @@ const CartContext = createContext<Store>(contextStore);
 export function CartProvider({ children }: Props) {
   const [state, dispatch] = useReducer(CartReducer, cartInitialState);
 
+  const value = useMemo(() => ({ state, dispatch }), [state]);
+
   return (
-    <CartContext.Provider value={{ state, dispatch }}>
+    <CartContext.Provider value={value}>
       {children}
     </CartContext.Provider>
   );

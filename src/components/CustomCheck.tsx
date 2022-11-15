@@ -1,4 +1,4 @@
-import { Form } from "react-bootstrap"
+import { Form } from 'react-bootstrap';
 
 interface Props {
     id: string;
@@ -10,13 +10,16 @@ interface Props {
     onChange: (type: any) => void;
 }
 
-function CustomCheck({id, name, value, checked, label, inline, onChange}: Props) {
+function CustomCheck({
+  id, name, value, checked, label, inline, onChange,
+}: Props) {
   return (
-<div>
-      <Form.Check type='radio' id={id} inline={inline}>
-        <Form.Check.Input type='radio' checked={checked} name={name} onChange={(e) => onChange(value)}/>
+    <div>
+      <Form.Check type="radio" id={id} inline={inline}>
+        <Form.Check.Input type="radio" checked={checked} name={name} onChange={() => onChange(value)} />
         <Form.Check.Label>{label}</Form.Check.Label>
       </Form.Check>
-    </div>  )
+    </div>
+  );
 }
-export default CustomCheck
+export default CustomCheck;

@@ -1,25 +1,25 @@
 import { useContext, useEffect, useState } from 'react';
 import { Container, ListGroup } from 'react-bootstrap';
 import { notify } from 'react-notify-toast';
+import { MESSAGES, NotificationType } from 'constants/notify';
+import ProductContext from 'context/products/ProductContext';
 import { Product, ProductActions } from 'interfaces/product';
 import { deleteProduct, getProducts } from 'services/products';
-import ProductContext from 'context/products/ProductContext';
-import { MESSAGES, NotificationType } from 'constants/notify';
+
 import ControlPanel from 'components/ControlPanel';
-import ProductItem from './components/ProductItem';
+
 import AddEditProduct from './components/AddEditProduct';
+import ProductItem from './components/ProductItem';
 
 function ProductList() {
   const { state, dispatch } = useContext(ProductContext);
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    getProducts().then(({ data: { response: productData } }) => {
-      return dispatch({
-        type: ProductActions.GET_ALL,
-        payload: { productData },
-      });
-    });
+    getProducts().then(({ data: { response: productData } }) => dispatch({
+      type: ProductActions.GET_ALL,
+      payload: { productData },
+    }));
   }, [dispatch]);
 
   const handleModalClose = () => {
@@ -40,18 +40,14 @@ function ProductList() {
         .then(() => {
           notify.show(
             MESSAGES.success.productDeleted,
-            NotificationType.Success
+            NotificationType.Success,
           );
-          getProducts().then(({ data: { response: productData } }) => {
-            return dispatch({
-              type: ProductActions.GET_ALL,
-              payload: { productData },
-            });
-          });
+          getProducts().then(({ data: { response: productData } }) => dispatch({
+            type: ProductActions.GET_ALL,
+            payload: { productData },
+          }));
         })
-        .catch(() =>
-          notify.show(MESSAGES.error.productNotDeleted, NotificationType.Error)
-        );
+        .catch(() => notify.show(MESSAGES.error.productNotDeleted, NotificationType.Error));
     }
   };
 

@@ -1,7 +1,9 @@
-import InfoInput from './components/InfoInput';
-import { INPUTS } from '../../constants';
 import { useState } from 'react';
 import { PaymentType } from 'constants/cart';
+
+import { INPUTS } from '../../constants';
+
+import InfoInput from './components/InfoInput';
 
 interface Props {
   subtotal: number;

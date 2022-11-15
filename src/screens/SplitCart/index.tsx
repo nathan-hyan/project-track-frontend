@@ -1,22 +1,27 @@
 import { useContext, useEffect } from 'react';
-import { Button, Form, Col, Container, Row } from 'react-bootstrap';
+import {
+  Button, Col, Container, Form, Row,
+} from 'react-bootstrap';
 import { notify } from 'react-notify-toast';
 import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
-import ProductContext from 'context/products/ProductContext';
-import { useCart } from 'context/cart/CartContext';
 import { routes } from 'config/routes';
-import LoadingSpinner from 'components/LoadingSpinner';
-import ControlPanel from 'components/ControlPanel';
+import { Variants } from 'constants/bootstrapVariants';
 import { PaymentType } from 'constants/cart';
 import { MESSAGES, NotificationType } from 'constants/notify';
-import { Variants } from 'constants/bootstrapVariants';
-import { getProducts } from 'services/products';
-import { Product, ProductActions } from 'interfaces/product';
+import { useCart } from 'context/cart/CartContext';
+import ProductContext from 'context/products/ProductContext';
 import { CartActions } from 'interfaces/cart';
+import { Product, ProductActions } from 'interfaces/product';
+import { getProducts } from 'services/products';
 import { getTotalPrice } from 'utils/priceUtils';
-import ProductList from './components/ProductList';
+
+import ControlPanel from 'components/ControlPanel';
+import LoadingSpinner from 'components/LoadingSpinner';
+
 import CartList from '../../components/CartList';
+
+import ProductList from './components/ProductList';
 import { OPTIONS } from './constants';
 
 function SplitCart() {
@@ -30,16 +35,14 @@ function SplitCart() {
     }
 
     getProducts()
-      .then(({ data: { response: productData } }) => {
-        return dispatch({
-          type: ProductActions.GET_ALL,
-          payload: { productData },
-        });
-      })
+      .then(({ data: { response: productData } }) => dispatch({
+        type: ProductActions.GET_ALL,
+        payload: { productData },
+      }))
       .catch(() => {
         notify.show(
           MESSAGES.error.productsCantBeFetched,
-          NotificationType.Error
+          NotificationType.Error,
         );
         dispatch({
           type: ProductActions.CLEAR_LOADING,
@@ -47,42 +50,34 @@ function SplitCart() {
       });
   }, [dispatch, state.products, state.searchQuery]);
 
-  const handleAddToCart = (product: Product) => {
-    return cartDispatch({
-      type: CartActions.ADD_TO_CART,
-      payload: {
-        item: product,
-      },
-    });
-  };
+  const handleAddToCart = (product: Product) => cartDispatch({
+    type: CartActions.ADD_TO_CART,
+    payload: {
+      item: product,
+    },
+  });
 
-  const handleDeleteProduct = (product: Product) => {
-    return cartDispatch({
-      type: CartActions.REMOVE_FROM_CART,
-      payload: {
-        item: product,
-      },
-    });
-  };
+  const handleDeleteProduct = (product: Product) => cartDispatch({
+    type: CartActions.REMOVE_FROM_CART,
+    payload: {
+      item: product,
+    },
+  });
 
-  const handleModifyQuantity = (product: Product, quantity: number) => {
-    return cartDispatch({
-      type: CartActions.MODIFY_QUANTITY,
-      payload: {
-        item: product,
-        quantity,
-      },
-    });
-  };
+  const handleModifyQuantity = (product: Product, quantity: number) => cartDispatch({
+    type: CartActions.MODIFY_QUANTITY,
+    payload: {
+      item: product,
+      quantity,
+    },
+  });
 
-  const handleChangePaymentType = (paymentType: PaymentType) => {
-    return cartDispatch({
-      type: CartActions.CHANGE_PAYMENT_TYPE,
-      payload: {
-        paymentType,
-      },
-    });
-  };
+  const handleChangePaymentType = (paymentType: PaymentType) => cartDispatch({
+    type: CartActions.CHANGE_PAYMENT_TYPE,
+    payload: {
+      paymentType,
+    },
+  });
 
   const handleClearCart = () => {
     cartDispatch({
@@ -126,9 +121,7 @@ function SplitCart() {
             <Form.Select
               required
               value={cartState.paymentType}
-              onChange={(e) =>
-                handleChangePaymentType(e.target.value as PaymentType)
-              }
+              onChange={(e) => handleChangePaymentType(e.target.value as PaymentType)}
             >
               <option>Open this select menu</option>
               {OPTIONS.map((currentOption) => (

@@ -1,7 +1,9 @@
-import { ProductInitialStateType } from 'constants/products';
 import { Reducer } from 'react';
+import { ProductInitialStateType } from 'constants/products';
 import { SearchType } from 'screens/ProductList/components/constants';
+
 import { Product, ProductActions } from '../../interfaces/product';
+
 import { filterProducts } from './ProductActions';
 
 interface Payload {
@@ -14,7 +16,7 @@ export type ActionType = { type: ProductActions; payload?: Payload };
 
 const productReducer: Reducer<ProductInitialStateType, ActionType> = (
   state,
-  action
+  action,
 ) => {
   switch (action.type) {
     case ProductActions.SET_LOADING:
@@ -45,17 +47,16 @@ const productReducer: Reducer<ProductInitialStateType, ActionType> = (
 
     case ProductActions.FILTER_WRITE:
       return { ...state, searchQuery: action.payload?.searchQuery! };
-      
-      case ProductActions.FILTER_CHANGE_TYPE:
-        return { ...state, searchType: action.payload?.searchType! };
 
+    case ProductActions.FILTER_CHANGE_TYPE:
+      return { ...state, searchType: action.payload?.searchType! };
 
     case ProductActions.CLEAR_FILTER:
       return {
         ...state,
         products: state.fullProductList,
         searchQuery: '',
-        searchType: SearchType.PRODUCT_ID
+        searchType: SearchType.PRODUCT_ID,
       };
     case ProductActions.OPEN_EDIT:
       return {

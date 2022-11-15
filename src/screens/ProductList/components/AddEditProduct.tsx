@@ -1,17 +1,20 @@
 import { useContext, useEffect } from 'react';
 import { Form, Modal } from 'react-bootstrap';
-import { notify } from 'react-notify-toast';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { notify } from 'react-notify-toast';
 import { faSave, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
-import ButtonWithIcon, { ButtonTypes } from 'components/ButtonWithIcon';
-import FormInput from 'components/FormInput';
 import { Variants } from 'constants/bootstrapVariants';
+import { ButtonTypes } from 'constants/global';
 import { MESSAGES, NotificationType } from 'constants/notify';
 import { emptyProduct } from 'constants/products';
 import ProductContext from 'context/products/ProductContext';
 import { Product, ProductActions } from 'interfaces/product';
 import { createProduct, editProduct, getProducts } from 'services/products';
-import { PriceInputName, PRICE_FORM, PRODUCT_FORM } from './constants';
+
+import ButtonWithIcon from 'components/ButtonWithIcon';
+import FormInput from 'components/FormInput';
+
+import { PRICE_FORM, PriceInputName, PRODUCT_FORM } from './constants';
 
 interface Props {
   showModal: boolean;
@@ -25,22 +28,20 @@ function AddEditProduct({ showModal, closeModal, product }: Props) {
     state: { loading },
   } = useContext(ProductContext);
 
-  const { handleSubmit, control, reset, setValue } = useForm<Product>();
+  const {
+    handleSubmit, control, reset, setValue,
+  } = useForm<Product>();
 
   useEffect(() => {
-    PRODUCT_FORM.map((input) =>
-      setValue(
-        input.name,
-        product ? product[input.name] : emptyProduct[input.name]
-      )
-    );
+    PRODUCT_FORM.map((input) => setValue(
+      input.name,
+      product ? product[input.name] : emptyProduct[input.name],
+    ));
 
-    PRICE_FORM.map((input) =>
-      setValue(
-        `price.${input.name as PriceInputName}`,
-        product ? product.price[input.name] : emptyProduct.price[input.name]
-      )
-    );
+    PRICE_FORM.map((input) => setValue(
+      `price.${input.name as PriceInputName}`,
+      product ? product.price[input.name] : emptyProduct.price[input.name],
+    ));
 
     setValue('category', product ? product.category : emptyProduct.category);
   }, [product, setValue]);
@@ -58,15 +59,17 @@ function AddEditProduct({ showModal, closeModal, product }: Props) {
     dispatch({ type: ProductActions.SET_LOADING });
 
     try {
-      !!product
-        ? await editProduct({ ...data, _id: product._id })
-        : await createProduct(data);
+      if (product) {
+        await editProduct({ ...data, _id: product._id });
+      } else {
+        await createProduct(data);
+      }
 
       notify.show(
-        !!product
+        product
           ? MESSAGES.success.productModified
           : MESSAGES.success.productCreated,
-        NotificationType.Success
+        NotificationType.Success,
       );
 
       getProducts()
@@ -80,16 +83,16 @@ function AddEditProduct({ showModal, closeModal, product }: Props) {
         .catch(() => {
           notify.show(
             MESSAGES.error.productsCantBeFetched,
-            NotificationType.Error
+            NotificationType.Error,
           );
           dispatch({ type: ProductActions.CLEAR_LOADING });
         });
     } catch (err) {
       notify.show(
-        !!product
+        product
           ? MESSAGES.error.productNotCreated
           : MESSAGES.error.productNotModified,
-        NotificationType.Error
+        NotificationType.Error,
       );
       dispatch({ type: ProductActions.CLEAR_LOADING });
     }
@@ -100,7 +103,7 @@ function AddEditProduct({ showModal, closeModal, product }: Props) {
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Modal.Header closeButton>
           <Modal.Title>
-            {!!product ? 'Editar producto' : 'Crear producto'}
+            {product ? 'Editar producto' : 'Crear producto'}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
