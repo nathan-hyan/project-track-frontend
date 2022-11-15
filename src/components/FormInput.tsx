@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import { ChangeEventHandler, forwardRef } from 'react';
 import { Form } from 'react-bootstrap';
 
 export enum InputType {
@@ -13,9 +13,8 @@ interface Props {
   value?: string | number;
   subtext?: string;
   placeholder?: string;
-  validation?: boolean;
   invalidText?: string;
-  onChange: React.ChangeEventHandler<HTMLInputElement>;
+  onChange: ChangeEventHandler<HTMLInputElement>;
   type: InputType;
 }
 
@@ -30,31 +29,28 @@ const FormInput = forwardRef<HTMLInputElement, Props>(
       placeholder,
       onChange,
       invalidText,
-      validation,
       ...props
     },
-    ref
-  ) => {
-    return (
-      <Form.Group className="mb-3" controlId={`${name}-field`}>
-        <Form.Label>{label}</Form.Label>
-        <Form.Control
-          type={type}
-          placeholder={placeholder}
-          onChange={onChange}
-          name={name}
-          value={value}
-          ref={ref}
-          required
-          {...props}
-        />
-        <Form.Control.Feedback type="invalid">
-          {invalidText ?? 'Verifique el campo antes de continuar'}
-        </Form.Control.Feedback>
-        {subtext && <Form.Text className="text-muted">{subtext}</Form.Text>}
-      </Form.Group>
-    );
-  }
+    ref,
+  ) => (
+    <Form.Group className="mb-3" controlId={`${name}-field`}>
+      <Form.Label>{label}</Form.Label>
+      <Form.Control
+        type={type}
+        placeholder={placeholder}
+        onChange={onChange}
+        name={name}
+        value={value}
+        ref={ref}
+        required
+        {...props}
+      />
+      <Form.Control.Feedback type="invalid">
+        {invalidText ?? 'Verifique el campo antes de continuar'}
+      </Form.Control.Feedback>
+      {subtext && <Form.Text className="text-muted">{subtext}</Form.Text>}
+    </Form.Group>
+  ),
 );
 
 export default FormInput;

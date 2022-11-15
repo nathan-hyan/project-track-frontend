@@ -1,7 +1,9 @@
+import { Reducer } from 'react';
 import { CartInitialStateType, PaymentType } from 'constants/cart';
 import { CartActions } from 'interfaces/cart';
-import { Reducer } from 'react';
+
 import { Product } from '../../interfaces/product';
+
 import {
   addProductToCart,
   modifyQuantityOnProduct,
@@ -17,7 +19,7 @@ export type ActionType = { type: CartActions; payload: Payload };
 
 const productReducer: Reducer<CartInitialStateType, ActionType> = (
   state,
-  action
+  action,
 ) => {
   switch (action.type) {
     case CartActions.ADD_TO_CART:
@@ -38,7 +40,7 @@ const productReducer: Reducer<CartInitialStateType, ActionType> = (
         products: modifyQuantityOnProduct(
           state.products,
           action.payload.item!,
-          action.payload.quantity
+          action.payload.quantity,
         ),
       };
 

@@ -7,8 +7,8 @@ interface LoginBody {
   password: string;
 }
 
-export const login = (DNI: number, password: string) =>
-  api.post<LoginBody>(`${BASE_URL}/login`, { DNI, password });
+export const login = (DNI: number, password: string) => api.post<LoginBody>(`${BASE_URL}/login`, { DNI, password });
 
-export const getSingleProduct = (id: string) =>
-  api.get(`${BASE_URL}/get/${id}`).then((response) => console.log(response)); // TODO: Remove console log
+// TODO: Remove console log
+// eslint-disable-next-line no-console
+export const getSingleProduct = (id: string) => api.get(`${BASE_URL}/get/${id}`).then((response) => console.log(response));

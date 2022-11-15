@@ -1,12 +1,8 @@
 import { CartProductForBackend, Payment, Purchase } from 'constants/cart';
+
 import api from '../config/api';
 
 const BASE_URL = '/sells';
-
-export interface CreatePurchaseResponse {
-  success: boolean;
-  data: Data;
-}
 
 export interface Data {
   amount: Payment;
@@ -18,6 +14,9 @@ export interface Data {
   updatedAt: string;
   __v: number;
 }
+export interface CreatePurchaseResponse {
+  success: boolean;
+  data: Data;
+}
 
-export const createPurchase = (purchase: Purchase) =>
-  api.post<Purchase, CreatePurchaseResponse>(`${BASE_URL}/create`, purchase);
+export const createPurchase = (purchase: Purchase) => api.post<Purchase, CreatePurchaseResponse>(`${BASE_URL}/create`, purchase);

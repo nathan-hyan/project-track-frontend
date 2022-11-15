@@ -1,9 +1,11 @@
-import { ListGroup, Row, Col } from 'react-bootstrap';
-import classNames from 'classnames';
+import { Col, ListGroup, Row } from 'react-bootstrap';
 import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
-import ButtonWithIcon from 'components/ButtonWithIcon';
+import classNames from 'classnames';
 import { Variants } from 'constants/bootstrapVariants';
 import { Product } from 'interfaces/product';
+
+import ButtonWithIcon from 'components/ButtonWithIcon';
+
 import styles from './styles.module.scss';
 
 interface Props {
@@ -49,25 +51,37 @@ function ProductItem({ product, handleEdit, handleDelete }: Props) {
         <Col>
           <p className={classNames('m-0', { 'text-muted': hasNoProducts })}>
             <i>Costo: </i>
-            <strong>&#0036;{product.price.cost}</strong>
+            <strong>
+              &#0036;
+              {product.price.cost}
+            </strong>
           </p>
         </Col>
         <Col>
           <p className={classNames('m-0', { 'text-muted': hasNoProducts })}>
             <i>Cont.: </i>
-            <strong>&#0036;{product.price.cash}</strong>
+            <strong>
+              &#0036;
+              {product.price.cash}
+            </strong>
           </p>
         </Col>
         <Col>
           <p className={classNames('m-0', { 'text-muted': hasNoProducts })}>
             <i>Lista: </i>
-            <strong>&#0036;{product.price.list}</strong>
+            <strong>
+              &#0036;
+              {product.price.list}
+            </strong>
           </p>
         </Col>
         <Col>
           <p className={classNames('m-0', { 'text-muted': hasNoProducts })}>
             <i>Web: </i>
-            <strong>&#0036;{product.price.onlineStore}</strong>
+            <strong>
+              &#0036;
+              {product.price.onlineStore}
+            </strong>
           </p>
         </Col>
         <Col md={1} className="d-flex justify-content-center gap-2">
@@ -79,7 +93,7 @@ function ProductItem({ product, handleEdit, handleDelete }: Props) {
           <ButtonWithIcon
             onClick={() => handleDelete(product._id)}
             icon={faTrash}
-            label={''}
+            label=""
             variant={Variants.Danger}
             small
           />

@@ -1,13 +1,18 @@
-import { Row, Col, Form, InputGroup } from 'react-bootstrap';
+import { ChangeEventHandler } from 'react';
+import {
+  Col, Form, InputGroup, Row,
+} from 'react-bootstrap';
 
 interface Props {
   label: string;
   value?: string | number | string[];
   disabled?: boolean;
-  onChange?: React.ChangeEventHandler<HTMLInputElement>;
+  onChange?: ChangeEventHandler<HTMLInputElement>;
 }
 
-function InfoInput({ label, value, disabled, onChange }: Props) {
+function InfoInput({
+  label, value, disabled, onChange,
+}: Props) {
   return (
     <Row>
       <Col>

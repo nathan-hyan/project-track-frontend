@@ -1,10 +1,13 @@
-import { Button, Col, Container, ListGroup, Row } from 'react-bootstrap';
-import classNames from 'classnames';
+import {
+  Button, Col, Container, ListGroup, Row,
+} from 'react-bootstrap';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { CartProduct, PaymentType } from 'constants/cart';
+import classNames from 'classnames';
 import { Variants } from 'constants/bootstrapVariants';
+import { CartProduct, PaymentType } from 'constants/cart';
 import { Product } from 'interfaces/product';
+
 import styles from './styles.module.scss';
 
 interface Props {
@@ -33,87 +36,98 @@ function CartList({
   return (
     <Container fluid className={styles.container}>
       {hasProducts ? (
-        <>
-          <ListGroup className="w-100">
-            {products?.map((product) => (
-              <ListGroup.Item key={product.item._id} as={Row} className="w-100">
-                <Col>
-                  <span className="d-flex justify-content-between">
-                    <p
-                      className={classNames(
-                        'text-truncate',
-                        'w-50',
-                        'm-0',
-                        'p-0',
-                        {
-                          'text-decoration-line-through text-muted':
+        <ListGroup className="w-100">
+          {products?.map((product) => (
+            <ListGroup.Item key={product.item._id} as={Row} className="w-100">
+              <Col>
+                <span className="d-flex justify-content-between">
+                  <p
+                    className={classNames(
+                      'text-truncate',
+                      'w-50',
+                      'm-0',
+                      'p-0',
+                      {
+                        'text-decoration-line-through text-muted':
                             product.item.stock < 1,
-                        }
-                      )}
-                    >
-                      {product.item.name}
-                    </p>
-                    {!oneLiner ? (
-                      <div className="d-flex gap-3">
-                        <p className="m-0 p-0">
-                          {'('}
-                          <input
-                            className={`text-muted ${styles.input}`}
-                            value={product.quantity}
-                            onChange={(e) => handleOnChange(e, product.item)}
-                            type="number"
-                            max={product.item.stock}
-                            min={1}
-                          />{' '}
-                          / {product.item.stock}
-                          {')'}
-                        </p>
-                        <Button
-                          variant={Variants.Danger}
-                          onClick={() => handleDeleteProduct(product.item)}
-                          size="sm"
-                        >
-                          <FontAwesomeIcon icon={faTrash} />
-                        </Button>
-                      </div>
-                    ) : (
-                      <p className="m-0 p-0">
-                        <small className="text-muted">Precio total: </small>$
-                        {(product.item.price[paymentType] || 0) *
-                          product.quantity}{' '}
-                        / <small className="text-muted">Cant.: </small>
-                        <span
-                          className={classNames({
-                            'text-danger':
-                              product.quantity > product.item.stock,
-                          })}
-                        >
-                          {product.quantity}
-                        </span>
-                      </p>
+                      },
                     )}
-                  </span>
-                </Col>
-                {!oneLiner && (
-                  <Col className={styles.separation}>
+                  >
+                    {product.item.name}
+                  </p>
+                  {!oneLiner ? (
+                    <div className="d-flex gap-3">
+                      <p className="m-0 p-0">
+                        (
+                        <input
+                          className={`text-muted ${styles.input}`}
+                          value={product.quantity}
+                          onChange={(e) => handleOnChange(e, product.item)}
+                          type="number"
+                          max={product.item.stock}
+                          min={1}
+                        />
+                        {' '}
+                        /
+                        {' '}
+                        {product.item.stock}
+                        )
+                      </p>
+                      <Button
+                        variant={Variants.Danger}
+                        onClick={() => handleDeleteProduct(product.item)}
+                        size="sm"
+                      >
+                        <FontAwesomeIcon icon={faTrash} />
+                      </Button>
+                    </div>
+                  ) : (
                     <p className="m-0 p-0">
-                      <small className="text-muted">Precio unit.: </small>$
-                      {product.item.price[paymentType] || 0} /{' '}
-                      <small className="text-muted">Precio total: </small>$
-                      {(product.item.price[paymentType] || 0) *
-                        product.quantity}{' '}
-                      {product.item.stock < 1 && (
-                        <small className="text-danger fst-italic">
-                          SIN STOCK
-                        </small>
-                      )}
+                      <small className="text-muted">Precio total: </small>
+                      $
+                      {(product.item.price[paymentType] || 0)
+                          * product.quantity}
+                      {' '}
+                      /
+                      {' '}
+                      <small className="text-muted">Cant.: </small>
+                      <span
+                        className={classNames({
+                          'text-danger':
+                              product.quantity > product.item.stock,
+                        })}
+                      >
+                        {product.quantity}
+                      </span>
                     </p>
-                  </Col>
-                )}
-              </ListGroup.Item>
-            ))}
-          </ListGroup>
-        </>
+                  )}
+                </span>
+              </Col>
+              {!oneLiner && (
+              <Col className={styles.separation}>
+                <p className="m-0 p-0">
+                  <small className="text-muted">Precio unit.: </small>
+                  $
+                  {product.item.price[paymentType] || 0}
+                  {' '}
+                  /
+                  {' '}
+                  <small className="text-muted">Precio total: </small>
+                  $
+                  {(product.item.price[paymentType] || 0)
+                        * product.quantity}
+                  {' '}
+                  {product.item.stock < 1 && (
+                  <small className="text-danger fst-italic">
+                    SIN STOCK
+                  </small>
+                  )}
+                </p>
+              </Col>
+              )}
+            </ListGroup.Item>
+          ))}
+        </ListGroup>
       ) : (
         <h1>¡No hay productos!</h1>
       )}

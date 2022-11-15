@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import { notify } from 'react-notify-toast';
 import { useNavigate } from 'react-router-dom';
-import CartList from 'components/CartList';
 import { routes } from 'config/routes';
 import {
   CartProductForBackend,
@@ -16,11 +15,15 @@ import { Product } from 'interfaces/product';
 import { createPurchase } from 'services/purchase';
 import { getTotalPrice } from 'utils/priceUtils';
 import { checkForStock } from 'utils/productUtils';
+
+import CartList from 'components/CartList';
+
 import ClientInfo from './components/ClientInfo';
+import Footer from './components/Footer';
 import PaymentBlock from './components/PaymentBlock';
 import PriceBreakdown from './components/PriceBreakdown';
-import Footer from './components/Footer';
 import { DEFAULT_CLIENT_INFO } from './constants';
+
 import styles from './styles.module.scss';
 
 function Checkout() {
@@ -28,28 +31,24 @@ function Checkout() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleDeleteProduct = (product: Product) => {
-    return cartDispatch({
-      type: CartActions.REMOVE_FROM_CART,
-      payload: {
-        item: product,
-      },
-    });
-  };
+  const handleDeleteProduct = (product: Product) => cartDispatch({
+    type: CartActions.REMOVE_FROM_CART,
+    payload: {
+      item: product,
+    },
+  });
 
-  const handleModifyQuantity = (product: Product, quantity: number) => {
-    return cartDispatch({
-      type: CartActions.MODIFY_QUANTITY,
-      payload: {
-        item: product,
-        quantity,
-      },
-    });
-  };
+  const handleModifyQuantity = (product: Product, quantity: number) => cartDispatch({
+    type: CartActions.MODIFY_QUANTITY,
+    payload: {
+      item: product,
+      quantity,
+    },
+  });
 
   const onSubmit = () => {
     setIsLoading(true);
-    let processedProducts: CartProductForBackend[] = [];
+    const processedProducts: CartProductForBackend[] = [];
 
     if (cartState.products.length <= 0) {
       setIsLoading(false);
@@ -57,12 +56,10 @@ function Checkout() {
       navigate(routes[1].path);
       return;
     }
-    cartState.products.forEach((product) =>
-      processedProducts.push({
-        item: product.item._id!,
-        quantity: product.quantity,
-      })
-    );
+    cartState.products.forEach((product) => processedProducts.push({
+      item: product.item._id!,
+      quantity: product.quantity,
+    }));
 
     createPurchase({
       products: processedProducts,
@@ -80,7 +77,7 @@ function Checkout() {
       .then(() => {
         notify.show(
           MESSAGES.success.purchaseComplete,
-          NotificationType.Success
+          NotificationType.Success,
         );
         cartDispatch({
           type: CartActions.CLEAR_CART,
@@ -88,11 +85,8 @@ function Checkout() {
         });
         navigate(routes[0].path);
       })
-      .catch((err) => {
+      .catch(() => {
         notify.show(MESSAGES.error.purchaseFailed, NotificationType.Error);
-
-        console.error(err);
-        return;
       })
       .finally(() => {
         setIsLoading(false);
@@ -100,11 +94,11 @@ function Checkout() {
   };
 
   const onSave = () => {
-    console.log('To be implemented'); // TODO: Implement
+    throw new Error('Not implemented');
   };
 
   const onBudget = () => {
-    console.log('To be implemented'); // TODO: Implement
+    throw new Error('Not implemented');
   };
 
   return (

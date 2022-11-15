@@ -1,12 +1,15 @@
-import { createContext, Dispatch, useReducer } from 'react';
+import {
+  createContext, Dispatch, ReactNode, useMemo, useReducer,
+} from 'react';
 import {
   productInitialState,
   ProductInitialStateType,
 } from 'constants/products';
+
 import ProductReducer, { ActionType } from './ProductReducer';
 
 interface Props {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 interface Store {
@@ -24,8 +27,10 @@ const ProductContext = createContext<Store>(contextStore);
 export function ProductProvider({ children }: Props) {
   const [state, dispatch] = useReducer(ProductReducer, productInitialState);
 
+  const value = useMemo(() => ({ state, dispatch }), [state]);
+
   return (
-    <ProductContext.Provider value={{ state, dispatch }}>
+    <ProductContext.Provider value={value}>
       {children}
     </ProductContext.Provider>
   );

@@ -2,12 +2,7 @@ import { Button, Spinner } from 'react-bootstrap';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Variants } from 'constants/bootstrapVariants';
-
-export enum ButtonTypes {
-  Button = 'button',
-  Submit = 'submit',
-  Reset = 'reset',
-}
+import { ButtonTypes } from 'constants/global';
 
 interface Props {
   label?: string;
@@ -45,7 +40,8 @@ function ButtonWithIcon({
         <Spinner animation="border" size="sm" />
       ) : (
         <FontAwesomeIcon icon={icon} />
-      )}{' '}
+      )}
+      {' '}
       {label ?? ''}
     </Button>
   );

@@ -26,7 +26,7 @@ export const getPager = (totalItems: number, currentPage = 1) => {
   const END_INDEX = Math.min(START_INDEX + PAGE_SIZE - 1, totalItems - 1);
 
   const PAGES = [...Array(endPage + 1 - startPage).keys()].map(
-    (pageNumber) => startPage + pageNumber
+    (pageNumber) => startPage + pageNumber,
   );
 
   return {

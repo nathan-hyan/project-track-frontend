@@ -1,6 +1,7 @@
-import classNames from 'classnames';
 import { Container, ListGroup } from 'react-bootstrap';
+import classNames from 'classnames';
 import { Product } from 'interfaces/product';
+
 import styles from './styles.module.scss';
 
 interface Props {
@@ -14,26 +15,24 @@ function ProductList({ products, handleAddToCart }: Props) {
   return (
     <Container fluid className={styles.container}>
       {hasProduct ? (
-        <>
-          <ListGroup>
-            {products?.map((product) => (
-              <ListGroup.Item
-                action
-                key={product._id}
-                onClick={() => handleAddToCart(product)}
+        <ListGroup>
+          {products?.map((product) => (
+            <ListGroup.Item
+              action
+              key={product._id}
+              onClick={() => handleAddToCart(product)}
+            >
+              <p
+                className={classNames('small', 'm-0', {
+                  'text-muted': product.stock < 1,
+                  'text-decoration-line-through': product.stock < 1,
+                })}
               >
-                <p
-                  className={classNames('small', 'm-0', {
-                    'text-muted': product.stock < 1,
-                    'text-decoration-line-through': product.stock < 1,
-                  })}
-                >
-                  {product.name}
-                </p>
-              </ListGroup.Item>
-            ))}
-          </ListGroup>
-        </>
+                {product.name}
+              </p>
+            </ListGroup.Item>
+          ))}
+        </ListGroup>
       ) : (
         <h1>¡No hay productos!</h1>
       )}

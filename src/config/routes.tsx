@@ -21,6 +21,6 @@ export const routes = [
     name: 'Verificar compra',
     hideFromNavbar: true,
     element: <Checkout />,
-    errorElement: <ErrorMessage />
-  }
+    errorElement: <ErrorMessage />,
+  },
 ];
