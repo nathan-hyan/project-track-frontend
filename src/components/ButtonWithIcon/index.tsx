@@ -37,9 +37,9 @@ function ButtonWithIcon({
       size={small ? 'sm' : undefined}
     >
       {disabledWithSpinner ? (
-        <Spinner animation="border" size="sm" />
+        <Spinner data-testid="spinner" animation="border" size="sm" />
       ) : (
-        <FontAwesomeIcon icon={icon} />
+        <FontAwesomeIcon icon={icon} data-testid="icon" />
       )}
       {' '}
       {label ?? ''}
