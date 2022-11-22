@@ -1,5 +1,7 @@
 import { useContext, useEffect } from 'react';
-import { Form, Modal } from 'react-bootstrap';
+import {
+  Col, Form, Modal, Row,
+} from 'react-bootstrap';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { faSave, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
@@ -96,7 +98,7 @@ function AddEditProduct({ showModal, closeModal, product }: Props) {
   };
 
   return (
-    <Modal show={showModal} onHide={handleModalClose}>
+    <Modal show={showModal} onHide={handleModalClose} size="lg">
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Modal.Header closeButton>
           <Modal.Title>
@@ -104,51 +106,58 @@ function AddEditProduct({ showModal, closeModal, product }: Props) {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {PRODUCT_FORM.map((item) => (
-            <Controller
-              key={item.id}
-              name={item.name}
-              control={control}
-              rules={{ required: true }}
-              render={({ field }) => (
-                <FormInput {...field} label={item.label} type={item.type} />
-              )}
-            />
-          ))}
-          <Controller
-            name="category"
-            control={control}
-            rules={{ required: true }}
-            render={({ field }) => (
-              <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Label>Categoría</Form.Label>
-                <Form.Select {...field}>
-                  <option value="">Seleccione un valor</option>
-                  <option value="libreria">Librería</option>
-                  <option value="imprenta">Imprenta</option>
-                  <option value="servicios">Servicios</option>
-                  <option value="regaleria">Regalería</option>
-                  <option value="biju-cosmetica">Bijú / Cosmética</option>
-                  <option value="electronica">Electrónica</option>
-                  <option value="cotillon">Cotillón</option>
-                </Form.Select>
-              </Form.Group>
-            )}
-          />
-          <hr />
-          <h3>Precios</h3>
-          <hr />
-          {PRICE_FORM.map((item) => (
-            <Controller
-              key={item.id}
-              name={`price.${item.name}`}
-              control={control}
-              rules={{ required: true }}
-              render={({ field }) => (
-                <FormInput {...field} label={item.label} type={item.type} />
-              )}
-            />
-          ))}
+          <Row>
+            <Col>
+              <h3>Información</h3>
+              <hr />
+              {PRODUCT_FORM.map((item) => (
+                <Controller
+                  key={item.id}
+                  name={item.name}
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <FormInput {...field} label={item.label} type={item.type} />
+                  )}
+                />
+              ))}
+              <Controller
+                name="category"
+                control={control}
+                rules={{ required: true }}
+                render={({ field }) => (
+                  <Form.Group className="mb-3" controlId="formBasicEmail">
+                    <Form.Label>Categoría</Form.Label>
+                    <Form.Select {...field}>
+                      <option value="">Seleccione un valor</option>
+                      <option value="libreria">Librería</option>
+                      <option value="imprenta">Imprenta</option>
+                      <option value="servicios">Servicios</option>
+                      <option value="regaleria">Regalería</option>
+                      <option value="biju-cosmetica">Bijú / Cosmética</option>
+                      <option value="electronica">Electrónica</option>
+                      <option value="cotillon">Cotillón</option>
+                    </Form.Select>
+                  </Form.Group>
+                )}
+              />
+            </Col>
+            <Col>
+              <h3>Precios</h3>
+              <hr />
+              {PRICE_FORM.map((item) => (
+                <Controller
+                  key={item.id}
+                  name={`price.${item.name}`}
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <FormInput {...field} label={item.label} type={item.type} />
+                  )}
+                />
+              ))}
+            </Col>
+          </Row>
         </Modal.Body>
         <Modal.Footer>
           <ButtonWithIcon
