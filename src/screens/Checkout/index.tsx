@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
-import { notify } from 'react-notify-toast';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { routes } from 'config/routes';
 import {
   CartProductForBackend,
   DEFAULT_STORE_BRANCH,
   DEFAULT_USER_ID,
 } from 'constants/cart';
-import { MESSAGES, NotificationType } from 'constants/notify';
+import { MESSAGES } from 'constants/notify';
 import { useCart } from 'context/cart/CartContext';
 import { CartActions } from 'interfaces/cart';
 import { Product } from 'interfaces/product';
@@ -30,6 +30,11 @@ function Checkout() {
   const { state: cartState, dispatch: cartDispatch } = useCart();
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const notifications = {
+    cartCantBeEmpty: () => toast.warn(MESSAGES.error.cartCantBeEmpty),
+    purchaseComplete: () => toast.success(MESSAGES.success.purchaseComplete),
+    purchaseFailed: () => toast.error(MESSAGES.error.purchaseFailed),
+  };
 
   const handleDeleteProduct = (product: Product) => cartDispatch({
     type: CartActions.REMOVE_FROM_CART,
@@ -52,7 +57,7 @@ function Checkout() {
 
     if (cartState.products.length <= 0) {
       setIsLoading(false);
-      notify.show(MESSAGES.error.cartCantBeEmpty, NotificationType.Error);
+      notifications.cartCantBeEmpty();
       navigate(routes[1].path);
       return;
     }
@@ -75,10 +80,7 @@ function Checkout() {
       userId: DEFAULT_USER_ID,
     })
       .then(() => {
-        notify.show(
-          MESSAGES.success.purchaseComplete,
-          NotificationType.Success,
-        );
+        notifications.purchaseComplete();
         cartDispatch({
           type: CartActions.CLEAR_CART,
           payload: {},
@@ -86,7 +88,7 @@ function Checkout() {
         navigate(routes[0].path);
       })
       .catch(() => {
-        notify.show(MESSAGES.error.purchaseFailed, NotificationType.Error);
+        notifications.purchaseFailed();
       })
       .finally(() => {
         setIsLoading(false);

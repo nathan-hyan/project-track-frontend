@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { Container, ListGroup } from 'react-bootstrap';
-import { notify } from 'react-notify-toast';
-import { MESSAGES, NotificationType } from 'constants/notify';
+import { toast } from 'react-toastify';
+import { MESSAGES } from 'constants/notify';
 import ProductContext from 'context/products/ProductContext';
 import { Product, ProductActions } from 'interfaces/product';
 import { deleteProduct, getProducts } from 'services/products';
@@ -15,11 +15,19 @@ function ProductList() {
   const { state, dispatch } = useContext(ProductContext);
   const [showModal, setShowModal] = useState(false);
 
+  const notifications = {
+    productDeleted: () => toast.success(MESSAGES.success.productDeleted),
+    productNotDeleted: () => toast.error(MESSAGES.error.productNotDeleted),
+    cantBeFetched: () => toast.error(MESSAGES.error.productsCantBeFetched),
+  };
+
   useEffect(() => {
     getProducts().then(({ data: { response: productData } }) => dispatch({
       type: ProductActions.GET_ALL,
       payload: { productData },
-    }));
+    })).catch(() => {
+      notifications.cantBeFetched();
+    });
   }, [dispatch]);
 
   const handleModalClose = () => {
@@ -38,16 +46,13 @@ function ProductList() {
     if (window.confirm(MESSAGES.question.delete) && id) {
       deleteProduct(id)
         .then(() => {
-          notify.show(
-            MESSAGES.success.productDeleted,
-            NotificationType.Success,
-          );
+          notifications.productDeleted();
           getProducts().then(({ data: { response: productData } }) => dispatch({
             type: ProductActions.GET_ALL,
             payload: { productData },
           }));
         })
-        .catch(() => notify.show(MESSAGES.error.productNotDeleted, NotificationType.Error));
+        .catch(() => notifications.productNotDeleted());
     }
   };
 

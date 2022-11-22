@@ -1,11 +1,11 @@
 import { useContext, useEffect } from 'react';
 import { Form, Modal } from 'react-bootstrap';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { notify } from 'react-notify-toast';
+import { toast } from 'react-toastify';
 import { faSave, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { Variants } from 'constants/bootstrapVariants';
 import { ButtonTypes } from 'constants/global';
-import { MESSAGES, NotificationType } from 'constants/notify';
+import { MESSAGES } from 'constants/notify';
 import { emptyProduct } from 'constants/products';
 import ProductContext from 'context/products/ProductContext';
 import { Product, ProductActions } from 'interfaces/product';
@@ -31,6 +31,16 @@ function AddEditProduct({ showModal, closeModal, product }: Props) {
   const {
     handleSubmit, control, reset, setValue,
   } = useForm<Product>();
+
+  const notifications = {
+    submitConfirmed: () => toast.success(product
+      ? MESSAGES.success.productModified
+      : MESSAGES.success.productCreated),
+    cantBeFetched: () => toast.error(MESSAGES.error.productsCantBeFetched),
+    isntModified: () => toast.error(product
+      ? MESSAGES.error.productNotModified
+      : MESSAGES.error.productNotCreated),
+  };
 
   useEffect(() => {
     PRODUCT_FORM.map((input) => setValue(
@@ -65,12 +75,7 @@ function AddEditProduct({ showModal, closeModal, product }: Props) {
         await createProduct(data);
       }
 
-      notify.show(
-        product
-          ? MESSAGES.success.productModified
-          : MESSAGES.success.productCreated,
-        NotificationType.Success,
-      );
+      notifications.submitConfirmed();
 
       getProducts()
         .then(({ data: { response: productData } }) => {
@@ -81,19 +86,11 @@ function AddEditProduct({ showModal, closeModal, product }: Props) {
           });
         })
         .catch(() => {
-          notify.show(
-            MESSAGES.error.productsCantBeFetched,
-            NotificationType.Error,
-          );
+          notifications.cantBeFetched();
           dispatch({ type: ProductActions.CLEAR_LOADING });
         });
     } catch (err) {
-      notify.show(
-        product
-          ? MESSAGES.error.productNotCreated
-          : MESSAGES.error.productNotModified,
-        NotificationType.Error,
-      );
+      notifications.isntModified();
       dispatch({ type: ProductActions.CLEAR_LOADING });
     }
   };

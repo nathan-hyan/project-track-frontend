@@ -1,14 +1,15 @@
 import ReactDOM from 'react-dom';
-import Notifications from 'react-notify-toast';
+import { ToastContainer } from 'react-toastify';
 
 import App from './App';
 
 import './index.scss';
 import 'normalize.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 ReactDOM.render(
   <>
-    <Notifications options={{ top: 56 }} />
+    <ToastContainer theme="colored" position="bottom-right" />
     <App />
   </>,
   document.getElementById('root'),

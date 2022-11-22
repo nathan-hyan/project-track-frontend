@@ -2,13 +2,13 @@ import { useContext, useEffect } from 'react';
 import {
   Button, Col, Container, Form, Row,
 } from 'react-bootstrap';
-import { notify } from 'react-notify-toast';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import classNames from 'classnames';
 import { routes } from 'config/routes';
 import { Variants } from 'constants/bootstrapVariants';
 import { PaymentType } from 'constants/cart';
-import { MESSAGES, NotificationType } from 'constants/notify';
+import { MESSAGES } from 'constants/notify';
 import { useCart } from 'context/cart/CartContext';
 import ProductContext from 'context/products/ProductContext';
 import { CartActions } from 'interfaces/cart';
@@ -27,6 +27,7 @@ import { OPTIONS } from './constants';
 function SplitCart() {
   const { state, dispatch } = useContext(ProductContext);
   const { state: cartState, dispatch: cartDispatch } = useCart();
+  const notifications = { cantBeFetched: () => toast.error(MESSAGES.error.productsCantBeFetched) };
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -40,10 +41,7 @@ function SplitCart() {
         payload: { productData },
       }))
       .catch(() => {
-        notify.show(
-          MESSAGES.error.productsCantBeFetched,
-          NotificationType.Error,
-        );
+        notifications.cantBeFetched();
         dispatch({
           type: ProductActions.CLEAR_LOADING,
         });

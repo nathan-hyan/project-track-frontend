@@ -1,10 +1,3 @@
-export enum NotificationType {
-  Success = 'success',
-  Error = 'error',
-  Warning = 'warning',
-  Custom = 'custom',
-}
-
 const PLEASE_RETRY = 'Por favor, reintente o contacte un administrador.';
 
 export const MESSAGES = {
