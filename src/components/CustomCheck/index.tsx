@@ -14,12 +14,10 @@ function CustomCheck({
   id, name, value, checked, label, inline, onChange,
 }: Props) {
   return (
-    <div>
-      <Form.Check type="radio" id={id} inline={inline}>
-        <Form.Check.Input type="radio" checked={checked} name={name} onChange={() => onChange(value)} />
-        <Form.Check.Label>{label}</Form.Check.Label>
-      </Form.Check>
-    </div>
+    <Form.Check type="radio" id={id} inline={inline}>
+      <Form.Check.Input type="radio" checked={checked} name={name} onChange={() => onChange(value)} />
+      <Form.Check.Label>{label}</Form.Check.Label>
+    </Form.Check>
   );
 }
 export default CustomCheck;

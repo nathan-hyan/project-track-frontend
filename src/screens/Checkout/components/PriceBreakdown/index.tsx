@@ -4,9 +4,10 @@ import { PaymentType } from 'constants/cart';
 import { INPUTS } from '../../constants';
 
 import InfoInput from './components/InfoInput';
+import { calculateTotalAmount } from './utils';
 
 interface Props {
-  subtotal: number;
+  subtotal?: number;
   paymentType?: PaymentType;
   positiveBalance?: number;
   negativeBalance?: number;
@@ -21,12 +22,13 @@ function PriceBreakdown({
   const [delivery, setDelivery] = useState(0);
   const [discount, setDiscount] = useState(0);
 
-  const calculateTotalAmount = () => {
-    const totalDiscounts = positiveBalance + discount;
-    const addedAmount = subtotal + negativeBalance + delivery;
-
-    return addedAmount - totalDiscounts;
-  };
+  const totalAmount = calculateTotalAmount(
+    positiveBalance,
+    discount,
+    subtotal,
+    negativeBalance,
+    delivery,
+  );
 
   return (
     <>
@@ -58,7 +60,7 @@ function PriceBreakdown({
       <hr />
       <InfoInput
         label={INPUTS.totalAmount}
-        value={calculateTotalAmount()}
+        value={totalAmount}
         disabled
       />
     </>
