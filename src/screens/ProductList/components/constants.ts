@@ -13,6 +13,20 @@ export type ProductInputName =
 
 export type PriceInputName = 'cost' | 'list' | 'onlineStore' | 'cash';
 
+export type LocalFormInputName =
+  | 'provider'
+  | 'brand'
+  | 'businessOwner'
+  | 'weight'
+  | 'storeBranch'
+  | 'storePosition';
+
+export type DimensionsInputName = 'width' | 'height' | 'depth';
+
+export type DescriptionInputName = 'title' | 'description';
+
+export type VariantsInputName = 'color' | 'barcode' | 'stock';
+
 interface Form<T> {
   id: number;
   label: string;
@@ -67,6 +81,113 @@ export const PRICE_FORM: Form<PriceInputName>[] = [
     type: InputType.Number,
   },
 ];
+
+export const LOCAL_INFO_FORM: Form<LocalFormInputName>[] = [
+  {
+    id: 1,
+    label: 'Marca',
+    name: 'brand',
+    type: InputType.Text,
+  },
+  {
+    id: 2,
+    label: 'Dueño de negocio',
+    name: 'businessOwner',
+    type: InputType.Text,
+  },
+  {
+    id: 3,
+    label: 'Proveedor',
+    name: 'provider',
+    type: InputType.Text,
+  },
+  {
+    id: 4,
+    label: 'Sucursal',
+    name: 'storeBranch',
+    type: InputType.Text,
+  },
+  {
+    id: 5,
+    label: 'Ubicación dentro de sucursal',
+    name: 'storePosition',
+    type: InputType.Text,
+  },
+  {
+    id: 6,
+    label: 'Peso (kg)',
+    name: 'weight',
+    type: InputType.Number,
+  },
+];
+
+export const DIMENSIONS_FORM: Form<DimensionsInputName>[] = [
+  {
+    id: 1,
+    label: 'Altura',
+    name: 'height',
+    type: InputType.Number,
+  },
+  {
+    id: 2,
+    label: 'Ancho',
+    name: 'width',
+    type: InputType.Number,
+  },
+  {
+    id: 3,
+    label: 'Largo',
+    name: 'depth',
+    type: InputType.Number,
+  },
+];
+
+export const SPECIFICATIONS_FORM: Form<DescriptionInputName>[] = [
+  {
+    id: 1,
+    label: 'Titulo',
+    name: 'title',
+    type: InputType.Text,
+  },
+  {
+    id: 2,
+    label: 'Descripcion',
+    name: 'description',
+    type: InputType.Text,
+  },
+];
+
+export const VARIANTS_FORM: Form<VariantsInputName>[] = [
+  {
+    id: 1,
+    label: 'Color',
+    name: 'color',
+    type: InputType.Text,
+  },
+  {
+    id: 2,
+    label: 'Barcode',
+    name: 'barcode',
+    type: InputType.Text,
+  },
+  {
+    id: 3,
+    label: 'Stock',
+    name: 'stock',
+    type: InputType.Number,
+  },
+];
+
+export const SPECIFICATIONS_FORM_EMPTY = {
+  title: '',
+  description: '',
+};
+
+export const VARIANTS_FORM_EMPTY = {
+  color: '',
+  barCode: '',
+  stock: 0,
+};
 
 export enum SearchType {
   'BAR_CODE',

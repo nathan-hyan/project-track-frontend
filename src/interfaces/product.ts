@@ -1,19 +1,45 @@
-export interface Product {
-  _id?: string;
-  name: string;
-  internalId: number;
-  price: {
-    list: number;
-    onlineStore: number;
-    cash: number;
-    cost: number;
-  };
+interface Variants {
+  color: string;
+  barCode: string;
   stock: number;
-  category: string;
-  image: string;
+}
+
+interface Price {
+  list: number;
+  onlineStore: number;
+  cash: number;
+  cost: number;
+}
+
+interface Dimensions {
+  height: number;
+  width: number;
+  depth: number;
+}
+
+export interface Product {
+  _id?: string
+  name: string;
+  stock: number;
   barcode: string;
+  category: string;
+  provider: string;
+  brand: string;
+  businessOwner: string;
+  dimensions: Dimensions;
+  weight: number;
   storeBranch: string;
   storeId: string;
+  storePosition: string;
+  description: string;
+  specifications: {
+    title: string;
+    description: string;
+  }[];
+  variants: Variants[];
+  price: Price;
+  internalId: number;
+  image: string;
 }
 
 export enum ProductActions {

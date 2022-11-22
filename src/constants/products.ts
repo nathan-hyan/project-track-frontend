@@ -34,4 +34,24 @@ export const emptyProduct: Product = {
   barcode: '',
   storeBranch: '',
   storeId: '',
+  brand: '',
+  businessOwner: '',
+  description: '',
+  dimensions: {
+    depth: 0,
+    height: 0,
+    width: 0,
+  },
+  provider: '',
+  specifications: [{
+    description: '',
+    title: '',
+  }],
+  storePosition: '',
+  variants: [{
+    barCode: '',
+    color: '',
+    stock: 0,
+  }],
+  weight: 0,
 };

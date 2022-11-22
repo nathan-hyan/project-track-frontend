@@ -10,7 +10,7 @@ const mockFunction = jest.fn();
 
 // TODO: Finish this, im starting with something more simple
 
-describe('<CartList />', () => {
+describe.skip('<CartList />', () => {
   it('Displays on screen', () => {
     render(<CartList
       products={[{

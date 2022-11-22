@@ -1,7 +1,7 @@
 {
   "name": "stock-os",
   "proxy": "http://localhost:2048",
-  "version": "0.0.10",
+  "version": "0.1.1",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.36",

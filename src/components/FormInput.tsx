@@ -14,6 +14,7 @@ interface Props {
   subtext?: string;
   placeholder?: string;
   invalidText?: string;
+  small?: boolean;
   onChange: ChangeEventHandler<HTMLInputElement>;
   type: InputType;
 }
@@ -21,6 +22,7 @@ interface Props {
 const FormInput = forwardRef<HTMLInputElement, Props>(
   (
     {
+      small,
       label,
       name,
       value,
@@ -34,8 +36,9 @@ const FormInput = forwardRef<HTMLInputElement, Props>(
     ref,
   ) => (
     <Form.Group className="mb-3" controlId={`${name}-field`}>
-      <Form.Label>{label}</Form.Label>
+      <Form.Label className="m-0 p-0"><small>{label}</small></Form.Label>
       <Form.Control
+        size={small ? 'sm' : undefined}
         type={type}
         placeholder={placeholder}
         onChange={onChange}

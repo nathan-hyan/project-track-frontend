@@ -1,10 +1,14 @@
-import { useContext, useEffect } from 'react';
+import {
+  useContext, useEffect,
+} from 'react';
 import {
   Col, Form, Modal, Row,
 } from 'react-bootstrap';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import {
+  Controller, SubmitHandler, useFieldArray, useForm,
+} from 'react-hook-form';
 import { toast } from 'react-toastify';
-import { faSave, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faSave, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { Variants } from 'constants/bootstrapVariants';
 import { ButtonTypes } from 'constants/global';
 import { MESSAGES } from 'constants/notify';
@@ -14,9 +18,17 @@ import { Product, ProductActions } from 'interfaces/product';
 import { createProduct, editProduct, getProducts } from 'services/products';
 
 import ButtonWithIcon from 'components/ButtonWithIcon';
-import FormInput from 'components/FormInput';
+import FormInput, { InputType } from 'components/FormInput';
 
-import { PRICE_FORM, PriceInputName, PRODUCT_FORM } from './constants';
+import {
+  DIMENSIONS_FORM,
+  LOCAL_INFO_FORM,
+  PRICE_FORM,
+  PriceInputName,
+  PRODUCT_FORM,
+  SPECIFICATIONS_FORM_EMPTY,
+  VARIANTS_FORM_EMPTY,
+} from './constants';
 
 interface Props {
   showModal: boolean;
@@ -33,6 +45,16 @@ function AddEditProduct({ showModal, closeModal, product }: Props) {
   const {
     handleSubmit, control, reset, setValue,
   } = useForm<Product>();
+
+  const {
+    fields: specificationFields,
+    append: specificationAppend,
+  } = useFieldArray({ control, name: 'specifications' });
+
+  const {
+    fields: variantsFields,
+    append: variantsAppend,
+  } = useFieldArray({ control, name: 'variants' });
 
   const notifications = {
     submitConfirmed: () => toast.success(product
@@ -54,6 +76,23 @@ function AddEditProduct({ showModal, closeModal, product }: Props) {
       `price.${input.name as PriceInputName}`,
       product ? product.price[input.name] : emptyProduct.price[input.name],
     ));
+
+    LOCAL_INFO_FORM.map((input) => setValue(
+      input.name,
+      product
+        ? product[input.name]
+        : emptyProduct[input.name],
+    ));
+
+    DIMENSIONS_FORM.map((input) => setValue(
+      `dimensions.${input.name}`,
+      product
+        ? product.dimensions[input.name]
+        : emptyProduct.dimensions[input.name],
+    ));
+
+    setValue('specifications', product ? product.specifications : emptyProduct.specifications);
+    setValue('variants', product ? product.variants : emptyProduct.variants);
 
     setValue('category', product ? product.category : emptyProduct.category);
   }, [product, setValue]);
@@ -117,7 +156,7 @@ function AddEditProduct({ showModal, closeModal, product }: Props) {
                   control={control}
                   rules={{ required: true }}
                   render={({ field }) => (
-                    <FormInput {...field} label={item.label} type={item.type} />
+                    <FormInput {...field} label={item.label} type={item.type} small />
                   )}
                 />
               ))}
@@ -127,8 +166,8 @@ function AddEditProduct({ showModal, closeModal, product }: Props) {
                 rules={{ required: true }}
                 render={({ field }) => (
                   <Form.Group className="mb-3" controlId="formBasicEmail">
-                    <Form.Label>Categoría</Form.Label>
-                    <Form.Select {...field}>
+                    <Form.Label className="m-0 p-0"><small>Categoría</small></Form.Label>
+                    <Form.Select {...field} size="sm">
                       <option value="">Seleccione un valor</option>
                       <option value="libreria">Librería</option>
                       <option value="imprenta">Imprenta</option>
@@ -152,10 +191,125 @@ function AddEditProduct({ showModal, closeModal, product }: Props) {
                   control={control}
                   rules={{ required: true }}
                   render={({ field }) => (
-                    <FormInput {...field} label={item.label} type={item.type} />
+                    <FormInput {...field} label={item.label} type={item.type} small />
                   )}
                 />
               ))}
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <h3>Info. Local</h3>
+              <hr />
+              {LOCAL_INFO_FORM.map((item) => (
+                <Controller
+                  key={item.id}
+                  name={item.name}
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <FormInput {...field} label={item.label} type={item.type} small />
+                  )}
+                />
+              ))}
+              <hr />
+              <h6>Dimensiones</h6>
+              <hr />
+              {DIMENSIONS_FORM.map((item) => (
+                <Controller
+                  key={item.id}
+                  name={`dimensions.${item.name}`}
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <FormInput {...field} label={item.label} type={item.type} small />
+                  )}
+                />
+              ))}
+
+            </Col>
+            <Col>
+              <h3>Descripciones</h3>
+              <hr />
+              <Controller
+                name="description"
+                control={control}
+                rules={{ required: true }}
+                render={({ field }) => (
+                  <FormInput {...field} label="Descripcion" type={InputType.Text} small />
+                )}
+              />
+              <hr />
+              <h6>Especificaciones</h6>
+              <hr />
+              {specificationFields.map((items, index) => (
+                <Row key={items.id}>
+                  <Col>
+                    <Controller
+                      name={`specifications.${index}.title`}
+                      control={control}
+                      rules={{ required: true }}
+                      render={({ field }) => (
+                        <FormInput {...field} label="Título" type={InputType.Text} small />
+                      )}
+                    />
+
+                  </Col>
+                  <Col>
+                    <Controller
+                      name={`specifications.${index}.description`}
+                      control={control}
+                      rules={{ required: true }}
+                      render={({ field }) => (
+                        <FormInput {...field} label="Descripcion" type={InputType.Text} small />
+                      )}
+                    />
+
+                  </Col>
+                </Row>
+              ))}
+              <ButtonWithIcon icon={faPlus} label="Agregar" variant={Variants.Success} onClick={() => specificationAppend(SPECIFICATIONS_FORM_EMPTY)} small />
+              <hr />
+              <h6>Variantes</h6>
+              <hr />
+              {variantsFields.map((items, index) => (
+                <Row key={items.id}>
+                  <Col>
+                    <Controller
+                      name={`variants.${index}.barCode`}
+                      control={control}
+                      rules={{ required: true }}
+                      render={({ field }) => (
+                        <FormInput {...field} label="Cod. Barra" type={InputType.Text} small />
+                      )}
+                    />
+
+                  </Col>
+                  <Col>
+                    <Controller
+                      name={`variants.${index}.color`}
+                      control={control}
+                      rules={{ required: true }}
+                      render={({ field }) => (
+                        <FormInput {...field} label="Color" type={InputType.Text} small />
+                      )}
+                    />
+
+                  </Col>
+                  <Col>
+                    <Controller
+                      name={`variants.${index}.stock`}
+                      control={control}
+                      rules={{ required: true }}
+                      render={({ field }) => (
+                        <FormInput {...field} label="Stock" type={InputType.Number} small />
+                      )}
+                    />
+
+                  </Col>
+                </Row>
+              ))}
+              <ButtonWithIcon icon={faPlus} label="Agregar" onClick={() => variantsAppend(VARIANTS_FORM_EMPTY)} />
             </Col>
           </Row>
         </Modal.Body>
