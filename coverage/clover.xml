@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1668728355033" clover="3.2.0">
+  <project timestamp="1668728355033" name="All files">
+    <metrics statements="25" coveredstatements="25" conditionals="11" coveredconditionals="11" methods="13" coveredmethods="13" elements="49" coveredelements="49" complexity="0" loc="25" ncloc="25" packages="10" files="11" classes="11"/>
+    <package name="components.CustomCheck">
+      <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+      <file name="index.tsx" path="/Users/nathan/Developer/1-current/sys-juanchi/frontend/src/components/CustomCheck/index.tsx">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+        <line num="16" count="3" type="stmt"/>
+        <line num="18" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="components.LoadingSpinner">
+      <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+      <file name="index.tsx" path="/Users/nathan/Developer/1-current/sys-juanchi/frontend/src/components/LoadingSpinner/index.tsx">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="4" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="constants">
+      <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="cart.ts" path="/Users/nathan/Developer/1-current/sys-juanchi/frontend/src/constants/cart.ts">
+        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="3" count="2" type="stmt"/>
+        <line num="4" count="2" type="stmt"/>
+        <line num="33" count="2" type="stmt"/>
+      </file>
+    </package>
+    <package name="screens.Checkout">
+      <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="constants.ts" path="/Users/nathan/Developer/1-current/sys-juanchi/frontend/src/screens/Checkout/constants.ts">
+        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="12" count="2" type="stmt"/>
+        <line num="21" count="2" type="stmt"/>
+        <line num="54" count="2" type="stmt"/>
+      </file>
+    </package>
+    <package name="screens.Checkout.components.ClientInfo">
+      <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+      <file name="index.tsx" path="/Users/nathan/Developer/1-current/sys-juanchi/frontend/src/screens/Checkout/components/ClientInfo/index.tsx">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="9" count="3" type="stmt"/>
+      </file>
+    </package>
+    <package name="screens.Checkout.components.Footer">
+      <metrics statements="1" coveredstatements="1" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
+      <file name="index.tsx" path="/Users/nathan/Developer/1-current/sys-juanchi/frontend/src/screens/Checkout/components/Footer/index.tsx">
+        <metrics statements="1" coveredstatements="1" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
+        <line num="15" count="3" type="stmt"/>
+      </file>
+    </package>
+    <package name="screens.Checkout.components.PaymentBlock">
+      <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+      <file name="index.tsx" path="/Users/nathan/Developer/1-current/sys-juanchi/frontend/src/screens/Checkout/components/PaymentBlock/index.tsx">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="12" count="6" type="stmt"/>
+      </file>
+    </package>
+    <package name="screens.Checkout.components.PriceBreakdown">
+      <metrics statements="10" coveredstatements="10" conditionals="9" coveredconditionals="9" methods="4" coveredmethods="4"/>
+      <file name="index.tsx" path="/Users/nathan/Developer/1-current/sys-juanchi/frontend/src/screens/Checkout/components/PriceBreakdown/index.tsx">
+        <metrics statements="6" coveredstatements="6" conditionals="4" coveredconditionals="4" methods="3" coveredmethods="3"/>
+        <line num="22" count="8" type="stmt"/>
+        <line num="23" count="8" type="stmt"/>
+        <line num="25" count="8" type="stmt"/>
+        <line num="33" count="8" type="stmt"/>
+        <line num="53" count="2" type="stmt"/>
+        <line num="58" count="2" type="stmt"/>
+      </file>
+      <file name="utils.ts" path="/Users/nathan/Developer/1-current/sys-juanchi/frontend/src/screens/Checkout/components/PriceBreakdown/utils.ts">
+        <metrics statements="4" coveredstatements="4" conditionals="5" coveredconditionals="5" methods="1" coveredmethods="1"/>
+        <line num="1" count="2" type="stmt"/>
+        <line num="8" count="12" type="stmt"/>
+        <line num="9" count="12" type="stmt"/>
+        <line num="11" count="12" type="stmt"/>
+      </file>
+    </package>
+    <package name="screens.Checkout.components.PriceBreakdown.components.InfoInput">
+      <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+      <file name="index.tsx" path="/Users/nathan/Developer/1-current/sys-juanchi/frontend/src/screens/Checkout/components/PriceBreakdown/components/InfoInput/index.tsx">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="16" count="52" type="stmt"/>
+      </file>
+    </package>
+    <package name="screens.ErrorMessage">
+      <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+      <file name="index.tsx" path="/Users/nathan/Developer/1-current/sys-juanchi/frontend/src/screens/ErrorMessage/index.tsx">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="4" count="1" type="stmt"/>
+      </file>
+    </package>
+  </project>
+</coverage>
