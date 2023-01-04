@@ -4,11 +4,12 @@ interface Variants {
   stock: number;
 }
 
-interface Price {
+export interface Price {
   list: number;
   onlineStore: number;
   cash: number;
   cost: number;
+  lastModified: Date | null;
 }
 
 interface Dimensions {

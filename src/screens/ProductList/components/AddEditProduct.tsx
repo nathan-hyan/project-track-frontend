@@ -16,6 +16,7 @@ import { emptyProduct } from 'constants/products';
 import ProductContext from 'context/products/ProductContext';
 import { Product, ProductActions } from 'interfaces/product';
 import { createProduct, editProduct, getProducts } from 'services/products';
+import { formatTime } from 'utils/timeFormat';
 
 import ButtonWithIcon from 'components/ButtonWithIcon';
 import FormInput, { InputType } from 'components/FormInput';
@@ -29,6 +30,7 @@ import {
   SPECIFICATIONS_FORM_EMPTY,
   VARIANTS_FORM_EMPTY,
 } from './constants';
+import { priceComparator } from './utils';
 
 interface Props {
   showModal: boolean;
@@ -93,8 +95,8 @@ function AddEditProduct({ showModal, closeModal, product }: Props) {
 
     setValue('specifications', product ? product.specifications : emptyProduct.specifications);
     setValue('variants', product ? product.variants : emptyProduct.variants);
-
     setValue('category', product ? product.category : emptyProduct.category);
+    setValue('description', product ? product.description : emptyProduct.description);
   }, [product, setValue]);
 
   const handleModalClose = () => {
@@ -111,7 +113,16 @@ function AddEditProduct({ showModal, closeModal, product }: Props) {
 
     try {
       if (product) {
-        await editProduct({ ...data, _id: product._id });
+        await editProduct({
+          ...data,
+          _id: product._id,
+          price: {
+            ...data.price,
+            lastModified: priceComparator(product.price, data.price)
+              ? new Date()
+              : product.price.lastModified,
+          },
+        });
       } else {
         await createProduct(data);
       }
@@ -140,8 +151,13 @@ function AddEditProduct({ showModal, closeModal, product }: Props) {
     <Modal show={showModal} onHide={handleModalClose} size="lg">
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Modal.Header closeButton>
-          <Modal.Title>
-            {product ? 'Editar producto' : 'Crear producto'}
+          <Modal.Title className="d-flex flex-row justify-content-between align-items-center w-100">
+            <div>{product ? 'Editar producto' : 'Crear producto'}</div>
+            {product?.price.lastModified && (
+            <div>
+              <h6 className="text-secondary m-0 p-0 text-small">{`Última mod. del precio: ${formatTime(product?.price.lastModified)}`}</h6>
+            </div>
+            )}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>

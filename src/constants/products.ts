@@ -27,6 +27,7 @@ export const emptyProduct: Product = {
     cost: 0,
     list: 0,
     onlineStore: 0,
+    lastModified: null,
   },
   stock: 0,
   category: '',
