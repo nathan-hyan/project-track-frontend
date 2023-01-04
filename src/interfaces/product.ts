@@ -19,12 +19,15 @@ interface Dimensions {
 }
 
 export interface Product {
-  _id?: string
+  _id?: string;
   name: string;
   stock: number;
   barcode: string;
   category: string;
-  provider: string;
+  providerProductCode: {
+    id: number;
+    name: string;
+  }[];
   brand: string;
   businessOwner: string;
   dimensions: Dimensions;

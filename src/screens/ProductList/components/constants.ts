@@ -14,7 +14,6 @@ export type ProductInputName =
 export type PriceInputName = 'cost' | 'list' | 'onlineStore' | 'cash';
 
 export type LocalFormInputName =
-  | 'provider'
   | 'brand'
   | 'businessOwner'
   | 'weight'
@@ -93,12 +92,6 @@ export const LOCAL_INFO_FORM: Form<LocalFormInputName>[] = [
     id: 2,
     label: 'Dueño de negocio',
     name: 'businessOwner',
-    type: InputType.Text,
-  },
-  {
-    id: 3,
-    label: 'Proveedor',
-    name: 'provider',
     type: InputType.Text,
   },
   {
@@ -187,6 +180,11 @@ export const VARIANTS_FORM_EMPTY = {
   color: '',
   barCode: '',
   stock: 0,
+};
+
+export const PROVIDER_PRODUCT_CODE_FORM_EMPTY = {
+  id: 0,
+  name: '',
 };
 
 export enum SearchType {

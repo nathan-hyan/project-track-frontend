@@ -29,6 +29,7 @@ import {
   PRICE_FORM,
   PriceInputName,
   PRODUCT_FORM,
+  PROVIDER_PRODUCT_CODE_FORM_EMPTY,
   SPECIFICATIONS_FORM_EMPTY,
   VARIANTS_FORM_EMPTY,
 } from './constants';
@@ -61,6 +62,12 @@ function AddEditProduct({ showModal, closeModal, product }: Props) {
     remove: variantsRemove,
     append: variantsAppend,
   } = useFieldArray({ control, name: 'variants' });
+
+  const {
+    fields: providerProductCodeFields,
+    remove: providerProductCodeRemove,
+    append: providerProductCodeAppend,
+  } = useFieldArray({ control, name: 'providerProductCode' });
 
   const notifications = {
     submitConfirmed: () => toast.success(product
@@ -220,6 +227,43 @@ function AddEditProduct({ showModal, closeModal, product }: Props) {
           <Row>
             <Col>
               <h3>Info. Local</h3>
+              <hr />
+              <h6>Código de producto del proveedor:</h6>
+              {providerProductCodeFields.map((items, index) => (
+                <Row key={items.id} className="d-flex align-items-end ">
+                  <Col>
+                    <Controller
+                      name={`providerProductCode.${index}.id`}
+                      control={control}
+                      rules={{ required: true }}
+                      render={({ field }) => (
+                        <FormInput {...field} label="Id del producto" type={InputType.Number} small />
+                      )}
+                    />
+
+                  </Col>
+                  <Col>
+                    <Controller
+                      name={`providerProductCode.${index}.name`}
+                      control={control}
+                      rules={{ required: true }}
+                      render={({ field }) => (
+                        <FormInput {...field} label="Nombre del proveedor" type={InputType.Text} small />
+                      )}
+                    />
+                  </Col>
+                  <Col md={2}>
+                    <ButtonWithIcon
+                      className="mb-3"
+                      icon={faTrash}
+                      small
+                      variant={Variants.Danger}
+                      onClick={() => { providerProductCodeRemove(index); }}
+                    />
+                  </Col>
+                </Row>
+              ))}
+              <ButtonWithIcon icon={faPlus} label="Agregar" variant={Variants.Info} onClick={() => providerProductCodeAppend(PROVIDER_PRODUCT_CODE_FORM_EMPTY)} small />
               <hr />
               {LOCAL_INFO_FORM.map((item) => (
                 <Controller

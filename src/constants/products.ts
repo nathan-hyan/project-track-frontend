@@ -43,7 +43,10 @@ export const emptyProduct: Product = {
     height: 0,
     width: 0,
   },
-  provider: '',
+  providerProductCode: [{
+    id: 0,
+    name: '',
+  }],
   specifications: [{
     description: '',
     title: '',
