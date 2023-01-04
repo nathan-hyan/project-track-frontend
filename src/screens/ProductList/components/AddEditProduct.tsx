@@ -8,7 +8,9 @@ import {
   Controller, SubmitHandler, useFieldArray, useForm,
 } from 'react-hook-form';
 import { toast } from 'react-toastify';
-import { faPlus, faSave, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import {
+  faPlus, faSave, faTimesCircle, faTrash,
+} from '@fortawesome/free-solid-svg-icons';
 import { Variants } from 'constants/bootstrapVariants';
 import { ButtonTypes } from 'constants/global';
 import { MESSAGES } from 'constants/notify';
@@ -50,11 +52,13 @@ function AddEditProduct({ showModal, closeModal, product }: Props) {
 
   const {
     fields: specificationFields,
+    remove: specificationRemove,
     append: specificationAppend,
   } = useFieldArray({ control, name: 'specifications' });
 
   const {
     fields: variantsFields,
+    remove: variantsRemove,
     append: variantsAppend,
   } = useFieldArray({ control, name: 'variants' });
 
@@ -259,12 +263,11 @@ function AddEditProduct({ showModal, closeModal, product }: Props) {
               <h6>Especificaciones</h6>
               <hr />
               {specificationFields.map((items, index) => (
-                <Row key={items.id}>
+                <Row key={items.id} className="d-flex align-items-end ">
                   <Col>
                     <Controller
                       name={`specifications.${index}.title`}
                       control={control}
-                      rules={{ required: true }}
                       render={({ field }) => (
                         <FormInput {...field} label="Título" type={InputType.Text} small />
                       )}
@@ -275,26 +278,32 @@ function AddEditProduct({ showModal, closeModal, product }: Props) {
                     <Controller
                       name={`specifications.${index}.description`}
                       control={control}
-                      rules={{ required: true }}
                       render={({ field }) => (
                         <FormInput {...field} label="Descripcion" type={InputType.Text} small />
                       )}
                     />
-
+                  </Col>
+                  <Col md={2}>
+                    <ButtonWithIcon
+                      className="mb-3"
+                      icon={faTrash}
+                      small
+                      variant={Variants.Danger}
+                      onClick={() => { specificationRemove(index); }}
+                    />
                   </Col>
                 </Row>
               ))}
-              <ButtonWithIcon icon={faPlus} label="Agregar" variant={Variants.Success} onClick={() => specificationAppend(SPECIFICATIONS_FORM_EMPTY)} small />
+              <ButtonWithIcon icon={faPlus} label="Agregar" variant={Variants.Info} onClick={() => specificationAppend(SPECIFICATIONS_FORM_EMPTY)} small />
               <hr />
               <h6>Variantes</h6>
               <hr />
               {variantsFields.map((items, index) => (
-                <Row key={items.id}>
+                <Row key={items.id} className="d-flex align-items-end">
                   <Col>
                     <Controller
                       name={`variants.${index}.barCode`}
                       control={control}
-                      rules={{ required: true }}
                       render={({ field }) => (
                         <FormInput {...field} label="Cod. Barra" type={InputType.Text} small />
                       )}
@@ -305,7 +314,6 @@ function AddEditProduct({ showModal, closeModal, product }: Props) {
                     <Controller
                       name={`variants.${index}.color`}
                       control={control}
-                      rules={{ required: true }}
                       render={({ field }) => (
                         <FormInput {...field} label="Color" type={InputType.Text} small />
                       )}
@@ -316,16 +324,26 @@ function AddEditProduct({ showModal, closeModal, product }: Props) {
                     <Controller
                       name={`variants.${index}.stock`}
                       control={control}
-                      rules={{ required: true }}
                       render={({ field }) => (
                         <FormInput {...field} label="Stock" type={InputType.Number} small />
                       )}
                     />
 
                   </Col>
+                  <Col md={2}>
+                    <ButtonWithIcon
+                      icon={faTrash}
+                      variant={Variants.Danger}
+                      onClick={() => { variantsRemove(index); }}
+                      className="mb-3"
+                      small
+                    />
+                  </Col>
+
                 </Row>
               ))}
-              <ButtonWithIcon icon={faPlus} label="Agregar" onClick={() => variantsAppend(VARIANTS_FORM_EMPTY)} />
+              <ButtonWithIcon icon={faPlus} label="Agregar" variant={Variants.Info} onClick={() => variantsAppend(VARIANTS_FORM_EMPTY)} small />
+
             </Col>
           </Row>
         </Modal.Body>

@@ -15,6 +15,7 @@ interface Props {
   placeholder?: string;
   invalidText?: string;
   small?: boolean;
+  required?: boolean;
   onChange: ChangeEventHandler<HTMLInputElement>;
   type: InputType;
 }
@@ -31,6 +32,7 @@ const FormInput = forwardRef<HTMLInputElement, Props>(
       placeholder,
       onChange,
       invalidText,
+      required,
       ...props
     },
     ref,
@@ -49,7 +51,7 @@ const FormInput = forwardRef<HTMLInputElement, Props>(
         name={name}
         value={value}
         ref={ref}
-        required
+        required={required}
         {...props}
       />
       <Form.Control.Feedback type="invalid">
