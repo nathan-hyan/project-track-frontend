@@ -1,6 +1,6 @@
 import { Reducer } from 'react';
 import { ProductInitialStateType } from 'constants/products';
-import { SearchType } from 'screens/ProductList/components/constants';
+import { SearchType } from 'screens/ProductList/components/AddEditProduct/constants';
 
 import { Product, ProductActions } from '../../interfaces/product';
 

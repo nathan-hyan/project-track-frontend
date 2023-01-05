@@ -1,27 +1,26 @@
 import { useContext, useEffect, useState } from 'react';
 import { Container, ListGroup } from 'react-bootstrap';
-import { toast } from 'react-toastify';
 import { MESSAGES } from 'constants/notify';
 import ProductContext from 'context/products/ProductContext';
 import { Product, ProductActions } from 'interfaces/product';
 import { deleteProduct, getProducts } from 'services/products';
 
 import ControlPanel from 'components/ControlPanel';
+import LoadingSpinner from 'components/LoadingSpinner';
 
 import AddEditProduct from './components/AddEditProduct';
 import ProductItem from './components/ProductItem';
+import { notifications } from './constants';
 
 function ProductList() {
-  const { state, dispatch } = useContext(ProductContext);
+  const { state: { products, product, loading }, dispatch } = useContext(ProductContext);
   const [showModal, setShowModal] = useState(false);
 
-  const notifications = {
-    productDeleted: () => toast.success(MESSAGES.success.productDeleted),
-    productNotDeleted: () => toast.error(MESSAGES.error.productNotDeleted),
-    cantBeFetched: () => toast.error(MESSAGES.error.productsCantBeFetched),
-  };
-
   useEffect(() => {
+    dispatch({
+      type: ProductActions.SET_LOADING,
+    });
+
     getProducts().then(({ data: { response: productData } }) => dispatch({
       type: ProductActions.GET_ALL,
       payload: { productData },
@@ -56,19 +55,23 @@ function ProductList() {
     }
   };
 
-  return (
+  return loading ? (
+    <Container className="center-in-screen">
+      <LoadingSpinner />
+    </Container>
+  ) : (
     <Container>
       <AddEditProduct
-        product={state.product}
+        product={product}
         showModal={showModal}
         closeModal={handleModalClose}
       />
       <ControlPanel handleModalClose={handleModalClose} />
       <ListGroup className="mt-3">
-        {state.products?.map((product: Product) => (
+        {products?.map((currentProduct: Product) => (
           <ProductItem
-            key={product._id}
-            product={product}
+            key={currentProduct._id}
+            product={currentProduct}
             handleEdit={handleEdit}
             handleDelete={handleDelete}
           />

@@ -1,6 +1,6 @@
 import Checkout from 'screens/Checkout';
 import ErrorMessage from 'screens/ErrorMessage';
-import ProductList from 'screens/ProductList/ProductList';
+import ProductList from 'screens/ProductList/';
 import SplitCart from 'screens/SplitCart';
 
 export const routes = [
@@ -22,5 +22,11 @@ export const routes = [
     hideFromNavbar: true,
     element: <Checkout />,
     errorElement: <ErrorMessage />,
+  },
+  {
+    path: '/*',
+    name: 'Página no encontrada',
+    hideFromNavbar: true,
+    element: <ErrorMessage />,
   },
 ];

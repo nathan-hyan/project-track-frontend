@@ -7,12 +7,11 @@ import { Variants } from 'constants/bootstrapVariants';
 import { ButtonTypes } from 'constants/global';
 import ProductContext from 'context/products/ProductContext';
 import { ProductActions } from 'interfaces/product';
+import { SearchType } from 'screens/ProductList/components/AddEditProduct/constants';
 
 import ButtonWithIcon from 'components/ButtonWithIcon';
 import CustomCheck from 'components/CustomCheck';
 import FormInput, { InputType } from 'components/FormInput';
-
-import { SearchType } from '../../screens/ProductList/components/constants';
 
 interface Props {
   handleModalClose?: () => void;

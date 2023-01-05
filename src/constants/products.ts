@@ -1,5 +1,5 @@
 import { Product } from 'interfaces/product';
-import { SearchType } from 'screens/ProductList/components/constants';
+import { SearchType } from 'screens/ProductList/components/AddEditProduct/constants';
 
 export interface ProductInitialStateType {
   searchQuery?: string;
