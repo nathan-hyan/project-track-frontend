@@ -26,6 +26,9 @@ function ProductList() {
       payload: { productData },
     })).catch(() => {
       notifications.cantBeFetched();
+      dispatch({
+        type: ProductActions.CLEAR_LOADING,
+      });
     });
   }, [dispatch]);
 
@@ -55,11 +58,24 @@ function ProductList() {
     }
   };
 
-  return loading ? (
-    <Container className="center-in-screen">
-      <LoadingSpinner />
-    </Container>
-  ) : (
+  if (loading) {
+    return (
+      <Container className="center-in-screen">
+        <LoadingSpinner />
+      </Container>
+    );
+  }
+
+  if (!products || products?.length <= 0) {
+    return (
+      <Container className="center-in-screen flex-column text-center">
+        <h1 className="display-4">¡No hay productos para mostrar ahora!</h1>
+        <p className="lead">¡Vuelva prontos!</p>
+      </Container>
+    );
+  }
+
+  return (
     <Container>
       <AddEditProduct
         product={product}
