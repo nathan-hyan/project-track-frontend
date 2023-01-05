@@ -108,6 +108,7 @@ function AddEditProduct({ showModal, closeModal, product }: Props) {
     setValue('variants', product ? product.variants : emptyProduct.variants);
     setValue('category', product ? product.category : emptyProduct.category);
     setValue('description', product ? product.description : emptyProduct.description);
+    setValue('providerProductCode', product ? product.providerProductCode : emptyProduct.providerProductCode);
   }, [product, setValue]);
 
   const handleModalClose = () => {
