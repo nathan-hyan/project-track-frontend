@@ -6,6 +6,7 @@ export interface ProductInitialStateType {
   searchType?: SearchType;
   fullProductList?: Product[];
   products?: Product[];
+  error?: string | null;
   product: Product | null;
   loading?: boolean;
 }
@@ -17,6 +18,7 @@ export const productInitialState: ProductInitialStateType = {
   products: [],
   product: null,
   loading: true,
+  error: null,
 };
 
 export const emptyProduct: Product = {

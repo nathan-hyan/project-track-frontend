@@ -56,6 +56,7 @@ export enum ProductActions {
   'FILTER_CHANGE_TYPE',
   'OPEN_EDIT',
   'CLOSE_EDIT',
+  'SET_ERROR'
 }
 
 export type Action = { type: ProductActions; payload?: any };

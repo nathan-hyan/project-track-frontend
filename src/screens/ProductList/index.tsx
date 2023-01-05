@@ -3,6 +3,7 @@ import { Container, ListGroup } from 'react-bootstrap';
 import { MESSAGES } from 'constants/notify';
 import ProductContext from 'context/products/ProductContext';
 import { Product, ProductActions } from 'interfaces/product';
+import ErrorMessage from 'screens/ErrorMessage';
 import { deleteProduct, getProducts } from 'services/products';
 
 import ControlPanel from 'components/ControlPanel';
@@ -13,7 +14,11 @@ import ProductItem from './components/ProductItem';
 import { notifications } from './constants';
 
 function ProductList() {
-  const { state: { products, product, loading }, dispatch } = useContext(ProductContext);
+  const {
+    state: {
+      products, product, loading, error,
+    }, dispatch,
+  } = useContext(ProductContext);
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
@@ -25,9 +30,9 @@ function ProductList() {
       type: ProductActions.GET_ALL,
       payload: { productData },
     })).catch(() => {
-      notifications.cantBeFetched();
       dispatch({
-        type: ProductActions.CLEAR_LOADING,
+        type: ProductActions.SET_ERROR,
+        payload: { error: MESSAGES.error.productsCantBeFetched },
       });
     });
   }, [dispatch]);
@@ -68,10 +73,7 @@ function ProductList() {
 
   if (!products || products?.length <= 0) {
     return (
-      <Container className="center-in-screen flex-column text-center">
-        <h1 className="display-4">¡No hay productos para mostrar ahora!</h1>
-        <p className="lead">¡Vuelva prontos!</p>
-      </Container>
+      <ErrorMessage message={error} hideButton />
     );
   }
 

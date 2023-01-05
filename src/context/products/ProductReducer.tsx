@@ -11,6 +11,7 @@ interface Payload {
   productToEdit?: Product;
   searchQuery?: string;
   searchType?: SearchType;
+  error?: string;
 }
 export type ActionType = { type: ProductActions; payload?: Payload };
 
@@ -31,12 +32,22 @@ const productReducer: Reducer<ProductInitialStateType, ActionType> = (
         loading: false,
       };
 
+    case ProductActions.SET_ERROR:
+      return {
+        ...state,
+        products: [],
+        product: null,
+        loading: false,
+        error: action.payload!.error,
+      };
+
     case ProductActions.GET_ALL:
       return {
         ...state,
         fullProductList: action.payload!.productData,
         products: action.payload!.productData,
         loading: false,
+        error: null,
       };
 
     case ProductActions.FILTER:
