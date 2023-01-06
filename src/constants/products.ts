@@ -48,19 +48,9 @@ export const emptyProduct: Product = {
     height: 0,
     width: 0,
   },
-  providerProductCode: [{
-    id: 0,
-    name: '',
-  }],
-  specifications: [{
-    description: '',
-    title: '',
-  }],
+  providerProductCode: [],
+  specifications: [],
   storePosition: '',
-  variants: [{
-    barCode: '',
-    color: '',
-    stock: 0,
-  }],
+  variants: [],
   weight: 0,
 };

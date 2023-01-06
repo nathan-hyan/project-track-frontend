@@ -191,7 +191,7 @@ function AddEditProduct({ showModal, closeModal, product }: Props) {
                       type={item.type}
                       small
                       disabled={item.id === 2
-                        && String(watch('variants')[0].barCode) !== ''}
+                        && String(watch('variants').length ? watch('variants')[0].barCode : '') !== ''}
                     />
                   )}
                 />
