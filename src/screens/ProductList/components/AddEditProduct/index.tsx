@@ -109,6 +109,7 @@ function AddEditProduct({ showModal, closeModal, product }: Props) {
     setValue('category', product ? product.category : emptyProduct.category);
     setValue('description', product ? product.description : emptyProduct.description);
     setValue('providerProductCode', product ? product.providerProductCode : emptyProduct.providerProductCode);
+    setValue('subCategory', product ? product.subCategory : emptyProduct.subCategory);
   }, [product, setValue]);
 
   const handleModalClose = () => {
@@ -213,6 +214,14 @@ function AddEditProduct({ showModal, closeModal, product }: Props) {
                       <option value="cotillon">Cotillón</option>
                     </Form.Select>
                   </Form.Group>
+                )}
+              />
+              <Controller
+                name="subCategory"
+                control={control}
+                rules={{ required: false }}
+                render={({ field }) => (
+                  <FormInput {...field} label="Subcategoria" type={InputType.Text} small />
                 )}
               />
             </Col>

@@ -98,6 +98,15 @@ function ProductItem({ product, handleEdit, handleDelete }: Props) {
       <Row>
         <Col md={3}>
           <p className={classNames('m-0', { 'text-muted': hasNoProducts })}>
+            <i>Categoria: </i>
+            <strong>
+              {product.category}
+              {product.subCategory && `/${product.subCategory}`}
+            </strong>
+          </p>
+        </Col>
+        <Col md={3}>
+          <p className={classNames('m-0', { 'text-muted': hasNoProducts })}>
             <i>Cod. barra: </i>
             <strong>{product.barcode}</strong>
           </p>

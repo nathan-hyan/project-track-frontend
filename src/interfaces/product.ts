@@ -24,6 +24,7 @@ export interface Product {
   stock: number;
   barcode: string;
   category: string;
+  subCategory?: string;
   providerProductCode: {
     id: number;
     name: string;
