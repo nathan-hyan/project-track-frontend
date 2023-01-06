@@ -35,7 +35,7 @@ function SplitCart() {
       return;
     }
 
-    getProducts()
+    getProducts(state.sort || '')
       .then(({ data: { response: productData } }) => dispatch({
         type: ProductActions.GET_ALL,
         payload: { productData },

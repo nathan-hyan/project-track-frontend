@@ -18,7 +18,7 @@ interface ProductCreateResponse {
   message: string;
 }
 
-export const getProducts = () => api.get<ProductsResponse>(`${BASE_URL}/get`);
+export const getProducts = (sort: string) => api.get<ProductsResponse>(`${BASE_URL}/get?sort=${sort}`);
 
 export const getSingleProduct = (id: string) => api.get<SingleProductsResponse>(`${BASE_URL}/get/${id}`);
 

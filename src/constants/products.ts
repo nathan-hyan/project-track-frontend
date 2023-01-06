@@ -1,6 +1,7 @@
 import { Product } from 'interfaces/product';
 import { SearchType } from 'screens/ProductList/components/AddEditProduct/constants';
 
+export type SortTypes = 'name' | 'lastModified'
 export interface ProductInitialStateType {
   searchQuery?: string;
   searchType?: SearchType;
@@ -9,6 +10,7 @@ export interface ProductInitialStateType {
   error?: string | null;
   product: Product | null;
   loading?: boolean;
+  sort?: SortTypes;
 }
 
 export const productInitialState: ProductInitialStateType = {
@@ -19,6 +21,7 @@ export const productInitialState: ProductInitialStateType = {
   product: null,
   loading: true,
   error: null,
+  sort: 'name',
 };
 
 export const emptyProduct: Product = {

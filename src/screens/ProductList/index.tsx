@@ -1,6 +1,11 @@
-import { useContext, useEffect, useState } from 'react';
-import { Container, ListGroup } from 'react-bootstrap';
+import {
+  ChangeEvent, useContext, useEffect, useState,
+} from 'react';
+import {
+  Container, ListGroup,
+} from 'react-bootstrap';
 import { MESSAGES } from 'constants/notify';
+import { SortTypes } from 'constants/products';
 import ProductContext from 'context/products/ProductContext';
 import { Product, ProductActions } from 'interfaces/product';
 import ErrorMessage from 'screens/ErrorMessage';
@@ -11,12 +16,13 @@ import LoadingSpinner from 'components/LoadingSpinner';
 
 import AddEditProduct from './components/AddEditProduct';
 import ProductItem from './components/ProductItem';
+import Sort from './components/Sort';
 import { notifications } from './constants';
 
 function ProductList() {
   const {
     state: {
-      products, product, loading, error,
+      products, product, loading, error, sort,
     }, dispatch,
   } = useContext(ProductContext);
   const [showModal, setShowModal] = useState(false);
@@ -26,7 +32,7 @@ function ProductList() {
       type: ProductActions.SET_LOADING,
     });
 
-    getProducts().then(({ data: { response: productData } }) => dispatch({
+    getProducts(sort || '').then(({ data: { response: productData } }) => dispatch({
       type: ProductActions.GET_ALL,
       payload: { productData },
     })).catch(() => {
@@ -35,7 +41,16 @@ function ProductList() {
         payload: { error: MESSAGES.error.productsCantBeFetched },
       });
     });
-  }, [dispatch]);
+  }, [dispatch, sort]);
+
+  const changeSort = (event: ChangeEvent<HTMLSelectElement>) => {
+    const { value } = event.target;
+
+    dispatch({
+      type: ProductActions.CHANGE_SORT,
+      payload: { sort: value as SortTypes },
+    });
+  };
 
   const handleModalClose = () => {
     setShowModal((prevState) => !prevState);
@@ -54,7 +69,7 @@ function ProductList() {
       deleteProduct(id)
         .then(() => {
           notifications.productDeleted();
-          getProducts().then(({ data: { response: productData } }) => dispatch({
+          getProducts(sort || '').then(({ data: { response: productData } }) => dispatch({
             type: ProductActions.GET_ALL,
             payload: { productData },
           }));
@@ -85,6 +100,7 @@ function ProductList() {
         closeModal={handleModalClose}
       />
       <ControlPanel handleModalClose={handleModalClose} />
+      <Sort sort={sort || 'name'} changeSort={changeSort} />
       <ListGroup className="mt-3">
         {products?.map((currentProduct: Product) => (
           <ProductItem

@@ -44,7 +44,7 @@ interface Props {
 function AddEditProduct({ showModal, closeModal, product }: Props) {
   const {
     dispatch,
-    state: { loading },
+    state: { loading, sort },
   } = useContext(ProductContext);
 
   const {
@@ -141,7 +141,7 @@ function AddEditProduct({ showModal, closeModal, product }: Props) {
 
       notifications.submitConfirmed();
 
-      getProducts()
+      getProducts(sort || '')
         .then(({ data: { response: productData } }) => {
           dispatch({ type: ProductActions.CLEAR_LOADING });
           dispatch({

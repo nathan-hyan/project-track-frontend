@@ -1,5 +1,5 @@
 import { Reducer } from 'react';
-import { ProductInitialStateType } from 'constants/products';
+import { ProductInitialStateType, SortTypes } from 'constants/products';
 import { SearchType } from 'screens/ProductList/components/AddEditProduct/constants';
 
 import { Product, ProductActions } from '../../interfaces/product';
@@ -12,6 +12,7 @@ interface Payload {
   searchQuery?: string;
   searchType?: SearchType;
   error?: string;
+  sort?: SortTypes;
 }
 export type ActionType = { type: ProductActions; payload?: Payload };
 
@@ -39,6 +40,12 @@ const productReducer: Reducer<ProductInitialStateType, ActionType> = (
         product: null,
         loading: false,
         error: action.payload!.error,
+      };
+
+    case ProductActions.CHANGE_SORT:
+      return {
+        ...state,
+        sort: action.payload!.sort,
       };
 
     case ProductActions.GET_ALL:

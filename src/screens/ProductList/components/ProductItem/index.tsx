@@ -3,6 +3,7 @@ import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
 import classNames from 'classnames';
 import { Variants } from 'constants/bootstrapVariants';
 import { Product } from 'interfaces/product';
+import { formatTime } from 'utils/timeFormat';
 
 import ButtonWithIcon from 'components/ButtonWithIcon';
 
@@ -36,18 +37,13 @@ function ProductItem({ product, handleEdit, handleDelete }: Props) {
             <strong>{String(product.internalId).padStart(4, '0')}</strong>
           </p>
         </Col>
-        <Col md={1}>
+        <Col md={2}>
           <p className={classNames('m-0', { 'text-danger': hasNoProducts })}>
             <i>Stock: </i>
             <strong>{product.stock}</strong>
           </p>
         </Col>
-        <Col md={3}>
-          <p className={classNames('m-0', { 'text-muted': hasNoProducts })}>
-            <i>Cod. barra: </i>
-            <strong>{product.barcode}</strong>
-          </p>
-        </Col>
+
         <Col>
           <p className={classNames('m-0', { 'text-muted': hasNoProducts })}>
             <i>Costo: </i>
@@ -99,6 +95,23 @@ function ProductItem({ product, handleEdit, handleDelete }: Props) {
           />
         </Col>
       </Row>
+      <Row>
+        <Col md={3}>
+          <p className={classNames('m-0', { 'text-muted': hasNoProducts })}>
+            <i>Cod. barra: </i>
+            <strong>{product.barcode}</strong>
+          </p>
+        </Col>
+        {product.price.lastModified && (
+        <Col>
+          <p className={classNames('m-0', { 'text-muted': hasNoProducts })}>
+            <i>Ult. Mod. Precio Lista: </i>
+            <strong>{formatTime(product.price.lastModified, 'short')}</strong>
+          </p>
+        </Col>
+        )}
+      </Row>
+      <Row />
     </ListGroup.Item>
   );
 }

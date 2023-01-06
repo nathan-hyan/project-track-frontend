@@ -50,6 +50,7 @@ export enum ProductActions {
   'SET_LOADING',
   'CLEAR_LOADING',
   'GET_ALL',
+  'CHANGE_SORT',
   'FILTER',
   'CLEAR_FILTER',
   'FILTER_WRITE',
