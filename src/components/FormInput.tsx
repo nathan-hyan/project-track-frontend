@@ -18,6 +18,7 @@ interface Props {
   required?: boolean;
   onChange: ChangeEventHandler<HTMLInputElement>;
   type: InputType;
+  disabled?: boolean;
 }
 
 const FormInput = forwardRef<HTMLInputElement, Props>(
@@ -33,6 +34,7 @@ const FormInput = forwardRef<HTMLInputElement, Props>(
       onChange,
       invalidText,
       required,
+      disabled,
       ...props
     },
     ref,
@@ -49,6 +51,7 @@ const FormInput = forwardRef<HTMLInputElement, Props>(
         placeholder={placeholder}
         onChange={onChange}
         name={name}
+        disabled={disabled}
         value={value}
         ref={ref}
         required={required}

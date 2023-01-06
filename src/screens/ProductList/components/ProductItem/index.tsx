@@ -105,7 +105,7 @@ function ProductItem({ product, handleEdit, handleDelete }: Props) {
         {product.price.lastModified && (
         <Col>
           <p className={classNames('m-0', { 'text-muted': hasNoProducts })}>
-            <i>Ult. Mod. Precio Lista: </i>
+            <i>Ult. Mod. Precio Costo: </i>
             <strong>{formatTime(product.price.lastModified, 'short')}</strong>
           </p>
         </Col>

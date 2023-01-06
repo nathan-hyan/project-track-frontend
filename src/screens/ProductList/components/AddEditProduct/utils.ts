@@ -1,18 +1,11 @@
 import { Price } from 'interfaces/product';
 
 export const priceComparator = (oldPrice: Price, newPrice: Price) => {
-  const {
-    cash: oldCash, cost: oldCost, list: oldList, onlineStore: oldOnlineStore,
-  } = oldPrice;
+  const { cost: oldCost } = oldPrice;
 
-  const {
-    cash, cost, list, onlineStore,
-  } = newPrice;
+  const { cost } = newPrice;
 
-  const isDifferent = oldCash !== cash
-        || cost !== oldCost
-        || list !== oldList
-      || onlineStore !== oldOnlineStore;
+  const isDifferent = cost !== oldCost;
 
   return isDifferent;
 };

@@ -48,7 +48,7 @@ function AddEditProduct({ showModal, closeModal, product }: Props) {
   } = useContext(ProductContext);
 
   const {
-    handleSubmit, control, reset, setValue,
+    handleSubmit, control, reset, setValue, watch,
   } = useForm<Product>();
 
   const {
@@ -182,9 +182,16 @@ function AddEditProduct({ showModal, closeModal, product }: Props) {
                   key={item.id}
                   name={item.name}
                   control={control}
-                  rules={{ required: true }}
+                  rules={{ required: item.id !== 2 }}
                   render={({ field }) => (
-                    <FormInput {...field} label={item.label} type={item.type} small />
+                    <FormInput
+                      {...field}
+                      label={item.label}
+                      type={item.type}
+                      small
+                      disabled={item.id === 2
+                        && String(watch('variants')[0].barCode) !== ''}
+                    />
                   )}
                 />
               ))}
