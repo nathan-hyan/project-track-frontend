@@ -22,7 +22,7 @@ import { notifications } from './constants';
 function ProductList() {
   const {
     state: {
-      products, product, loading, error, sort,
+      products, product, loading, sort,
     }, dispatch,
   } = useContext(ProductContext);
   const [showModal, setShowModal] = useState(false);
@@ -86,12 +86,6 @@ function ProductList() {
     );
   }
 
-  if (!products || products?.length <= 0) {
-    return (
-      <ErrorMessage message={error} hideButton />
-    );
-  }
-
   return (
     <Container>
       <AddEditProduct
@@ -100,17 +94,22 @@ function ProductList() {
         closeModal={handleModalClose}
       />
       <ControlPanel handleModalClose={handleModalClose} />
-      <Sort sort={sort || 'name'} changeSort={changeSort} />
-      <ListGroup className="mt-3">
-        {products?.map((currentProduct: Product) => (
-          <ProductItem
-            key={currentProduct._id}
-            product={currentProduct}
-            handleEdit={handleEdit}
-            handleDelete={handleDelete}
-          />
-        ))}
-      </ListGroup>
+      {!products || products?.length <= 0 ? <ErrorMessage message="¡No hay productos!" hideButton />
+        : (
+          <>
+            <Sort sort={sort || 'name'} changeSort={changeSort} />
+            <ListGroup className="mt-3">
+              {products?.map((currentProduct: Product) => (
+                <ProductItem
+                  key={currentProduct._id}
+                  product={currentProduct}
+                  handleEdit={handleEdit}
+                  handleDelete={handleDelete}
+                />
+              ))}
+            </ListGroup>
+          </>
+        )}
     </Container>
   );
 }

@@ -15,7 +15,7 @@ function ErrorMessage({ message = 'No parece que haya una página diseñada para
   };
 
   return (
-    <Container className="d-flex flex-column justify-content-center align-items-center vh-100">
+    <Container className="d-flex flex-column justify-content-center align-items-center v-100">
       <h1 className="display-1">¡Oh no!</h1>
       <p className="lead">{message}</p>
       {!hideButton && <Button className="mt-5" onClick={redirectToHome}>Volver a la página principal</Button>}
