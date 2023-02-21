@@ -1,6 +1,5 @@
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { routes } from 'config/routes';
 
 import styles from './styles.module.scss';
 
@@ -31,11 +30,7 @@ export default function NavigationBar() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            {routes.map((route) => (route.hideFromNavbar ? null : (
-              <Link key={route.path} className="nav-link" to={route.path}>
-                {route.name}
-              </Link>
-            )))}
+            <Link className="nav-link" to="/menu">Menú</Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
