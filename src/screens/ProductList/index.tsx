@@ -22,12 +22,15 @@ import { notifications } from './constants';
 function ProductList() {
   const {
     state: {
-      products, product, loading, sort,
+      products, product, loading, sort, searchQuery,
     }, dispatch,
   } = useContext(ProductContext);
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
+    if (products?.length !== 0 || !!searchQuery) {
+      return;
+    }
     dispatch({
       type: ProductActions.SET_LOADING,
     });
