@@ -27,15 +27,11 @@ function ProductList() {
   } = useContext(ProductContext);
   const [showModal, setShowModal] = useState(false);
 
-  useEffect(() => {
-    if (products?.length !== 0 || !!searchQuery) {
-      return;
-    }
+  const fetchProduct = (currentSort: SortTypes) => {
     dispatch({
       type: ProductActions.SET_LOADING,
     });
-
-    getProducts(sort || '').then(({ data: { response: productData } }) => dispatch({
+    getProducts(currentSort).then(({ data: { response: productData } }) => dispatch({
       type: ProductActions.GET_ALL,
       payload: { productData },
     })).catch(() => {
@@ -44,7 +40,7 @@ function ProductList() {
         payload: { error: MESSAGES.error.productsCantBeFetched },
       });
     });
-  }, [dispatch, sort]);
+  };
 
   const changeSort = (event: ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.target;
@@ -53,6 +49,8 @@ function ProductList() {
       type: ProductActions.CHANGE_SORT,
       payload: { sort: value as SortTypes },
     });
+
+    fetchProduct(value as SortTypes);
   };
 
   const handleModalClose = () => {
@@ -80,6 +78,14 @@ function ProductList() {
         .catch(() => notifications.productNotDeleted());
     }
   };
+
+  useEffect(() => {
+    if (products?.length !== 0 || !!searchQuery || sort === 'internalId') {
+      return;
+    }
+
+    fetchProduct(sort as SortTypes);
+  }, [dispatch, sort]);
 
   if (loading) {
     return (

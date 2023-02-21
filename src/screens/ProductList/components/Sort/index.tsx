@@ -14,6 +14,7 @@ function Sort({ sort, changeSort }: Props) {
       <select name="sortingOrder" className="w-50" value={sort} onChange={changeSort}>
         <option value="name">Nombre alfabético</option>
         <option value="lastModified">Última modificación</option>
+        <option value="internalId">ID Interno</option>
       </select>
     </Card>
   );

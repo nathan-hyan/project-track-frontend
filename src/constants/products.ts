@@ -1,7 +1,7 @@
 import { Product } from 'interfaces/product';
 import { SearchType } from 'screens/ProductList/components/AddEditProduct/constants';
 
-export type SortTypes = 'name' | 'lastModified'
+export type SortTypes = 'name' | 'lastModified' | 'internalId'
 export interface ProductInitialStateType {
   searchQuery?: string;
   searchType?: SearchType;
