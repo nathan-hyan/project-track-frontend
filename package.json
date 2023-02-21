@@ -17,6 +17,7 @@
     "@types/react-dom": "^18.0.9",
     "axios": "^1.2.0",
     "bootstrap": "^5.2.3",
+    "buffer": "^6.0.3",
     "classnames": "^2.3.2",
     "normalize.css": "^8.0.1",
     "react": "^18.2.0",
@@ -25,6 +26,7 @@
     "react-hook-form": "^7.39.7",
     "react-router-dom": "^6.4.3",
     "react-scripts": "5.0.1",
+    "react-thermal-printer": "^0.11.0",
     "react-toastify": "^9.1.1",
     "sass": "^1.56.1",
     "typescript": "^4.9.3",
@@ -58,6 +60,7 @@
   "devDependencies": {
     "@testing-library/react": "^13.4.0",
     "@types/react-notify-toast": "^0.5.3",
+    "@types/w3c-web-usb": "^1.0.6",
     "@typescript-eslint/eslint-plugin": "^5.45.0",
     "@typescript-eslint/parser": "^5.45.0",
     "eslint": "^8.28.0",
@@ -68,7 +71,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-simple-import-sort": "^8.0.0"
   },
-    "jest": {
+  "jest": {
     "moduleNameMapper": {
       "axios": "axios/dist/node/axios.cjs"
     }

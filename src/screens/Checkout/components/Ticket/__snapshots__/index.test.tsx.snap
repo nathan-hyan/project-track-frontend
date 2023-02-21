@@ -1,0 +1,279 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Ticket /> renders correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="rtp-printer"
+    data-printer-type="epson"
+  >
+    <div
+      class="rtp-text"
+      data-align="center"
+      data-size-height="2"
+      data-size-width="2"
+    >
+      * Tienda Mundo Regalo *
+    </div>
+    <br
+      class="rtp-br"
+    />
+    <br
+      class="rtp-br"
+    />
+    <div
+      class="rtp-text"
+      data-align="center"
+    >
+      Dirección: Av. Manuel Belgrano 2846, San Miguel de Tucumán
+    </div>
+    <div
+      class="rtp-text"
+      data-align="center"
+    >
+      Cel: (381)316-9319
+    </div>
+    <hr
+      class="rtp-line"
+      data-character="="
+    />
+    <div
+      class="rtp-row"
+    >
+      <div
+        class="rtp-text rtp-row-left"
+      >
+        Cliente:
+      </div>
+      <div
+        class="rtp-text rtp-row-right"
+      >
+        No especificado
+      </div>
+    </div>
+    <div
+      class="rtp-row"
+    >
+      <div
+        class="rtp-text rtp-row-left"
+      >
+        Nº de Cliente:
+      </div>
+      <div
+        class="rtp-text rtp-row-right"
+      >
+        0000000000
+      </div>
+    </div>
+    <div
+      class="rtp-row"
+    >
+      <div
+        class="rtp-text rtp-row-left"
+      >
+        Pedido Nº:
+      </div>
+      <div
+        class="rtp-text rtp-row-right"
+      >
+        0000000000
+      </div>
+    </div>
+    <hr
+      class="rtp-line"
+    />
+    <div
+      class="rtp-text"
+      data-align="center"
+      data-bold="true"
+    >
+      ** Ticket no válido como factura **
+    </div>
+    <hr
+      class="rtp-line"
+    />
+    <div
+      class="rtp-row"
+      data-gap="2"
+    >
+      <div
+        class="rtp-text rtp-row-left"
+      >
+        Abrochadora MIT FX50 Pinza
+      </div>
+      <div
+        class="rtp-text rtp-row-right"
+      >
+        $7030.00
+      </div>
+    </div>
+    <div
+      class="rtp-row"
+      data-gap="2"
+    >
+      <div
+        class="rtp-text rtp-row-left"
+      >
+        Cantidad: 1
+      </div>
+      <div
+        class="rtp-text rtp-row-right"
+      >
+        Precio unit.: $7030.00
+      </div>
+    </div>
+    <br
+      class="rtp-br"
+    />
+    <div
+      class="rtp-row"
+      data-gap="2"
+    >
+      <div
+        class="rtp-text rtp-row-left"
+      >
+        Abrochadora Grap 24/6 Pinza
+      </div>
+      <div
+        class="rtp-text rtp-row-right"
+      >
+        $5620.00
+      </div>
+    </div>
+    <div
+      class="rtp-row"
+      data-gap="2"
+    >
+      <div
+        class="rtp-text rtp-row-left"
+      >
+        Cantidad: 1
+      </div>
+      <div
+        class="rtp-text rtp-row-right"
+      >
+        Precio unit.: $5620.00
+      </div>
+    </div>
+    <br
+      class="rtp-br"
+    />
+    <div
+      class="rtp-row"
+      data-gap="2"
+    >
+      <div
+        class="rtp-text rtp-row-left"
+      >
+        Abrochadora Grap 21/6 Pinza
+      </div>
+      <div
+        class="rtp-text rtp-row-right"
+      >
+        $5260.00
+      </div>
+    </div>
+    <div
+      class="rtp-row"
+      data-gap="2"
+    >
+      <div
+        class="rtp-text rtp-row-left"
+      >
+        Cantidad: 1
+      </div>
+      <div
+        class="rtp-text rtp-row-right"
+      >
+        Precio unit.: $5260.00
+      </div>
+    </div>
+    <br
+      class="rtp-br"
+    />
+    <div
+      class="rtp-row"
+      data-gap="2"
+    >
+      <div
+        class="rtp-text rtp-row-left"
+      >
+        Abrochadora Grap 10/50 Pinza
+      </div>
+      <div
+        class="rtp-text rtp-row-right"
+      >
+        $4420.00
+      </div>
+    </div>
+    <div
+      class="rtp-row"
+      data-gap="2"
+    >
+      <div
+        class="rtp-text rtp-row-left"
+      >
+        Cantidad: 1
+      </div>
+      <div
+        class="rtp-text rtp-row-right"
+      >
+        Precio unit.: $4420.00
+      </div>
+    </div>
+    <br
+      class="rtp-br"
+    />
+    <hr
+      class="rtp-line"
+      data-character="="
+    />
+    <div
+      class="rtp-row"
+    >
+      <div
+        class="rtp-text rtp-row-left"
+        data-bold="true"
+      >
+        Total:
+      </div>
+      <div
+        class="rtp-text rtp-row-right"
+        data-bold="true"
+      >
+        $22330.00
+      </div>
+    </div>
+    <hr
+      class="rtp-line"
+      data-character="="
+    />
+    <div
+      class="rtp-row"
+    >
+      <div
+        class="rtp-text rtp-row-left"
+      >
+        Medio de pago:
+      </div>
+      <div
+        class="rtp-text rtp-row-right"
+      >
+        Efectivo
+      </div>
+    </div>
+    <br
+      class="rtp-br"
+    />
+    <div
+      class="rtp-text"
+      data-align="center"
+      data-bold="true"
+    >
+      ** Gracias por su compra **
+    </div>
+    <br
+      class="rtp-br"
+    />
+  </div>
+</DocumentFragment>
+`;

@@ -6,6 +6,7 @@ export const MESSAGES = {
     productModified: 'Producto modificado con éxito.',
     productDeleted: 'Producto eliminado con éxito.',
     purchaseComplete: 'La compra se realizó con éxito.',
+    printCompleted: 'Se ha imprimido el ticket con éxito.',
   },
   error: {
     productNotDeleted: `Ocurrió un error eliminando el producto. ${PLEASE_RETRY}`,
@@ -14,6 +15,7 @@ export const MESSAGES = {
     productsCantBeFetched: `Ocurrió un error trayendo los productos. ${PLEASE_RETRY}`,
     cartCantBeEmpty: 'El carrito no puede estar vacío.',
     purchaseFailed: `Ocurrió un error realizando la compra. ${PLEASE_RETRY}`,
+    printFailed: `Ocurrió un error intentando imprimir. ${PLEASE_RETRY}`,
   },
   question: {
     delete: '¿Está seguro que quiere eliminar el producto?',
