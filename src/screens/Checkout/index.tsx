@@ -132,13 +132,17 @@ function Checkout() {
         if (response.status === 'ok') {
           notifications.printCompleted();
         } else {
+          // eslint-disable-next-line no-console
+          console.log(response);
           notifications.printFailed();
         }
-        handleReturnToHome();
+        // handleReturnToHome();
       }) // If ok, then everything's good!
-      .catch(() => {
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.log(err);
         notifications.printFailed();
-        handleReturnToHome();
+        // handleReturnToHome();
       })
       .finally(() => { device.close(); });
   };

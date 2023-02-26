@@ -19,7 +19,7 @@ function App() {
   */
 
   useEffect(() => {
-    login(12345678, 'asd123123');
+    login('nathan_hyan', 'thisIsACamelCase2048');
   }, []);
 
   return (
