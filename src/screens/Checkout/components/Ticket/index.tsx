@@ -1,73 +1,93 @@
-import {
-  Br,
-  Cut, Line, Printer, Row, Text,
-} from 'react-thermal-printer';
+import { forwardRef } from 'react';
+import { Col, Container, Row } from 'react-bootstrap';
 import { CartProduct, PaymentType } from 'constants/cart';
 import { getTotalPrice } from 'utils/priceUtils';
 
-export const ticketToPrint = (products: CartProduct[], paymentType: PaymentType) => (
-  <Printer type="epson">
-    <Text align="center" size={{ width: 2, height: 2 }}>* Tienda Mundo Regalo *</Text>
-    <Br />
-    <Br />
-    <Text align="center">Dirección: Av. Manuel Belgrano 2846, San Miguel de Tucumán</Text>
-    <Text align="center">Cel: (381)316-9319</Text>
-    <Line character="=" />
-    <Row left="Cliente:" right="No especificado" />
-    <Row left="Nº de Cliente:" right="0000000000" />
-    <Row left="Pedido Nº:" right="0000000000" />
-    <Line />
-    <Text bold align="center">** Ticket no válido como factura **</Text>
-    <Line />
-    {products.map((product) => (
+import styles from './styles.module.scss';
+
+interface Props {
+  products: CartProduct[];
+  paymentType: PaymentType
+}
+
+const TicketToPrint = forwardRef<HTMLDivElement | null, Props>(({ products, paymentType }, ref) => (
+  <Container className={styles.container} ref={ref}>
+    <h1 className="text-center">* mr. Tienda *</h1>
+    <br />
+    <br />
+    <p className="text-center">Dirección: Av. Manuel Belgrano 2846, San Miguel de Tucumán</p>
+    <p className="text-center">Cel: (381)316-9319</p>
+    <hr />
+    <Row>
+      <Col><p className="text-start">Cliente:</p></Col>
+      <Col><p className="text-end">No especificado</p></Col>
+    </Row>
+    <Row>
+      <Col><p className="text-start">Nº de Cliente:</p></Col>
+      <Col><p className="text-end">0000000000</p></Col>
+    </Row>
+    <Row>
+      <Col><p className="text-start">Pedido Nº:</p></Col>
+      <Col><p className="text-end">0000000000</p></Col>
+    </Row>
+    <hr />
+    <p className="text-center"><strong>** Ticket no válido como factura **</strong></p>
+    <hr />
+    {products.map(({ item, quantity }) => (
       <>
-        <Row
-          left={<Text>{product.item.name}</Text>}
-          right={(
-            <Text>
+        <Row>
+          <Col><p className="text-start">{item.name}</p></Col>
+          <Col>
+            <p className="text-end">
               $
-              {(Number(product.item.price[paymentType]) * product.quantity).toFixed(2).trim()}
-            </Text>
-        )}
-          gap={2}
-        />
-        <Row
-          left={(
-            <Text>
+              {(Number(item.price[paymentType]) * quantity).toFixed(2).trim()}
+            </p>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <p className="text-start">
               Cantidad:
               {' '}
-              {product.quantity}
-            </Text>
-)}
-          right={(
-            <Text>
+              {quantity}
+            </p>
 
+          </Col>
+          <Col>
+            <p className="text-end">
               Precio unit.:
               {' '}
               $
-              {product.item.price[paymentType].toFixed(2).trim()}
-            </Text>
-        )}
-          gap={2}
-        />
-        <Br />
+              {item.price[paymentType].toFixed(2).trim()}
+            </p>
+
+          </Col>
+        </Row>
+        <br />
       </>
     ))}
-    <Line character="=" />
-    <Row
-      left={<Text bold>Total:</Text>}
-      right={(
-        <Text bold>
-          $
-          {String(getTotalPrice(products, paymentType).toFixed(2))}
-        </Text>
-)}
-    />
-    <Line character="=" />
-    <Row left="Medio de pago:" right="Efectivo" />
-    <Br />
-    <Text align="center" bold>** Gracias por su compra **</Text>
-    <Br />
-    <Cut lineFeeds={6} />
-  </Printer>
-);
+    <hr />
+    <Row>
+      <Col><p className="text-start"><strong>Total:</strong></p></Col>
+      <Col>
+        <p className="text-end">
+          <strong>
+            $
+            {String(getTotalPrice(products, paymentType).toFixed(2))}
+          </strong>
+        </p>
+
+      </Col>
+    </Row>
+    <hr />
+    <Row>
+      <Col><p className="text-start">Medio de pago:</p></Col>
+      <Col><p className="text-end">Efectivo</p></Col>
+    </Row>
+    <br />
+    <p className="text-center"><strong>** Gracias por su compra **</strong></p>
+    <br />
+  </Container>
+));
+
+export default TicketToPrint;

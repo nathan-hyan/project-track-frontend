@@ -7,4 +7,10 @@ interface LoginBody {
   password: string;
 }
 
-export const login = (username: string, password: string) => api.post<LoginBody>(`${BASE_URL}/login`, { username, password });
+interface LoginResponse {
+  success: boolean;
+  username: string;
+  id: string;
+}
+
+export const login = (username: string, password: string) => api.post<LoginBody, LoginResponse>(`${BASE_URL}/login`, { username, password });

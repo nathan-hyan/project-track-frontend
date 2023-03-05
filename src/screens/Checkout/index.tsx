@@ -1,10 +1,10 @@
 /* eslint-disable no-undef */
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import {
   Col, Container, Modal, Row,
 } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { render } from 'react-thermal-printer';
+import { useReactToPrint } from 'react-to-print';
 import { toast } from 'react-toastify';
 import { faCheckCircle, faPrint, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -30,7 +30,7 @@ import ClientInfo from './components/ClientInfo';
 import Footer from './components/Footer';
 import PaymentBlock from './components/PaymentBlock';
 import PriceBreakdown from './components/PriceBreakdown';
-import { ticketToPrint } from './components/Ticket';
+import TicketToPrint from './components/Ticket';
 import { DEFAULT_CLIENT_INFO } from './constants';
 
 import styles from './styles.module.scss';
@@ -40,6 +40,10 @@ function Checkout() {
   const [isLoading, setIsLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
+  const ticketToPrint = useRef(null);
+  const handlePrint = useReactToPrint({
+    content: () => ticketToPrint.current,
+  });
   const notifications = {
     cartCantBeEmpty: () => toast.warn(MESSAGES.error.cartCantBeEmpty),
     purchaseComplete: () => toast.success(MESSAGES.success.purchaseComplete),
@@ -112,39 +116,7 @@ function Checkout() {
   };
 
   const handlePrintTicket = async () => {
-    const data = await render(ticketToPrint(cartState.products, cartState.paymentType));
-    let device: USBDevice; // This will be populated after
-
-    navigator.usb
-      .requestDevice({ filters: [{ vendorId: 0x0483 }] }) // Filters makes only the Printer appear
-      .then((selectedDevice) => {
-        device = selectedDevice;
-        return selectedDevice.open(); // Opens the connection to the device
-      })
-      .then(() => device.selectConfiguration(1))
-      .then(() => device.claimInterface(
-        device.configuration
-          ? device.configuration.interfaces[0].interfaceNumber
-          : 0,
-      ))
-      .then(() => device.transferOut(1, data)) // Data comes from the react-thermal-printer
-      .then((response) => {
-        if (response.status === 'ok') {
-          notifications.printCompleted();
-        } else {
-          // eslint-disable-next-line no-console
-          console.log(response);
-          notifications.printFailed();
-        }
-        // handleReturnToHome();
-      }) // If ok, then everything's good!
-      .catch((err) => {
-        // eslint-disable-next-line no-console
-        console.log(err);
-        notifications.printFailed();
-        // handleReturnToHome();
-      })
-      .finally(() => { device.close(); });
+    handlePrint();
   };
 
   const onSave = () => {
@@ -162,6 +134,7 @@ function Checkout() {
           <FontAwesomeIcon icon={faCheckCircle} size="5x" color="green" className="mb-4" />
           <p className="lead">¡La compra se realizó con exito!</p>
           <p className="lead">¿Desea imprimir el ticket para el cliente?</p>
+          <TicketToPrint {...cartState} ref={ticketToPrint} />
         </Modal.Body>
         <Modal.Footer>
           <ButtonWithIcon

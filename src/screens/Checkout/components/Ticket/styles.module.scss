@@ -1,15 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@500;900&display=swap');
-
 .container {
-    font-size: 0.8rem;
+    font-size: 0.6rem;
 
     p,
-    span {
-        font-family: 'Inconsolata', monospace !important;
+    span,
+    h1 {
+        font-family: 'Courier Prime', monospace;
     }
 
     strong {
-        font-family: 'Inconsolata', monospace !important;
+        font-family: 'Courier Prime', monospace;
         font-weight: 900;
     }
 }
